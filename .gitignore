@@ -1,0 +1,9 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+
+# Export
+/Export/
+
+# Ignore textures for now, maybe change later
+/Textures/
