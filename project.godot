@@ -16,7 +16,8 @@ config/features=PackedStringArray("4.4", "GL Compatibility")
 
 [autoload]
 
-EventBus="*res://Scripts/Scene/event_bus.gd"
+EventBus="*res://Scripts/AutoLoads/event_bus.gd"
+TextureBaker="*res://Scripts/AutoLoads/texture_baker.gd"
 
 [display]
 

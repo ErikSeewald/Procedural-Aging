@@ -1,11 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://c4hvqyphiayku"]
+[gd_scene load_steps=12 format=3 uid="uid://c4hvqyphiayku"]
 
 [ext_resource type="Script" uid="uid://cng38wbkc6o1l" path="res://Scripts/Scene/camera.gd" id="1_g8tjy"]
 [ext_resource type="Script" uid="uid://qsohuxakiknk" path="res://Scripts/Scene/scene_manager.gd" id="2_rcnun"]
-[ext_resource type="Shader" uid="uid://l5wqy7i72fxe" path="res://Shaders/shader_testing.gdshader" id="3_eqnig"]
+[ext_resource type="Shader" uid="uid://l5wqy7i72fxe" path="res://Shaders/blend.gdshader" id="3_eqnig"]
 [ext_resource type="Texture2D" uid="uid://daatj1fpyu7tk" path="res://Textures/silver-textured-sheet-metal-texture-79801009.jpg" id="4_f4c70"]
-[ext_resource type="Texture2DArray" uid="uid://dc0iidjcdnunh" path="res://Textures/tex_array.tres" id="5_6jkhp"]
-[ext_resource type="Script" uid="uid://btw6rsvpf0k4w" path="res://Scripts/aging_script.gd" id="6_nwcou"]
+[ext_resource type="Script" uid="uid://btw6rsvpf0k4w" path="res://Scripts/aging_metal.gd" id="6_nwcou"]
 [ext_resource type="PackedScene" uid="uid://bx160s5humgli" path="res://Scenes/debug_ui.tscn" id="7_tq85m"]
 
 [sub_resource type="TubeTrailMesh" id="TubeTrailMesh_xfhtf"]
@@ -14,13 +13,12 @@ radial_steps = 10
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rm5mi"]
 render_priority = 0
 shader = ExtResource("3_eqnig")
-shader_parameter/masks = ExtResource("5_6jkhp")
 shader_parameter/mask_count = 2
-shader_parameter/weight = PackedFloat32Array(-1.13, 0.54, 0, 0, 0, 0, 0, 0)
+shader_parameter/weight = PackedFloat32Array(0.345, -0.29, 0, 0, 0, 0, 0, 0)
 shader_parameter/albedo_base = ExtResource("4_f4c70")
-shader_parameter/base_metallic = 0.605
+shader_parameter/base_metallic = 0.56
 shader_parameter/base_roughness = 0.375
-shader_parameter/age = 54.705
+shader_parameter/age = 19.709
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_5140r"]
 

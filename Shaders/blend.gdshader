@@ -15,7 +15,7 @@ uniform float base_roughness = 0.3;
 
 // AGE
 const float MAX_AGE = 20.0;
-uniform float age : hint_range(0.0, 100.0);
+uniform float age;
 
 vec3 sample_mask(int layer, vec2 uv)
 {
@@ -37,7 +37,7 @@ void fragment()
 
 	for (int i = 0; i < mask_count; i++)
 	{
-		float w = age / 100.0 * weight[i];
+		float w = age / MAX_AGE * weight[i];
 		vec3 c = sample_mask(i, UV);
 
 		albedo = mix(albedo, c, w);
