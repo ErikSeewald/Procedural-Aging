@@ -5,7 +5,7 @@ extends CanvasLayer
 
 const TOGGLE_ACTION := "ui_toggle"
 
-@export var actions: Array[Dictionary] = [
+var actions: Array[Dictionary] = [
 	{
 		"label": "Reset ages",
 		"event": "reset_ages",
@@ -13,11 +13,17 @@ const TOGGLE_ACTION := "ui_toggle"
 	},
 ]
 
-@export var checkboxes: Array[Dictionary] = [
+var checkboxes: Array[Dictionary] = [
 	{
 		"label": "Test multiple",
 		"event": "test_multiple",
 		"args": {"amount": 100}
+	},
+	
+	{
+		"label": "Show TexArray",
+		"event": "show_tex_array",
+		"args": {}
 	},
 ]
 

@@ -14,11 +14,11 @@ radial_steps = 10
 render_priority = 0
 shader = ExtResource("3_eqnig")
 shader_parameter/mask_count = 2
-shader_parameter/weight = PackedFloat32Array(0.345, -0.29, 0, 0, 0, 0, 0, 0)
+shader_parameter/weight = PackedFloat32Array(-0.525, 0.63, 0, 0, 0, 0, 0, 0)
 shader_parameter/albedo_base = ExtResource("4_f4c70")
-shader_parameter/base_metallic = 0.56
-shader_parameter/base_roughness = 0.375
-shader_parameter/age = 19.709
+shader_parameter/base_metallic = 0.6
+shader_parameter/base_roughness = 0.3
+shader_parameter/age = 0.0
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_5140r"]
 

@@ -10,7 +10,7 @@ uniform float weight[MAX_LAYERS];
 
 // TODO: Base material inputs
 uniform sampler2D albedo_base;
-uniform float base_metallic = 1.0;
+uniform float base_metallic = 0.6;
 uniform float base_roughness = 0.3;
 
 // AGE
@@ -41,7 +41,7 @@ void fragment()
 		vec3 c = sample_mask(i, UV);
 
 		albedo = mix(albedo, c, w);
-		metallic = clamp(metallic, c.r, w); // Red as roughness
+		metallic = clamp(metallic + c.r * w, 0.0, 1.0); // Red as roughness
 		roughness = clamp(roughness + 0.05 * w, 0.0, 1.0);
 	}
 
