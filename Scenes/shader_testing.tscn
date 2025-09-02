@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://c4hvqyphiayku"]
+[gd_scene load_steps=14 format=3 uid="uid://c4hvqyphiayku"]
 
 [ext_resource type="Script" uid="uid://cng38wbkc6o1l" path="res://Scripts/Scene/camera.gd" id="1_g8tjy"]
 [ext_resource type="Script" uid="uid://qsohuxakiknk" path="res://Scripts/Scene/scene_manager.gd" id="2_rcnun"]
@@ -16,8 +16,8 @@ shader = ExtResource("3_eqnig")
 shader_parameter/mask_count = 2
 shader_parameter/weight = PackedFloat32Array(-0.525, 0.63, 0, 0, 0, 0, 0, 0)
 shader_parameter/albedo_base = ExtResource("4_f4c70")
-shader_parameter/base_metallic = 0.6
-shader_parameter/base_roughness = 0.3
+shader_parameter/base_metallic = 0.67
+shader_parameter/base_roughness = 0.485
 shader_parameter/age = 0.0
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_5140r"]
@@ -25,13 +25,27 @@ shader_parameter/age = 0.0
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1oqqo"]
 albedo_color = Color(0.606626, 0.606626, 0.606626, 1)
 
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_160ns"]
+sky_top_color = Color(0.139497, 0.140391, 0.354607, 1)
+sky_horizon_color = Color(0.321721, 0.371877, 0.644931, 1)
+sky_curve = 0.135188
+sky_cover_modulate = Color(0.133196, 0.133196, 0.133196, 1)
+ground_bottom_color = Color(0.149604, 0.162288, 0.28224, 1)
+ground_horizon_color = Color(0.321569, 0.372549, 0.643137, 1)
+sun_angle_max = 37.65
+sun_curve = 0.166435
+
+[sub_resource type="Sky" id="Sky_g8tjy"]
+sky_material = SubResource("ProceduralSkyMaterial_160ns")
+
 [sub_resource type="Environment" id="Environment_5140r"]
-background_mode = 1
+background_mode = 2
 background_color = Color(0.00619635, 0.013396, 0.0194763, 1)
-background_energy_multiplier = 5.38
+sky = SubResource("Sky_g8tjy")
 ambient_light_source = 3
-ambient_light_color = Color(0.387599, 0.590094, 0.790943, 1)
-ambient_light_energy = 1.72
+ambient_light_color = Color(0.482749, 0.47207, 0.541328, 1)
+ambient_light_sky_contribution = 0.55
+ambient_light_energy = 3.82
 
 [node name="Shader Testing" type="Node3D"]
 
@@ -40,6 +54,7 @@ transform = Transform3D(1, 0, 0, 0, 0.898679, 0.438606, 0, -0.438606, 0.898679, 
 script = ExtResource("1_g8tjy")
 
 [node name="Camera3D" type="Camera3D" parent="Camera"]
+visible = false
 
 [node name="SceneManager" type="Node" parent="."]
 script = ExtResource("2_rcnun")
