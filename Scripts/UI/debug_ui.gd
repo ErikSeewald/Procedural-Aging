@@ -5,7 +5,16 @@ extends CanvasLayer
 
 const TOGGLE_ACTION := "ui_toggle"
 
-var actions: Array[Dictionary] = [
+@warning_ignore("unused_signal")
+signal reset_ages
+
+@warning_ignore("unused_signal")
+signal test_multiple
+
+@warning_ignore("unused_signal")
+signal show_tex_array
+
+var buttons: Array[Dictionary] = [
 	{
 		"label": "Reset ages",
 		"event": "reset_ages",
@@ -35,35 +44,30 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed(TOGGLE_ACTION):
 		_panel.visible = !_panel.visible
-		
+	
 func _build_buttons() -> void:	
-	for entry in actions:
-		var label := str(entry.get("label", "Unnamed"))
-		var event_name := str(entry.get("event", ""))
-		var args := entry.get("args", {}) as Dictionary
-		
+	for entry in  buttons:
 		var button := Button.new()
-		button.text = label
-		button.add_theme_font_size_override("font_size", 12)
-		button.focus_mode = Control.FOCUS_NONE
-		button.pressed.connect(func():
-			EventBus.emit_signal_helper(event_name, args)	
-		)
+		_build_entry(entry, button)
 		
-		_list.add_child(button)
+		button.focus_mode = Control.FOCUS_NONE
+		button.pressed.connect(func(): emit_signal(entry["event"], entry["args"]))
 		
 func _build_checkboxes() -> void:
 	for entry in checkboxes:
-		var label := str(entry.get("label", "Unnamed"))
-		var event_name := str(entry.get("event", ""))
-		var args := entry.get("args", {}) as Dictionary
-		
 		var checkbox = CheckBox.new()
-		checkbox.text = label
-		checkbox.add_theme_font_size_override("font_size", 12)
+		_build_entry(entry, checkbox)
+		
+		var args := entry["args"] as Dictionary
 		checkbox.toggled.connect(func(toggled):	
 			args["toggled"] = toggled
-			EventBus.emit_signal_helper(event_name, args)
+			emit_signal(entry["event"], entry["args"])
 		)
 		
-		_list.add_child(checkbox)
+## Builds up the given base object (Button or Checkbox) with the attributes
+## from the given entry dict and adds it to _list.
+func _build_entry(entry: Dictionary, obj_base) -> void:
+	var label := str(entry["label"])
+	obj_base.text = label
+	obj_base.add_theme_font_size_override("font_size", 12)
+	_list.add_child(obj_base)

@@ -16,8 +16,7 @@ config/features=PackedStringArray("4.4", "GL Compatibility")
 
 [autoload]
 
-EventBus="*res://Scripts/AutoLoads/event_bus.gd"
-TexArray="*res://Scripts/AutoLoads/tex_array.gd"
+ComputeCleaner="*res://Scripts/AutoLoads/compute_cleaner.gd"
 
 [display]
 

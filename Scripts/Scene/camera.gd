@@ -19,7 +19,7 @@ func _process(delta: float) -> void:
 	if Input.is_action_pressed("look_down"):
 		look_y += 1.0
 
-	yaw   -= look_x * look_speed * delta
+	yaw -= look_x * look_speed * delta
 	pitch -= look_y * look_speed * delta
 	pitch = clamp(pitch, -PI * 0.5, PI * 0.5)
 

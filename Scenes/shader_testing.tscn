@@ -1,29 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://c4hvqyphiayku"]
+[gd_scene load_steps=13 format=3 uid="uid://c4hvqyphiayku"]
 
 [ext_resource type="Script" uid="uid://cng38wbkc6o1l" path="res://Scripts/Scene/camera.gd" id="1_g8tjy"]
 [ext_resource type="Script" uid="uid://qsohuxakiknk" path="res://Scripts/Scene/scene_manager.gd" id="2_rcnun"]
-[ext_resource type="Shader" uid="uid://l5wqy7i72fxe" path="res://Shaders/blend.gdshader" id="3_eqnig"]
-[ext_resource type="Texture2D" uid="uid://daatj1fpyu7tk" path="res://Textures/silver-textured-sheet-metal-texture-79801009.jpg" id="4_f4c70"]
-[ext_resource type="Script" uid="uid://btw6rsvpf0k4w" path="res://Scripts/aging_metal.gd" id="6_nwcou"]
+[ext_resource type="PackedScene" uid="uid://dayj48d625g8j" path="res://Scenes/test_mesh.tscn" id="3_a7gid"]
+[ext_resource type="Shader" uid="uid://l5wqy7i72fxe" path="res://Shaders/blend.gdshader" id="4_160ns"]
+[ext_resource type="Texture2D" uid="uid://daatj1fpyu7tk" path="res://Textures/silver-textured-sheet-metal-texture-79801009.jpg" id="5_g8tjy"]
 [ext_resource type="PackedScene" uid="uid://bx160s5humgli" path="res://Scenes/debug_ui.tscn" id="7_tq85m"]
-
-[sub_resource type="TubeTrailMesh" id="TubeTrailMesh_xfhtf"]
-radial_steps = 10
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_rm5mi"]
-render_priority = 0
-shader = ExtResource("3_eqnig")
-shader_parameter/mask_count = 2
-shader_parameter/weight = PackedFloat32Array(-0.525, 0.63, 0, 0, 0, 0, 0, 0)
-shader_parameter/albedo_base = ExtResource("4_f4c70")
-shader_parameter/base_metallic = 0.67
-shader_parameter/base_roughness = 0.485
-shader_parameter/age = 0.0
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_5140r"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1oqqo"]
-albedo_color = Color(0.606626, 0.606626, 0.606626, 1)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_160ns"]
 sky_top_color = Color(0.139497, 0.140391, 0.354607, 1)
@@ -47,7 +29,24 @@ ambient_light_color = Color(0.482749, 0.47207, 0.541328, 1)
 ambient_light_sky_contribution = 0.55
 ambient_light_energy = 3.82
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rcnun"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("4_160ns")
+shader_parameter/mask_count = 2
+shader_parameter/weight = PackedFloat32Array(-0.525, 0.63, 0, 0, 0, 0, 0, 0)
+shader_parameter/albedo_base = ExtResource("5_g8tjy")
+shader_parameter/base_metallic = 0.67
+shader_parameter/base_roughness = 0.485
+shader_parameter/age = 0.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_5140r"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1oqqo"]
+albedo_color = Color(0.606626, 0.606626, 0.606626, 1)
+
 [node name="Shader Testing" type="Node3D"]
+script = ExtResource("2_rcnun")
 
 [node name="Camera" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.898679, 0.438606, 0, -0.438606, 0.898679, 0, 1.42541, 2.35661)
@@ -56,27 +55,6 @@ script = ExtResource("1_g8tjy")
 [node name="Camera3D" type="Camera3D" parent="Camera"]
 visible = false
 
-[node name="SceneManager" type="Node" parent="."]
-script = ExtResource("2_rcnun")
-
-[node name="Testcube" type="MeshInstance3D" parent="SceneManager"]
-transform = Transform3D(1.0027, -0.00253404, 0.00305048, 0.00255072, 1.00269, -0.00548633, -0.00303655, 0.00549405, 1.00269, 0.0183779, 0.0369906, -0.0329283)
-mesh = SubResource("TubeTrailMesh_xfhtf")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("ShaderMaterial_rm5mi")
-script = ExtResource("6_nwcou")
-
-[node name="DebugLabel" type="Label3D" parent="SceneManager/Testcube"]
-transform = Transform3D(1, -1.69166e-10, -2.32831e-10, -8.91305e-11, 1, -4.65661e-10, 0, 0, 1, 0.00176512, 0.693872, -0.00379661)
-billboard = 1
-outline_size = 8
-
-[node name="Plane" type="MeshInstance3D" parent="SceneManager"]
-transform = Transform3D(4.17641, 0, 0, 0, 0.996555, 0, 0, 0, 6.55465, 0.188105, -0.44449, -0.204092)
-mesh = SubResource("PlaneMesh_5140r")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_1oqqo")
-
 [node name="Debug UI" parent="." instance=ExtResource("7_tq85m")]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -84,3 +62,17 @@ environment = SubResource("Environment_5140r")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.827031, 2.45726e-08, -0.562156, 0.562156, -3.61507e-08, 0.827031, 0, -1, -4.37114e-08, 2.07682, 5.80568, 1.86998)
+
+[node name="TestMesh" parent="." instance=ExtResource("3_a7gid")]
+transform = Transform3D(1.0027, -0.00253406, 0.00305048, 0.00255072, 1.00269, -0.00548634, -0.00303655, 0.00549405, 1.00269, 0.0183779, 0.0369906, -0.0329283)
+skeleton = NodePath("..")
+surface_material_override/0 = SubResource("ShaderMaterial_rcnun")
+
+[node name="Plane" type="MeshInstance3D" parent="."]
+transform = Transform3D(4.17641, 0, 0, 0, 0.996555, 0, 0, 0, 6.55465, 0.188105, -0.44449, -0.204092)
+mesh = SubResource("PlaneMesh_5140r")
+surface_material_override/0 = SubResource("StandardMaterial3D_1oqqo")
+
+[connection signal="reset_ages" from="Debug UI" to="." method="reset_ages"]
+[connection signal="show_tex_array" from="Debug UI" to="." method="show_tex_array"]
+[connection signal="test_multiple" from="Debug UI" to="." method="test_multiple"]

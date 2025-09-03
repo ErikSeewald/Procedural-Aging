@@ -1,6 +1,5 @@
 shader_type spatial;
 
-// A stack of masks, each layer is a single-channel mask
 uniform sampler2DArray masks;
 uniform int mask_count = 0;
 

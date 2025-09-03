@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://dayj48d625g8j"]
+
+[ext_resource type="Shader" uid="uid://l5wqy7i72fxe" path="res://Shaders/blend.gdshader" id="1_iut2x"]
+[ext_resource type="Texture2D" uid="uid://daatj1fpyu7tk" path="res://Textures/silver-textured-sheet-metal-texture-79801009.jpg" id="2_b3nb5"]
+[ext_resource type="Script" uid="uid://btw6rsvpf0k4w" path="res://Scripts/aging_object.gd" id="3_kjgf0"]
+
+[sub_resource type="TubeTrailMesh" id="TubeTrailMesh_xfhtf"]
+radial_steps = 10
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rm5mi"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_iut2x")
+shader_parameter/mask_count = 2
+shader_parameter/weight = PackedFloat32Array(-0.525, 0.63, 0, 0, 0, 0, 0, 0)
+shader_parameter/albedo_base = ExtResource("2_b3nb5")
+shader_parameter/base_metallic = 0.67
+shader_parameter/base_roughness = 0.485
+shader_parameter/age = 0.0
+
+[node name="TestMesh" type="MeshInstance3D"]
+transform = Transform3D(1.0027, -0.00253404, 0.00305048, 0.00255072, 1.00269, -0.00548633, -0.00303655, 0.00549405, 1.00269, 0, 0, 0)
+mesh = SubResource("TubeTrailMesh_xfhtf")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("ShaderMaterial_rm5mi")
+script = ExtResource("3_kjgf0")
+
+[node name="DebugLabel" type="Label3D" parent="."]
+transform = Transform3D(1, -1.69166e-10, -2.32831e-10, -8.91305e-11, 1, -4.65661e-10, 0, 0, 1, 0.00176512, 0.693872, -0.00379661)
+billboard = 1
+outline_size = 8
