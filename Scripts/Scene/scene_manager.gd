@@ -8,7 +8,7 @@ var testing_multiple := false
 var spawned_objects := []
 
 # SHOWING TEXARRAY
-@onready var tex_array: Texture2DArrayRD = test_mesh.aging_shader.layers
+@onready var tex_array: Texture2DArrayRD = test_mesh.aging_graphics.layers
 var showing_tex_array := false
 var displayed_textures := []
 
