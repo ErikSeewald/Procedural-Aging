@@ -9,6 +9,9 @@ const TOGGLE_ACTION := "ui_toggle"
 signal reset_ages
 
 @warning_ignore("unused_signal")
+signal switch_scene
+
+@warning_ignore("unused_signal")
 signal test_multiple
 
 @warning_ignore("unused_signal")
@@ -18,6 +21,12 @@ var buttons: Array[Dictionary] = [
 	{
 		"label": "Reset ages",
 		"event": "reset_ages",
+		"args": {}
+	},
+	
+	{
+		"label": "Switch scene",
+		"event": "switch_scene",
 		"args": {}
 	},
 ]

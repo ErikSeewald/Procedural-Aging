@@ -2,6 +2,10 @@ extends Node
 
 @onready var test_mesh = $TestMesh
 
+# SCENES
+const scenes: Array = ["res://Scenes/shader_testing.tscn", "res://Scenes/docks.tscn"]
+var scene_index = 0
+
 # TESTING_MULTIPLE
 @onready var testing_multiple_template: PackedScene = load(test_mesh.scene_file_path)
 var testing_multiple := false
@@ -16,6 +20,11 @@ var displayed_textures := []
 func reset_ages(_args: Dictionary) -> void:
 	for node in get_tree().get_nodes_in_group("age_nodes"):
 			node.set("age", 0)
+	
+## Loads and switches to the next scene
+func switch_scene(_args: Dictionary) -> void:
+	scene_index = (scene_index+1) % len(scenes)
+	get_tree().change_scene_to_file(scenes[scene_index])
 
 ## Spawns multiple copies of the test mesh. The amount and whether
 ## the objects are to be spawned or despawned are defined by the args.

@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://c4hvqyphiayku"]
 
-[ext_resource type="Script" uid="uid://cng38wbkc6o1l" path="res://Scripts/Scene/camera.gd" id="1_g8tjy"]
+[ext_resource type="Script" uid="uid://cng38wbkc6o1l" path="res://Scripts/Scene/fly_cam.gd" id="1_g8tjy"]
 [ext_resource type="Script" uid="uid://qsohuxakiknk" path="res://Scripts/Scene/scene_manager.gd" id="2_rcnun"]
 [ext_resource type="PackedScene" uid="uid://dayj48d625g8j" path="res://Scenes/test_mesh.tscn" id="3_a7gid"]
 [ext_resource type="Shader" uid="uid://l5wqy7i72fxe" path="res://Shaders/blend.gdshader" id="4_160ns"]
@@ -17,13 +17,13 @@ ground_horizon_color = Color(0.321569, 0.372549, 0.643137, 1)
 sun_angle_max = 37.65
 sun_curve = 0.166435
 
-[sub_resource type="Sky" id="Sky_g8tjy"]
+[sub_resource type="Sky" id="Sky_160ns"]
 sky_material = SubResource("ProceduralSkyMaterial_160ns")
 
 [sub_resource type="Environment" id="Environment_5140r"]
 background_mode = 2
 background_color = Color(0.00619635, 0.013396, 0.0194763, 1)
-sky = SubResource("Sky_g8tjy")
+sky = SubResource("Sky_160ns")
 ambient_light_source = 3
 ambient_light_color = Color(0.482749, 0.47207, 0.541328, 1)
 ambient_light_sky_contribution = 0.55
@@ -75,4 +75,5 @@ surface_material_override/0 = SubResource("StandardMaterial3D_1oqqo")
 
 [connection signal="reset_ages" from="Debug UI" to="." method="reset_ages"]
 [connection signal="show_tex_array" from="Debug UI" to="." method="show_tex_array"]
+[connection signal="switch_scene" from="Debug UI" to="." method="switch_scene"]
 [connection signal="test_multiple" from="Debug UI" to="." method="test_multiple"]

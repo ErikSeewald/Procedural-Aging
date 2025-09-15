@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3 uid="uid://dtem1sayj12tr"]
+
+[ext_resource type="PackedScene" uid="uid://rongtyjmoqbm" path="res://Models/dock_base.blend" id="1_k1iua"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_1nrtf"]
+frequency = 0.0621
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_peuoc"]
+width = 752
+noise = SubResource("FastNoiseLite_1nrtf")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aq77e"]
+albedo_texture = SubResource("NoiseTexture2D_peuoc")
+
+[node name="dock_base" instance=ExtResource("1_k1iua")]
+
+[node name="Plane" parent="." index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_aq77e")
