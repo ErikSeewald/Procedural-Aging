@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://b56lmna2meqyc"]
+
+[ext_resource type="PackedScene" uid="uid://d86frr0lapug" path="res://assets/CC/small_cargo_ship/small_cargo_ship.blend" id="1_drs21"]
+
+[node name="small_cargo_ship" instance=ExtResource("1_drs21")]

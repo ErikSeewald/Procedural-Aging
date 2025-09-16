@@ -3,7 +3,7 @@ extends Node
 @onready var test_mesh = $TestMesh
 
 # SCENES
-const scenes: Array = ["res://Scenes/shader_testing.tscn", "res://Scenes/docks.tscn"]
+const scenes: Array = ["res://scenes/shader_testing.tscn", "res://scenes/docks.tscn"]
 var scene_index = 0
 
 # TESTING_MULTIPLE

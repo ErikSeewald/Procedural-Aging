@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://c33ixokjalxji"]
+
+[ext_resource type="PackedScene" uid="uid://nmiydijqpjas" path="res://assets/CC/ropucha-class_landing_ship/ropucha_class_landing_ship.blend" id="1_p145m"]
+
+[node name="ropucha_class_landing_ship" instance=ExtResource("1_p145m")]

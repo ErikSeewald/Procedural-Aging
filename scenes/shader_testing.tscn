@@ -1,11 +1,11 @@
 [gd_scene load_steps=13 format=3 uid="uid://c4hvqyphiayku"]
 
-[ext_resource type="Script" uid="uid://cng38wbkc6o1l" path="res://Scripts/Scene/fly_cam.gd" id="1_g8tjy"]
-[ext_resource type="Script" uid="uid://qsohuxakiknk" path="res://Scripts/Scene/scene_manager.gd" id="2_rcnun"]
-[ext_resource type="PackedScene" uid="uid://dayj48d625g8j" path="res://Scenes/test_mesh.tscn" id="3_a7gid"]
-[ext_resource type="Shader" uid="uid://l5wqy7i72fxe" path="res://Shaders/blend.gdshader" id="4_160ns"]
-[ext_resource type="Texture2D" uid="uid://daatj1fpyu7tk" path="res://Textures/silver-textured-sheet-metal-texture-79801009.jpg" id="5_g8tjy"]
-[ext_resource type="PackedScene" uid="uid://bx160s5humgli" path="res://Scenes/debug_ui.tscn" id="7_tq85m"]
+[ext_resource type="Script" uid="uid://cng38wbkc6o1l" path="res://scripts/scene/fly_cam.gd" id="1_g8tjy"]
+[ext_resource type="Script" uid="uid://qsohuxakiknk" path="res://scripts/scene/scene_manager.gd" id="2_rcnun"]
+[ext_resource type="PackedScene" uid="uid://dayj48d625g8j" path="res://scenes/test_mesh.tscn" id="3_a7gid"]
+[ext_resource type="Shader" uid="uid://l5wqy7i72fxe" path="res://shaders/blend.gdshader" id="4_160ns"]
+[ext_resource type="Texture2D" uid="uid://daatj1fpyu7tk" path="res://assets/single_textures/silver-textured-sheet-metal-texture-79801009.jpg" id="5_g8tjy"]
+[ext_resource type="PackedScene" uid="uid://bx160s5humgli" path="res://scenes/debug_ui.tscn" id="7_tq85m"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_160ns"]
 sky_top_color = Color(0.139497, 0.140391, 0.354607, 1)

@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://dpfe4yvtcep13"]
+
+[ext_resource type="PackedScene" uid="uid://bwatt01eo6mcm" path="res://assets/CC/damaged_chainlink_fence/damaged_chainlink_fence_optimized.blend" id="1_o4gbl"]
+
+[node name="damaged_chainlink_fence_optimized" instance=ExtResource("1_o4gbl")]

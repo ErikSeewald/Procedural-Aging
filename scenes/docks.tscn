@@ -1,0 +1,122 @@
+[gd_scene load_steps=19 format=3 uid="uid://cugglih42gya2"]
+
+[ext_resource type="PackedScene" uid="uid://dtem1sayj12tr" path="res://scenes/docks_subscenes/dock_base.tscn" id="1_sq8fy"]
+[ext_resource type="Material" uid="uid://cu46b100244nd" path="res://addons/boujie_water_shader/prefabs/deep_ocean_material.tres" id="3_ahy8y"]
+[ext_resource type="Script" uid="uid://btlidwqud2yiw" path="res://scripts/scene/walk_cam.gd" id="3_qmedp"]
+[ext_resource type="PackedScene" uid="uid://b4hsyij8pr4ip" path="res://scenes/docks_subscenes/boat_fishing.tscn" id="4_3mqdi"]
+[ext_resource type="Script" uid="uid://b00jpvdpm1bes" path="res://scripts/ship.gd" id="4_5cbfq"]
+[ext_resource type="PackedScene" uid="uid://dattfc8huyknb" path="res://scenes/docks_subscenes/old_industrial_building.tscn" id="4_ogy8s"]
+[ext_resource type="PackedScene" uid="uid://dn6p2ihhne3pu" path="res://scenes/docks_subscenes/old_warehouse.tscn" id="4_tacti"]
+[ext_resource type="PackedScene" uid="uid://c33ixokjalxji" path="res://scenes/docks_subscenes/ropucha_class_landing_ship.tscn" id="5_lah8o"]
+[ext_resource type="PackedScene" uid="uid://bwptytb4pr1wi" path="res://scenes/docks_subscenes/abandoned_brick_building.tscn" id="5_ogy8s"]
+[ext_resource type="PackedScene" uid="uid://dpfe4yvtcep13" path="res://scenes/docks_subscenes/damaged_chainlink_fence.tscn" id="6_63ena"]
+[ext_resource type="PackedScene" uid="uid://dy68wofvayrww" path="res://scenes/docks_subscenes/ship_jj.tscn" id="6_g37qa"]
+[ext_resource type="PackedScene" uid="uid://cgok30nv7rkuf" path="res://scenes/docks_subscenes/ship_lorina.tscn" id="7_6vtbv"]
+[ext_resource type="PackedScene" uid="uid://cmi10fdhwt148" path="res://scenes/docks_subscenes/rusty_old_gate.tscn" id="7_hvwqb"]
+[ext_resource type="PackedScene" uid="uid://b56lmna2meqyc" path="res://scenes/docks_subscenes/small_cargo_ship.tscn" id="8_p1eg5"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_tacti"]
+sky_top_color = Color(0.209494, 0.140796, 0.251128, 1)
+sky_horizon_color = Color(0.586625, 0.305487, 0.250943, 1)
+sky_curve = 0.135188
+sky_cover_modulate = Color(0.133196, 0.133196, 0.133196, 1)
+ground_bottom_color = Color(0.07618903, 0.07612734, 0.117454536, 1)
+ground_horizon_color = Color(0.27007127, 0.20833406, 0.26644933, 1)
+ground_curve = 0.0107178
+sun_angle_max = 37.65
+sun_curve = 0.166435
+
+[sub_resource type="Sky" id="Sky_160ns"]
+sky_material = SubResource("ProceduralSkyMaterial_tacti")
+
+[sub_resource type="Environment" id="Environment_ogy8s"]
+background_mode = 2
+background_color = Color(0.00619635, 0.013396, 0.0194763, 1)
+sky = SubResource("Sky_160ns")
+ambient_light_source = 3
+ambient_light_color = Color(0.482749, 0.47207, 0.541328, 1)
+ambient_light_sky_contribution = 0.55
+ambient_light_energy = 3.82
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ahy8y"]
+size = Vector2(1, 1)
+subdivide_width = 200
+subdivide_depth = 200
+
+[node name="Docks" type="Node3D"]
+
+[node name="dock_base" parent="." instance=ExtResource("1_sq8fy")]
+
+[node name="Camera" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.898679, 0.438606, 0, -0.438606, 0.898679, 0, 9.93954, 2.35661)
+script = ExtResource("3_qmedp")
+
+[node name="Camera3D" type="Camera3D" parent="Camera"]
+
+[node name="Ships" type="Node3D" parent="."]
+
+[node name="boat_fishing" parent="Ships" instance=ExtResource("4_3mqdi")]
+transform = Transform3D(2.1982057, 0, 0, 0, 2.1982057, 0, 0, 0, 2.1982057, 8.0590315, 2.5512023, 25.063416)
+script = ExtResource("4_5cbfq")
+bob_amplitude = 0.4
+tilt_speed = 1.0
+
+[node name="ropucha_class_landing_ship" parent="Ships" instance=ExtResource("5_lah8o")]
+transform = Transform3D(9.190352, 0, 0, 0, 9.190352, 0, 0, 0, 9.190352, -78.172554, 3.9248476, 12.986594)
+script = ExtResource("4_5cbfq")
+bob_amplitude = 0.4
+bob_speed = 0.8
+
+[node name="ship_jj" parent="Ships" instance=ExtResource("6_g37qa")]
+transform = Transform3D(2.2312253, 0, 0.7263469, 0, 2.3464751, 0, -0.7263469, 0, 2.2312253, 43.76441, 7.53003, 688.9446)
+script = ExtResource("4_5cbfq")
+bob_amplitude = 0.4
+tilt_amplitude = 1.2
+
+[node name="ship_lorina_optimized" parent="Ships" instance=ExtResource("7_6vtbv")]
+transform = Transform3D(18.463482, 0, 0, 0, 18.463482, 0, 0, 0, 18.463482, -49.13887, 4.762554, 39.08738)
+script = ExtResource("4_5cbfq")
+
+[node name="small_cargo_ship" parent="Ships" instance=ExtResource("8_p1eg5")]
+transform = Transform3D(0.027469879, 0, 38.38882, 0, 38.38883, 0, -38.38882, 0, 0.027469879, -16.78096, 13.677517, 48.77854)
+script = ExtResource("4_5cbfq")
+bob_amplitude = 0.3
+bob_speed = 0.9
+
+[node name="Environment" type="Node3D" parent="."]
+
+[node name="Sun" type="DirectionalLight3D" parent="Environment"]
+transform = Transform3D(0.1952407, -0.2598763, -0.94569814, 0.9807554, 0.0519322, 0.18820746, 0.0002014919, -0.96424454, 0.26501438, 0, 21.3348, 0)
+light_color = Color(0.693878, 0.394444, 0.309041, 1)
+light_energy = 0.899
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
+environment = SubResource("Environment_ogy8s")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Environment"]
+transform = Transform3D(1512.038, 0, 0, 0, 2.54745, 0, 0, 0, 1335.4982, 0, 3.8317873, 340.06284)
+mesh = SubResource("PlaneMesh_ahy8y")
+surface_material_override/0 = ExtResource("3_ahy8y")
+
+[node name="Buildings" type="Node3D" parent="."]
+
+[node name="old_industrial_building_optimized" parent="Buildings" instance=ExtResource("4_ogy8s")]
+transform = Transform3D(-1.7625e-08, 0, 0.403213, 0, 0.403213, 0, -0.403213, 0, -1.7625e-08, 6.87422, 16.7262, -40.504)
+
+[node name="old_industrial_building_optimized2" parent="Buildings" instance=ExtResource("4_ogy8s")]
+transform = Transform3D(-1.7625e-08, 0, 0.403213, 0, 0.403213, 0, -0.403213, 0, -1.7625e-08, -36.2914, 16.8108, -40.4948)
+
+[node name="abandoned_brick_building_optimized" parent="Buildings" instance=ExtResource("5_ogy8s")]
+transform = Transform3D(0.043363374, 0, 1.3790759, 0, 1.3797615, 0, -1.3790759, 0, 0.043363374, -53.12789, 8.034978, -43.876236)
+
+[node name="old_warehouse_optimized" parent="Buildings" instance=ExtResource("4_tacti")]
+transform = Transform3D(9.57462, 0, 0, 0, 9.57462, 0, 0, 0, 9.57462, 54.9843, 23.878, -9.18244)
+
+[node name="Fence" type="Node3D" parent="."]
+
+[node name="damaged_chainlink_fence_optimized" parent="Fence" instance=ExtResource("6_63ena")]
+transform = Transform3D(1.6637481, 0, 0, 0, 1.6637481, 0, 0, 0, 1.6637481, -47.571537, 8.085357, -20.833975)
+
+[node name="rusty_old_gate_optimized" parent="Fence" instance=ExtResource("7_hvwqb")]
+transform = Transform3D(0.01291673, 0, 1.709156, 0, 1.7092049, 0, -1.709156, 0, 0.01291673, -48.192947, 8.039212, -25.27179)

@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://b4hsyij8pr4ip"]
+
+[ext_resource type="PackedScene" uid="uid://b6726aewb15ri" path="res://assets/CC/boat_fishing/boat_fishing.blend" id="1_e235a"]
+
+[node name="boat_fishing" instance=ExtResource("1_e235a")]

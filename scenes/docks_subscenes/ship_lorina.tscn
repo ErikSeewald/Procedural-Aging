@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://cgok30nv7rkuf"]
+
+[ext_resource type="PackedScene" uid="uid://d1mhcmo4gah12" path="res://assets/CC/ship_lorina/ship_lorina_optimized.blend" id="1_yfq0m"]
+
+[node name="ship_lorina_optimized" instance=ExtResource("1_yfq0m")]

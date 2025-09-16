@@ -2,9 +2,10 @@
 .godot/
 /android/
 
-# Export
+# Exports and includes
 /Export/
+/addons/
 
-# Ignore textures and models for now, maybe change later
-/Textures/
-/Models/
+
+# Ignore assets for now, maybe change later
+/assets/

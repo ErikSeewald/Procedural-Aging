@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bx160s5humgli"]
 
-[ext_resource type="Script" uid="uid://b3fdi262ph5hn" path="res://Scripts/UI/debug_ui.gd" id="1_k61it"]
-[ext_resource type="Script" uid="uid://bv7j4wo8d3cs4" path="res://Scripts/UI/fps_label.gd" id="2_a7nfk"]
+[ext_resource type="Script" uid="uid://b3fdi262ph5hn" path="res://scripts/UI/debug_ui.gd" id="1_k61it"]
+[ext_resource type="Script" uid="uid://bv7j4wo8d3cs4" path="res://scripts/UI/fps_label.gd" id="2_a7nfk"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_a7nfk"]
 font_size = 10

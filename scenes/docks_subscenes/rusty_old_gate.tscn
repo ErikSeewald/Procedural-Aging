@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://cmi10fdhwt148"]
+
+[ext_resource type="PackedScene" uid="uid://b3g3tou51wng1" path="res://assets/CC/rusty_old_gate/rusty_old_gate_optimized.blend" id="1_v8mue"]
+
+[node name="rusty_old_gate_optimized" instance=ExtResource("1_v8mue")]

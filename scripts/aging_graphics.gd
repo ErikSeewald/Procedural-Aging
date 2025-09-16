@@ -45,7 +45,7 @@ func _init_compute_shader() -> void:
 	layers.texture_rd_rid = tex_rid
 
 func _create_effects_shader() -> RID:
-	var effects_shader = load("res://Shaders/effects.glsl")
+	var effects_shader = load("res://shaders/effects.glsl")
 	var spirv: RDShaderSPIRV = effects_shader.get_spirv()
 	if !spirv.compile_error_compute.is_empty():
 		print(spirv.compile_error_compute)

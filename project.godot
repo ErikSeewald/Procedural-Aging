@@ -11,17 +11,21 @@ config_version=5
 [application]
 
 config/name="Procedural Aging"
-run/main_scene="res://Scenes/shader_testing.tscn"
-config/features=PackedStringArray("4.4", "GL Compatibility")
+run/main_scene="res://scenes/shader_testing.tscn"
+config/features=PackedStringArray("4.5", "GL Compatibility")
 
 [autoload]
 
-RngHelper="*res://Scripts/Autoloads/rng_helper.gd"
+RngHelper="*res://scripts/autoloads/rng_helper.gd"
 
 [display]
 
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/boujie_water_shader/plugin.cfg")
 
 [input]
 
