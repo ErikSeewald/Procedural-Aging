@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://bv2gnrxd2en0a"]
+
+[ext_resource type="PackedScene" uid="uid://j036l33s2qgq" path="res://assets/CC/industrial_buildings_set/metal_roof.blend" id="1_jnha0"]
+
+[node name="metal_roof" instance=ExtResource("1_jnha0")]

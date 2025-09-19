@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://67iiabvpjp3n"]
+
+[ext_resource type="PackedScene" uid="uid://bw3jok7s3h4eu" path="res://assets/CC/classic_shipping_container_freegameready/classic_container.blend" id="1_bpuyg"]
+
+[node name="classic_container" instance=ExtResource("1_bpuyg")]

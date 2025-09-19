@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cs14ihinr0273"]
+
+[ext_resource type="PackedScene" uid="uid://dff2nthmoov4p" path="res://assets/CC/black_mesa_props/forklift.blend" id="1_ombxe"]
+
+[node name="forklift" instance=ExtResource("1_ombxe")]
+
+[node name="Object_32" parent="." index="1"]
+gi_mode = 2

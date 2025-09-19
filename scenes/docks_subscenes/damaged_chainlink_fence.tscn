@@ -3,3 +3,6 @@
 [ext_resource type="PackedScene" uid="uid://bwatt01eo6mcm" path="res://assets/CC/damaged_chainlink_fence/damaged_chainlink_fence_optimized.blend" id="1_o4gbl"]
 
 [node name="damaged_chainlink_fence_optimized" instance=ExtResource("1_o4gbl")]
+
+[node name="Plane_005_Material_001_0" parent="Sketchfab_model/a584c9ba75dd4143879a76101c58a843_fbx/RootNode/Plane_005" index="0"]
+cast_shadow = 0

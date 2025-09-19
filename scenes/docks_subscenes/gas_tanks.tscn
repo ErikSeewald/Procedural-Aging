@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://bt5gf06h0k0ba"]
+
+[ext_resource type="PackedScene" uid="uid://b7egmuja4o2oa" path="res://assets/CC/industrial_asset_pack/gas_tanks.blend" id="1_44mbo"]
+
+[node name="gas_tanks" instance=ExtResource("1_44mbo")]

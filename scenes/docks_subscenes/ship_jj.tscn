@@ -3,3 +3,6 @@
 [ext_resource type="PackedScene" uid="uid://cebyqg4w5wad" path="res://assets/CC/ship_jj/ship_jj.blend" id="1_2cyeb"]
 
 [node name="ship_jj" instance=ExtResource("1_2cyeb")]
+
+[node name="Object_11" parent="Sketchfab_model/Ship JJ_obj_cleaner_materialmerger_gles" index="0"]
+cast_shadow = 0

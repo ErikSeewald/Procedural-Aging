@@ -1,5 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bwptytb4pr1wi"]
-
-[ext_resource type="PackedScene" uid="uid://ds7udfxqdobvx" path="res://Models/CC/abandoned_brick_building__game_asset/abandoned_brick_building_optimized.blend" id="1_lvvi5"]
-
-[node name="abandoned_brick_building_optimized" instance=ExtResource("1_lvvi5")]

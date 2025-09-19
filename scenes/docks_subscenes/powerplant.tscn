@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://8fb5cjua0d2m"]
+
+[ext_resource type="PackedScene" uid="uid://b5dprtjew4jjt" path="res://assets/CC/industrial_buildings_set/powerplant.blend" id="1_uowoa"]
+
+[node name="powerplant" instance=ExtResource("1_uowoa")]

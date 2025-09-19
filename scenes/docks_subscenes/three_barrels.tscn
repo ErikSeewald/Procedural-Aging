@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://c0heslag3vpps"]
+
+[ext_resource type="PackedScene" uid="uid://cwxr2m8b380up" path="res://assets/CC/industrial_wasteland_pack/three_barrels.blend" id="1_af35l"]
+
+[node name="three_barrels" instance=ExtResource("1_af35l")]

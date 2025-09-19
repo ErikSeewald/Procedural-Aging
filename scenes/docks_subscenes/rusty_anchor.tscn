@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bj5pkjogvc3jp"]
+
+[ext_resource type="PackedScene" uid="uid://0tbbhh0rqa33" path="res://assets/CC/rusty_anchor_and_chain/rusty_anchor.blend" id="1_kx1if"]
+
+[node name="rusty_anchor" instance=ExtResource("1_kx1if")]
+
+[node name="defaultMaterial_002" parent="Sketchfab_model/Collada visual scene group/Line001" index="0"]
+cast_shadow = 0

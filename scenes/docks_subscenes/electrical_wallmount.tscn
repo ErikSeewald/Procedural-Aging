@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://lsd7cbam4m2x"]
+
+[ext_resource type="PackedScene" uid="uid://r1odp3qt6uff" path="res://assets/CC/black_mesa_props/electrical_wallmount.blend" id="1_8mkca"]
+
+[node name="electrical_wallmount" instance=ExtResource("1_8mkca")]
