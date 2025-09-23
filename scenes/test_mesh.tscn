@@ -26,6 +26,6 @@ surface_material_override/0 = SubResource("ShaderMaterial_rm5mi")
 script = ExtResource("3_kjgf0")
 
 [node name="DebugLabel" type="Label3D" parent="."]
-transform = Transform3D(1, -1.69166e-10, -2.32831e-10, -8.91305e-11, 1, -4.65661e-10, 0, 0, 1, 0.00176512, 0.693872, -0.00379661)
+transform = Transform3D(1, -1.69166e-10, -2.32831e-10, -8.91305e-11, 1, -4.65661e-10, 0, 0, 1, 0.00176512, 0.73930967, -0.00379661)
 billboard = 1
 outline_size = 8

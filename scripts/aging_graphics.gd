@@ -81,7 +81,7 @@ func _create_push_constants() -> PackedByteArray:
 
 ## Updates the aging shader with the given aging parameters.
 ## Dispatches a compute list for updating the aging effect textures.
-func update(age: float) -> void:
+func update(age: float, context: ContextParams) -> void:
 	blend_material.set_shader_parameter("age", age)
 	push_bytes.encode_float(16, age)
 	
