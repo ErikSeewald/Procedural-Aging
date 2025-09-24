@@ -1,13 +1,13 @@
-[gd_scene load_steps=17 format=3 uid="uid://c4hvqyphiayku"]
+[gd_scene load_steps=19 format=3 uid="uid://c4hvqyphiayku"]
 
 [ext_resource type="Script" uid="uid://cng38wbkc6o1l" path="res://scripts/scene/fly_cam.gd" id="1_g8tjy"]
 [ext_resource type="Script" uid="uid://qsohuxakiknk" path="res://scripts/scene/scene_manager.gd" id="2_rcnun"]
 [ext_resource type="PackedScene" uid="uid://dayj48d625g8j" path="res://scenes/test_mesh.tscn" id="3_a7gid"]
 [ext_resource type="Shader" uid="uid://l5wqy7i72fxe" path="res://shaders/blend.gdshader" id="4_160ns"]
 [ext_resource type="Texture2D" uid="uid://daatj1fpyu7tk" path="res://assets/single_textures/silver-textured-sheet-metal-texture-79801009.jpg" id="5_g8tjy"]
-[ext_resource type="Script" uid="uid://c4gk4m6i2yke1" path="res://scripts/context_probe/context_probe.gd" id="7_o4opr"]
+[ext_resource type="Script" uid="uid://bg5e1ysrvtvw8" path="res://addons/context_probe/context_probe.gd" id="7_mb3xt"]
 [ext_resource type="PackedScene" uid="uid://bx160s5humgli" path="res://scenes/debug_ui.tscn" id="7_tq85m"]
-[ext_resource type="Script" uid="uid://bcjstok74qx23" path="res://scripts/context_probe/context_params.gd" id="8_ibix0"]
+[ext_resource type="Script" uid="uid://cht8i58wawxmi" path="res://addons/context_probe/context_params.gd" id="8_o4opr"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_160ns"]
 sky_top_color = Color(0.139497, 0.140391, 0.354607, 1)
@@ -48,12 +48,18 @@ shader_parameter/age = 0.0
 albedo_color = Color(0.606626, 0.606626, 0.606626, 1)
 
 [sub_resource type="Resource" id="Resource_o4opr"]
-script = ExtResource("8_ibix0")
-temperature = 5.0
-metadata/_custom_type_script = "uid://bcjstok74qx23"
+script = ExtResource("8_o4opr")
+temperature = 4.0
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_qmtne"]
-radius = 5.0
+[sub_resource type="SphereShape3D" id="SphereShape3D_o4opr"]
+radius = 0.9
+
+[sub_resource type="Resource" id="Resource_ibix0"]
+script = ExtResource("8_o4opr")
+temperature = 100.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3t87x"]
+size = Vector3(2.377, 2.167, 23.975)
 
 [node name="Shader Testing" type="Node3D"]
 script = ExtResource("2_rcnun")
@@ -84,12 +90,25 @@ mesh = SubResource("PlaneMesh_5140r")
 surface_material_override/0 = SubResource("StandardMaterial3D_1oqqo")
 
 [node name="ContextProbe" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.0058997)
-script = ExtResource("7_o4opr")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.31)
+collision_layer = 9
+script = ExtResource("7_mb3xt")
 params = SubResource("Resource_o4opr")
+metadata/_custom_type_script = "uid://bg5e1ysrvtvw8"
 
-[node name="CollisionSphere" type="CollisionShape3D" parent="ContextProbe"]
-shape = SubResource("SphereShape3D_qmtne")
+[node name="ProbeCollisionShape" type="CollisionShape3D" parent="ContextProbe"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.455, 5.375)
+shape = SubResource("SphereShape3D_o4opr")
+
+[node name="ContextProbe2" type="Area3D" parent="."]
+collision_layer = 9
+script = ExtResource("7_mb3xt")
+params = SubResource("Resource_ibix0")
+metadata/_custom_type_script = "uid://bg5e1ysrvtvw8"
+
+[node name="ProbeCollisionShape" type="CollisionShape3D" parent="ContextProbe2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.689, 1.078, -12.049)
+shape = SubResource("BoxShape3D_3t87x")
 
 [connection signal="reset_ages" from="Debug UI" to="." method="reset_ages"]
 [connection signal="show_tex_array" from="Debug UI" to="." method="show_tex_array"]

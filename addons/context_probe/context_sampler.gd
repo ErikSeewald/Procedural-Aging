@@ -49,13 +49,10 @@ func _physics_process(_delta: float) -> void:
 func _compute_weight_for(probe: ContextProbe) -> float:
 	var p := probe.global_transform.origin
 	var d := global_transform.origin.distance_to(p)
-	var r := probe.get_radius()
 	
-	if d >= r:
-		return 0.0
-	return clamp(1.0 - (d / r), 0.0, 1.0)
+	return 1/d
 
-func sample_parameters() -> ContextParams:
+func sample_parameters() -> ContextParams:	
 	if _probes_to_weights.is_empty():
 		return ContextParams.new()
 	

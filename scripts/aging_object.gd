@@ -4,7 +4,7 @@ extends MeshInstance3D
 
 var age := 0.0
 var context_sampler: ContextSampler
-var cur_context: ContextParams
+@onready var cur_context := ContextParams.new()
 var aging_graphics: AgingGraphics
 
 func _ready():

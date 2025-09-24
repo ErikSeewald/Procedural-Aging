@@ -2,9 +2,9 @@
 .godot/
 /android/
 
-# Exports and includes
+# Exports and other addons
 /export/
-/addons/
+/addons/boujie_water_shader/
 
 
 # Ignore assets for now, maybe change later
