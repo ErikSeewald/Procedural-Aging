@@ -49,17 +49,18 @@ albedo_color = Color(0.606626, 0.606626, 0.606626, 1)
 
 [sub_resource type="Resource" id="Resource_o4opr"]
 script = ExtResource("8_o4opr")
-temperature = 1.0
+temperature = 2.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_o4opr"]
-radius = 6.523
+radius = 5.0
 
 [sub_resource type="Resource" id="Resource_ibix0"]
 script = ExtResource("8_o4opr")
-temperature = 16.835
+temperature = 1.0
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_3t87x"]
-size = Vector3(2.012, 2.167, 1.035)
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_o4opr"]
+height = 8.369
+radius = 3.536
 
 [node name="Shader Testing" type="Node3D"]
 script = ExtResource("2_rcnun")
@@ -90,26 +91,26 @@ mesh = SubResource("PlaneMesh_5140r")
 surface_material_override/0 = SubResource("StandardMaterial3D_1oqqo")
 
 [node name="ContextProbe" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -11.745)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.21, 2.03)
 collision_layer = 9
 script = ExtResource("7_mb3xt")
 params = SubResource("Resource_o4opr")
 metadata/_custom_type_script = "uid://bg5e1ysrvtvw8"
 
-[node name="ProbeCollisionShape" type="CollisionShape3D" parent="ContextProbe"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.455, 5.94)
+[node name="ProbeShape" type="CollisionShape3D" parent="ContextProbe"]
+transform = Transform3D(1.0044327, 0, 0, 0, 1.0044327, 0, 0, 0, 1.0044327, 0, 0, 0)
 shape = SubResource("SphereShape3D_o4opr")
 
 [node name="ContextProbe2" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.11)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.77, -0.92)
 collision_layer = 9
 script = ExtResource("7_mb3xt")
 params = SubResource("Resource_ibix0")
 metadata/_custom_type_script = "uid://bg5e1ysrvtvw8"
 
-[node name="ProbeCollisionShape" type="CollisionShape3D" parent="ContextProbe2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.689, 1.078, -0.489)
-shape = SubResource("BoxShape3D_3t87x")
+[node name="ProbeShape" type="CollisionShape3D" parent="ContextProbe2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.07, 4.959, -2.728)
+shape = SubResource("CylinderShape3D_o4opr")
 
 [connection signal="reset_ages" from="Debug UI" to="." method="reset_ages"]
 [connection signal="show_probes" from="Debug UI" to="." method="show_probes"]

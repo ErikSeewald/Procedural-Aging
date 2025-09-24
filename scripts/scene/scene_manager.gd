@@ -17,15 +17,8 @@ var showing_tex_array := false
 var displayed_textures := []
 
 # SHOWING PROBES
-var probe_mat: StandardMaterial3D
 var showing_probes := false
 var probe_meshes: Dictionary[ContextProbe, MeshInstance3D] = {}
-
-func _ready() -> void:
-	probe_mat = StandardMaterial3D.new()
-	probe_mat.albedo_color = Color(0, 0, 1, 0.1)
-	probe_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	probe_mat.cull_mode = BaseMaterial3D.CULL_DISABLED
 
 ## Resets the ages of all nodes in the 'age_nodes' group
 func reset_ages(_args: Dictionary) -> void:
@@ -106,34 +99,11 @@ func _update_probe_display() -> void:
 		var collision_render: MeshInstance3D
 		if not probe_meshes.has(p):
 			collision_render = MeshInstance3D.new()
-			collision_render.material_override = probe_mat
+			collision_render.material_override = MeshHelper.wireframe_mat
 			add_child(collision_render)
 			probe_meshes[p] = collision_render
 		else:
 			collision_render = probe_meshes[p]
 		collision_render.global_transform = p.collision_shape.global_transform
 		
-		var s := p.collision_shape.shape
-		var m: Mesh
-		match s.get_class():
-			"SphereShape3D":
-				m = SphereMesh.new()
-				m.radius = s.radius
-				m.height = s.radius*2
-				
-			"BoxShape3D":
-				m = BoxMesh.new()
-				m.size = s.size
-				
-			"CapsuleShape3D":
-				m = CapsuleMesh.new()
-				m.radius = s.radius
-				m.height = s.height
-				
-			"CylinderShape3D":
-				m = CylinderMesh.new()
-				m.top_radius = s.radius
-				m.bottom_radius = s.radius
-				m.height = s.height
-				
-		collision_render.mesh = m
+		MeshHelper.match_wireframe_to_shape(collision_render, p.collision_shape.shape)

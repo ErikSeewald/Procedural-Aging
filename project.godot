@@ -17,6 +17,7 @@ config/features=PackedStringArray("4.5", "GL Compatibility")
 [autoload]
 
 RngHelper="*res://scripts/autoloads/rng_helper.gd"
+MeshHelper="*res://scripts/autoloads/mesh_helper.gd"
 
 [display]
 
