@@ -11,6 +11,7 @@ uniform writeonly image2DArray OUT_IMG;
 layout(push_constant) uniform Params {
 	vec4 instanceColor;
 	float age;
+	float temperature;
 } pc;
 
 vec4 layer1(ivec2 pos, ivec2 dims, float age)
@@ -18,9 +19,9 @@ vec4 layer1(ivec2 pos, ivec2 dims, float age)
 	float g = fract(3 + float(pos.x ^ pos.y) * 0.001 * age);
 	return vec4(g, g, g, 1.0);
 }
-vec4 layer2(ivec2 pos, ivec2 dims, float age)
+vec4 layer2(ivec2 pos, ivec2 dims, float temperature)
 {
-	return vec4(vec2(pos) * age * 0.1 / (vec2(dims)), dims.x, 1.0);
+	return vec4(vec2(pos) * temperature * 0.1 / (vec2(dims)), dims.x, 1.0);
 }
 
 void main()
@@ -36,7 +37,7 @@ void main()
 	{
 		case 0: color = pc.instanceColor; break;
 		case 1: color = layer1(pos, dims, pc.age); break;
-		case 2: color = layer2(pos, dims, pc.age); break;
+		case 2: color = layer2(pos, dims, pc.temperature); break;
 		default: return;
 	}
 	

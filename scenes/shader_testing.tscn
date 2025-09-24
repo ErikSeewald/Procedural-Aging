@@ -49,17 +49,17 @@ albedo_color = Color(0.606626, 0.606626, 0.606626, 1)
 
 [sub_resource type="Resource" id="Resource_o4opr"]
 script = ExtResource("8_o4opr")
-temperature = 4.0
+temperature = 1.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_o4opr"]
-radius = 0.9
+radius = 6.523
 
 [sub_resource type="Resource" id="Resource_ibix0"]
 script = ExtResource("8_o4opr")
-temperature = 100.0
+temperature = 16.835
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3t87x"]
-size = Vector3(2.377, 2.167, 23.975)
+size = Vector3(2.012, 2.167, 1.035)
 
 [node name="Shader Testing" type="Node3D"]
 script = ExtResource("2_rcnun")
@@ -90,27 +90,29 @@ mesh = SubResource("PlaneMesh_5140r")
 surface_material_override/0 = SubResource("StandardMaterial3D_1oqqo")
 
 [node name="ContextProbe" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5.31)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -11.745)
 collision_layer = 9
 script = ExtResource("7_mb3xt")
 params = SubResource("Resource_o4opr")
 metadata/_custom_type_script = "uid://bg5e1ysrvtvw8"
 
 [node name="ProbeCollisionShape" type="CollisionShape3D" parent="ContextProbe"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.455, 5.375)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.455, 5.94)
 shape = SubResource("SphereShape3D_o4opr")
 
 [node name="ContextProbe2" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.11)
 collision_layer = 9
 script = ExtResource("7_mb3xt")
 params = SubResource("Resource_ibix0")
 metadata/_custom_type_script = "uid://bg5e1ysrvtvw8"
 
 [node name="ProbeCollisionShape" type="CollisionShape3D" parent="ContextProbe2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.689, 1.078, -12.049)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.689, 1.078, -0.489)
 shape = SubResource("BoxShape3D_3t87x")
 
 [connection signal="reset_ages" from="Debug UI" to="." method="reset_ages"]
+[connection signal="show_probes" from="Debug UI" to="." method="show_probes"]
 [connection signal="show_tex_array" from="Debug UI" to="." method="show_tex_array"]
 [connection signal="switch_scene" from="Debug UI" to="." method="switch_scene"]
 [connection signal="test_multiple" from="Debug UI" to="." method="test_multiple"]

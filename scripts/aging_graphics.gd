@@ -84,6 +84,7 @@ func _create_push_constants() -> PackedByteArray:
 func update(age: float, context: ContextParams) -> void:
 	blend_material.set_shader_parameter("age", age)
 	push_bytes.encode_float(16, age)
+	push_bytes.encode_float(20, context.temperature)
 	
 	var cl = rd.compute_list_begin()
 	rd.compute_list_bind_compute_pipeline(cl, pipeline_rid)

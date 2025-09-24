@@ -17,6 +17,9 @@ signal test_multiple
 @warning_ignore("unused_signal")
 signal show_tex_array
 
+@warning_ignore("unused_signal")
+signal show_probes
+
 var buttons: Array[Dictionary] = [
 	{
 		"label": "Reset ages",
@@ -41,6 +44,12 @@ var checkboxes: Array[Dictionary] = [
 	{
 		"label": "Show TexArray",
 		"event": "show_tex_array",
+		"args": {}
+	},
+	
+	{
+		"label": "Show Probes",
+		"event": "show_probes",
 		"args": {}
 	},
 ]
