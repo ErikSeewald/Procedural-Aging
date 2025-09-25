@@ -3,12 +3,11 @@
 # with.
 
 @tool
-@icon("res://addons/context_probe/icon.svg")
+@icon("res://addons/context_probe/probe_icon.svg")
 extends Area3D
 class_name ContextProbe
 
 @onready var collision_shape: CollisionShape3D = get_node_or_null(shape_name)
-const probe_collision_layer := 9
 const shape_name := "ProbeShape"
 
 @export var params := ContextParams.new()
@@ -26,7 +25,6 @@ func _ready() -> void:
 	add_to_group("context_probes")
 	monitoring = true
 	monitorable = true
-	collision_layer = probe_collision_layer
 
 func _get_configuration_warnings() -> PackedStringArray:
 	var warnings := PackedStringArray()

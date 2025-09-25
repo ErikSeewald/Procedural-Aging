@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://dayj48d625g8j"]
+[gd_scene load_steps=7 format=3 uid="uid://dayj48d625g8j"]
 
 [ext_resource type="Shader" uid="uid://l5wqy7i72fxe" path="res://shaders/blend.gdshader" id="1_iut2x"]
 [ext_resource type="Texture2D" uid="uid://daatj1fpyu7tk" path="res://assets/single_textures/silver-textured-sheet-metal-texture-79801009.jpg" id="2_b3nb5"]
 [ext_resource type="Script" uid="uid://btw6rsvpf0k4w" path="res://scripts/aging_object.gd" id="3_kjgf0"]
+[ext_resource type="Script" uid="uid://bpdskdcnfn7l" path="res://addons/context_probe/context_sampler.gd" id="4_agye0"]
 
 [sub_resource type="TubeTrailMesh" id="TubeTrailMesh_xfhtf"]
 radial_steps = 10
@@ -29,3 +30,7 @@ script = ExtResource("3_kjgf0")
 transform = Transform3D(1, -1.69166e-10, -2.32831e-10, -8.91305e-11, 1, -4.65661e-10, 0, 0, 1, 0.00176512, 0.73930967, -0.00379661)
 billboard = 1
 outline_size = 8
+
+[node name="ContextSampler" type="Node3D" parent="."]
+script = ExtResource("4_agye0")
+metadata/_custom_type_script = "uid://bpdskdcnfn7l"

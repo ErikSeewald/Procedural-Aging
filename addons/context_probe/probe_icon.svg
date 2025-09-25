@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+  <title id="title">ContextProbe</title>
+
+  <g fill="none" stroke="#fc7f7f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="8" cy="8" r="7"
+            stroke-dasharray="24 30"
+            stroke-dashoffset="17" />
+
+    <circle cx="8" cy="8" r="4"
+            stroke-dasharray="25 0" />
+  </g>
+</svg>
