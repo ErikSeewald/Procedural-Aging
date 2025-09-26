@@ -38,18 +38,21 @@ var checkboxes: Array[Dictionary] = [
 	{
 		"label": "Test multiple",
 		"event": "test_multiple",
+		"default": false,
 		"args": {"amount": 100}
 	},
 	
 	{
 		"label": "Show TexArray",
 		"event": "show_tex_array",
+		"default": true,
 		"args": {}
 	},
 	
 	{
 		"label": "Show Probes",
 		"event": "show_probes",
+		"default": false,
 		"args": {}
 	},
 ]
@@ -66,7 +69,7 @@ func _input(event: InputEvent) -> void:
 func _build_buttons() -> void:	
 	for entry in  buttons:
 		var button := Button.new()
-		_build_entry(entry, button)
+		_build_entry(entry, button)	
 		
 		button.focus_mode = Control.FOCUS_NONE
 		button.pressed.connect(func(): emit_signal(entry["event"], entry["args"]))
@@ -81,6 +84,7 @@ func _build_checkboxes() -> void:
 			args["toggled"] = toggled
 			emit_signal(entry["event"], entry["args"])
 		)
+		checkbox.button_pressed = entry["default"]
 		
 ## Builds up the given base object (Button or Checkbox) with the attributes
 ## from the given entry dict and adds it to _list.

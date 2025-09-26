@@ -35,6 +35,7 @@ func _ready() -> void:
 func new_wireframe_mesh() -> MeshInstance3D:
 	var m = MeshInstance3D.new()
 	m.material_override = MeshHelper.wireframe_mat
+	m.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	return m
 	
 ## Adds a semi-transparent MeshInstance3D of the given shape to the given parent node.

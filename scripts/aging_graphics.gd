@@ -7,8 +7,8 @@ var instanceColor: Color = RngHelper.random_color()
 # LAYERS
 var layers: Texture2DArrayRD
 const layer_count: int = 2		# Needs to be >= 2
-const layer_width: int = 256
-const layer_height: int = 256
+const layer_width: int = 1024
+const layer_height: int = 1024
 
 # COMPUTE SHADER
 const compute_tile_size: int = 8
