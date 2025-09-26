@@ -1,22 +1,24 @@
+@tool
+@icon("res://addons/context_probe/sampler_icon.svg")
 extends Node3D
 class_name ContextSampler
 
-@export_flags_3d_physics var probe_mask: int
-var _current_probes: Array[ContextProbe] = []
+## Only interacts with probes on these layers
+@export_flags_3d_physics var probe_mask: int = 1
 
-signal parameters_changed(current: ContextParams)
-const params_changed_signal = "parameters_changed"
+signal context_changed(current: ContextParams)
+
+var _current_probes: Array[ContextProbe] = []
 
 func _ready() -> void:
 	var tracker := Area3D.new()
-	tracker.collision_layer = 0
-	tracker.collision_mask = ContextProbe.probe_collision_layer
 	tracker.monitoring = true
 	tracker.monitorable = false
+	tracker.collision_mask = probe_mask
 	
 	var shape := CollisionShape3D.new()
 	shape.shape = SphereShape3D.new()
-	shape.shape.radius = 0.1
+	shape.shape.radius = 0.01
 	tracker.add_child(shape)
 	add_child(tracker)
 	
@@ -26,17 +28,17 @@ func _ready() -> void:
 func _on_area_entered(area: Area3D) -> void:
 	if area is ContextProbe:
 		_current_probes.append(area)
-		area.params.connect("changed", _emit_params_changed)
-		_emit_params_changed()
+		area.params.changed.connect(_emit_context_changed)
+		_emit_context_changed()
 		
 func _on_area_exited(area: Area3D) -> void:
 	if area is ContextProbe and _current_probes.has(area):
 		_current_probes.erase(area)
-		area.params.disconnect("changed", _emit_params_changed)
-		_emit_params_changed()
+		area.params.changed.disconnect(_emit_context_changed)
+		_emit_context_changed()
 
-func _emit_params_changed() -> void:
-	emit_signal(params_changed_signal, sample_parameters())
+func _emit_context_changed() -> void:
+	context_changed.emit(sample_parameters())
 
 func sample_parameters() -> ContextParams:	
 	if _current_probes.is_empty():

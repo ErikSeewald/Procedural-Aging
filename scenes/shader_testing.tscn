@@ -1,10 +1,11 @@
-[gd_scene load_steps=19 format=3 uid="uid://c4hvqyphiayku"]
+[gd_scene load_steps=20 format=3 uid="uid://c4hvqyphiayku"]
 
 [ext_resource type="Script" uid="uid://cng38wbkc6o1l" path="res://scripts/scene/fly_cam.gd" id="1_g8tjy"]
 [ext_resource type="Script" uid="uid://qsohuxakiknk" path="res://scripts/scene/scene_manager.gd" id="2_rcnun"]
 [ext_resource type="PackedScene" uid="uid://dayj48d625g8j" path="res://scenes/test_mesh.tscn" id="3_a7gid"]
 [ext_resource type="Shader" uid="uid://l5wqy7i72fxe" path="res://shaders/blend.gdshader" id="4_160ns"]
-[ext_resource type="Texture2D" uid="uid://daatj1fpyu7tk" path="res://assets/single_textures/silver-textured-sheet-metal-texture-79801009.jpg" id="5_g8tjy"]
+[ext_resource type="Texture2D" uid="uid://cvoom7qu4404c" path="res://assets/single_textures/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_diff_2k.jpg" id="6_o4opr"]
+[ext_resource type="Texture2D" uid="uid://brs1husbmdekd" path="res://assets/single_textures/green_metal_rust_2k.blend/textures/green_metal_rust_diff_2k.jpg" id="7_ibix0"]
 [ext_resource type="Script" uid="uid://bg5e1ysrvtvw8" path="res://addons/context_probe/context_probe.gd" id="7_mb3xt"]
 [ext_resource type="PackedScene" uid="uid://bx160s5humgli" path="res://scenes/debug_ui.tscn" id="7_tq85m"]
 [ext_resource type="Script" uid="uid://cht8i58wawxmi" path="res://addons/context_probe/context_params.gd" id="8_o4opr"]
@@ -31,15 +32,16 @@ ambient_light_color = Color(0.482749, 0.47207, 0.541328, 1)
 ambient_light_sky_contribution = 0.55
 ambient_light_energy = 3.82
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_rcnun"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3t87x"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("4_160ns")
-shader_parameter/mask_count = 2
-shader_parameter/weight = PackedFloat32Array(-0.525, 0.63, 0, 0, 0, 0, 0, 0)
-shader_parameter/albedo_base = ExtResource("5_g8tjy")
-shader_parameter/base_metallic = 0.67
-shader_parameter/base_roughness = 0.485
+shader_parameter/mask_count = 1
+shader_parameter/weight = PackedFloat32Array(1, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/albedo_base = ExtResource("6_o4opr")
+shader_parameter/albedo_paint = ExtResource("7_ibix0")
+shader_parameter/base_metallic = 1.0
+shader_parameter/base_roughness = 0.6
 shader_parameter/age = 0.0
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_5140r"]
@@ -49,18 +51,17 @@ albedo_color = Color(0.606626, 0.606626, 0.606626, 1)
 
 [sub_resource type="Resource" id="Resource_o4opr"]
 script = ExtResource("8_o4opr")
-temperature = 2.0
+temperature = 4.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_o4opr"]
 radius = 5.0
 
 [sub_resource type="Resource" id="Resource_ibix0"]
 script = ExtResource("8_o4opr")
-temperature = 1.0
+temperature = 24.0
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_o4opr"]
-height = 8.369
-radius = 3.536
+[sub_resource type="BoxShape3D" id="BoxShape3D_3t87x"]
+size = Vector3(2.508667, 1.0693359, 5.8935547)
 
 [node name="Shader Testing" type="Node3D"]
 script = ExtResource("2_rcnun")
@@ -78,12 +79,12 @@ visible = false
 environment = SubResource("Environment_5140r")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.827031, 2.45726e-08, -0.562156, 0.562156, -3.61507e-08, 0.827031, 0, -1, -4.37114e-08, 2.07682, 5.80568, 1.86998)
+transform = Transform3D(0.76021606, 0.3625422, 0.53910524, -0.6095463, 0.11092737, 0.784951, 0.22477633, -0.92534214, 0.305315, 2.07682, 5.80568, 1.86998)
+shadow_enabled = true
+shadow_opacity = 0.5
 
 [node name="TestMesh" parent="." instance=ExtResource("3_a7gid")]
-transform = Transform3D(1.0027, -0.00253406, 0.00305048, 0.00255072, 1.00269, -0.00548634, -0.00303655, 0.00549405, 1.00269, 0, 0.037, 0)
-skeleton = NodePath("..")
-surface_material_override/0 = SubResource("ShaderMaterial_rcnun")
+surface_material_override/0 = SubResource("ShaderMaterial_3t87x")
 
 [node name="Plane" type="MeshInstance3D" parent="."]
 transform = Transform3D(4.17641, 0, 0, 0, 0.996555, 0, 0, 0, 6.55465, 0.188105, -0.44449, -0.204092)
@@ -91,26 +92,25 @@ mesh = SubResource("PlaneMesh_5140r")
 surface_material_override/0 = SubResource("StandardMaterial3D_1oqqo")
 
 [node name="ContextProbe" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.21, 2.03)
-collision_layer = 9
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.805, 0.015, -5.27)
+collision_mask = 0
 script = ExtResource("7_mb3xt")
 params = SubResource("Resource_o4opr")
 metadata/_custom_type_script = "uid://bg5e1ysrvtvw8"
 
 [node name="ProbeShape" type="CollisionShape3D" parent="ContextProbe"]
-transform = Transform3D(1.0044327, 0, 0, 0, 1.0044327, 0, 0, 0, 1.0044327, 0, 0, 0)
+transform = Transform3D(1.0044327, 0, 0, 0, 1.0044327, 0, 0, 0, 1.0044327, 0, 0, 7.225)
 shape = SubResource("SphereShape3D_o4opr")
 
 [node name="ContextProbe2" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.77, -0.92)
-collision_layer = 9
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.435)
 script = ExtResource("7_mb3xt")
 params = SubResource("Resource_ibix0")
 metadata/_custom_type_script = "uid://bg5e1ysrvtvw8"
 
 [node name="ProbeShape" type="CollisionShape3D" parent="ContextProbe2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.07, 4.959, -2.728)
-shape = SubResource("CylinderShape3D_o4opr")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7543335, -0.03466797, -0.63427734)
+shape = SubResource("BoxShape3D_3t87x")
 
 [connection signal="reset_ages" from="Debug UI" to="." method="reset_ages"]
 [connection signal="show_probes" from="Debug UI" to="." method="show_probes"]

@@ -16,12 +16,10 @@ layout(push_constant) uniform Params {
 
 vec4 layer1(ivec2 pos, ivec2 dims, float age)
 {
-	float g = fract(3 + float(pos.x ^ pos.y) * 0.001 * age);
-	return vec4(g, g, g, 1.0);
-}
-vec4 layer2(ivec2 pos, ivec2 dims, float temperature)
-{
-	return vec4(vec2(pos) * temperature * 0.1 / (vec2(dims)), dims.x, 1.0);
+	int tile = max(1, min(dims.x, dims.y) / 16);
+	ivec2 cell = pos / tile;
+	bool isBlack = ((cell.x & 1) == 1) && ((cell.y & 1) == 1);
+	return isBlack ? vec4(0.0, 0.0, 0.0, 1.0) : vec4(1.0, 1.0, 1.0, 1.0);
 }
 
 void main()
@@ -35,9 +33,7 @@ void main()
 	
 	switch (layer)
 	{
-		case 0: color = pc.instanceColor; break;
-		case 1: color = layer1(pos, dims, pc.age); break;
-		case 2: color = layer2(pos, dims, pc.temperature); break;
+		case 0: color = layer1(pos, dims, pc.age); break;
 		default: return;
 	}
 	

@@ -6,7 +6,7 @@ var instanceColor: Color = RngHelper.random_color()
 
 # LAYERS
 var layers: Texture2DArrayRD
-const layer_count: int = 3
+const layer_count: int = 2		# Needs to be >= 2
 const layer_width: int = 256
 const layer_height: int = 256
 
@@ -30,7 +30,7 @@ func _init(blend: ShaderMaterial) -> void:
 	_init_compute_shader()
 	
 	blend_material = blend
-	blend_material.set_shader_parameter("weight", [-0.5, 0.7, -0.1])
+	blend_material.set_shader_parameter("weight", [1.0, 0.0])
 	blend_material.set_shader_parameter("mask_count", layer_count)
 	blend_material.set_shader_parameter("masks", layers)
 
@@ -38,7 +38,7 @@ func _init_compute_shader() -> void:
 	shader_rid = _create_effects_shader()
 	pipeline_rid = rd.compute_pipeline_create(shader_rid)
 	tex_rid = rd.texture_create(_create_texture_format(), RDTextureView.new(), [])
-	u_set_rid = _create_uniform_set()
+	u_set_rid = _create_uniform_set()	
 	push_bytes = _create_push_constants()
 
 	layers = Texture2DArrayRD.new()
