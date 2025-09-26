@@ -3,7 +3,7 @@ extends MeshInstance3D
 @onready var debug_label: Label3D = $DebugLabel
 @onready var context_sampler: ContextSampler = $ContextSampler
 @onready var cur_context := ContextParams.new()
-@export var age := 0.0
+@onready var age = 0.0
 var aging_graphics: AgingGraphics
 
 func _ready():

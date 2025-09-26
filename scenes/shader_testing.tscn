@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cng38wbkc6o1l" path="res://scripts/scene/fly_cam.gd" id="1_g8tjy"]
 [ext_resource type="Script" uid="uid://qsohuxakiknk" path="res://scripts/scene/scene_manager.gd" id="2_rcnun"]
-[ext_resource type="PackedScene" uid="uid://dayj48d625g8j" path="res://scenes/test_mesh.tscn" id="3_a7gid"]
+[ext_resource type="PackedScene" path="res://scenes/test_mesh.tscn" id="3_a7gid"]
 [ext_resource type="Shader" uid="uid://l5wqy7i72fxe" path="res://shaders/blend.gdshader" id="4_160ns"]
 [ext_resource type="Texture2D" uid="uid://cvoom7qu4404c" path="res://assets/single_textures/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_diff_2k.jpg" id="6_o4opr"]
 [ext_resource type="Texture2D" uid="uid://brs1husbmdekd" path="res://assets/single_textures/green_metal_rust_2k.blend/textures/green_metal_rust_diff_2k.jpg" id="7_ibix0"]
