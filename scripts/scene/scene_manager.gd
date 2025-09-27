@@ -96,7 +96,7 @@ func _adjust_texture_pool(target_size) -> void:
 	while _tex_rects.size() < target_size:
 		var rect := TextureRect.new()
 		rect.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-		rect.scale = Vector2(0.35, 0.35)
+		#rect.scale = Vector2(0.35, 0.35)
 		add_child(rect)
 		_tex_rects.append(rect)
 		_layer_textures.append(null)

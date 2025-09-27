@@ -14,51 +14,79 @@ layout(push_constant) uniform Params {
 	float temperature;
 } pc;
 
+// RNG
+float seed;
 
-ivec2 get_seed(float index, ivec2 dims)
+vec2 random2f(ivec2 p) 
 {
-	float x = fract(sin(index * 12.9898) * 43758.5453);
-	float y = fract(sin(index * 78.233) * 12345.6789);
-	return ivec2(int(floor(x*float(dims.x))), int(floor(y*float(dims.y))));
+    float x = fract(sin(dot(vec2(p), vec2(127.1, 311.7))) * 43758.5453 * seed);
+    float y = fract(sin(dot(vec2(p), vec2(269.5, 183.3))) * 43758.5453 * seed);
+    return vec2(x, y);
 }
 
-float attentuateByAngle(vec2 v, float brightness, float d, float sharpness)
+// Returns the squared distances to the closest and second closest cell center
+vec2 voronoi_sq(vec2 pos)
 {
-	const float PI = 3.14159265;
-	const float TAU = 6.2831853;
+	ivec2 cell_pos = ivec2(pos);
+    vec2 frac = fract(pos);
 
-	float ang = atan(v.y, v.x);
-	if (ang < 0.0) { ang += TAU;}
-	float ideal = d * TAU;
-
-	float diff = abs(ang - ideal);
-	diff = min(diff, TAU - diff);
-	float t = diff / PI;
-	float w = smoothstep(1.0, 0.0, t);
-	w = pow(w, sharpness);
-	return brightness * mix(1.0, 100.0, w);
-}
-
-vec4 layer1(ivec2 pos, ivec2 dims, float age, float temperature)
-{
-	float b = 0.2;
-
-	for (int i = 0; i < (age/4); ++i)
+    vec2 distances = vec2(10.0);
+    for(int y=-1; y<=1; ++y)
 	{
-		ivec2 seed = get_seed(i+temperature, dims);
-		float d = distance(vec2(pos), vec2(seed));
-		b = clamp(d / dims.x, 0.0, 1.0);
-		
-		b = attentuateByAngle(vec2(seed-pos), b, (d / dims.x) + fract(age) , 0.4);
+		for(int x=-1; x<=1; ++x)
+		{
+			ivec2 neighbor_pos = ivec2(x, y);
+			vec2 delta = vec2(neighbor_pos) + random2f(cell_pos + neighbor_pos) - frac;
+			float distSq = dot(delta, delta);
 
-		if (b < 0.01 * age) {break;}
+			if(distSq < distances.x)
+			{
+				distances.y = distances.x;
+				distances.x = distSq;
+			}
+
+			else if(distSq < distances.y)
+			{
+				distances.y = distSq;
+			}
+		}
 	}
 
-	return (b < 0.01 * age) ? vec4(0.0, 0.0, 0.0, 1.0) : vec4(1.0, 1.0, 1.0, 1.0);
+    return distances;
+}
+
+// Returns the distance from one of the voronoi borders.
+// Is 0 directly on a border.
+float dist_from_border(vec2 pos)
+{
+    vec2 distances = voronoi_sq(pos);
+    return distances.y - distances.x;;
+}
+
+vec4 layer1(ivec2 pos, ivec2 dims, float age)
+{
+	vec2 uv = vec2(pos) / vec2(dims);
+
+	float b1 = dist_from_border(uv * 5.0);
+	float b2 = dist_from_border(uv * 10.0);
+	float b3 = dist_from_border(uv * 20.0);
+
+	float t = clamp(age * 0.01, 0.0, 1.0);
+
+	// blend them over time
+	// Here, the "age*0.01", the factors at b1, b2 as well as the "border*age*0.1" all play
+	// an important role in the size and shape of the cracks. Test them a bit more.
+	float border = b1*0.3 + mix(0.0, b2*0.7, smoothstep(0.0, 0.5, t));
+	border = border + mix(0.0, b3, smoothstep(0.5, 1.0, t));
+	border = clamp(border*age*0.1, 0.0, 1.0);
+		
+	return vec4(vec3(border), 1.0);
 }
 
 void main()
 {
+	seed = pc.temperature * pc.instanceColor.r;
+
 	ivec2 pos = ivec2(gl_GlobalInvocationID.xy);
 	ivec2 dims = imageSize(OUT_IMG).xy;
 	if (pos.x >= dims.x || pos.y >= dims.y) { return; }
@@ -68,7 +96,7 @@ void main()
 	
 	switch (layer)
 	{
-		case 0: color = layer1(pos, dims, pc.age, pc.temperature); break;
+		case 0: color = layer1(pos, dims, pc.age); break;
 		default: return;
 	}
 	

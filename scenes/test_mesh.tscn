@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://btw6rsvpf0k4w" path="res://scripts/aging_object.gd" id="3_kjgf0"]
 [ext_resource type="Script" uid="uid://bpdskdcnfn7l" path="res://addons/context_probe/context_sampler.gd" id="4_agye0"]
 
-[sub_resource type="SphereMesh" id="SphereMesh_agye0"]
+[sub_resource type="SphereMesh" id="SphereMesh_6cpv6"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rm5mi"]
 resource_local_to_scene = true
@@ -22,7 +22,7 @@ shader_parameter/age = 0.0
 
 [node name="TestMesh" type="MeshInstance3D"]
 transform = Transform3D(1.0027078, 0, 0, 0, 1.0027082, 0, 0, 0, 1.0027096, 0, 0, 0)
-mesh = SubResource("SphereMesh_agye0")
+mesh = SubResource("SphereMesh_6cpv6")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("ShaderMaterial_rm5mi")
 script = ExtResource("3_kjgf0")

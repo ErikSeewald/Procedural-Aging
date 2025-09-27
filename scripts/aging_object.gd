@@ -7,6 +7,7 @@ extends MeshInstance3D
 var aging_graphics: AgingGraphics
 
 func _ready():
+	age = 0.0
 	add_to_group("age_nodes")
 	aging_graphics = AgingGraphics.new(get_active_material(0))
 	add_child(aging_graphics)
