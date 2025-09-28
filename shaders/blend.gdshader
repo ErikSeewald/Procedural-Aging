@@ -50,9 +50,9 @@ void fragment()
 		roughness = mix(0.8, roughness, c.r);
 		
 		// White outline/residue around edges of paint
-		if (c.r > 0.4) 
+		if (c.r > 0.4 && c.r < 0.9) 
 		{
-			float modif = 0.15 / (c.r - 0.4);
+			float modif = 0.15 / (c.r - 0.2);
 			albedo = clamp(albedo + vec3(modif, modif, modif), 0.0, 1.0);
 			
 			// Desaturate

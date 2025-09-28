@@ -4,7 +4,7 @@ extends Node3D
 @export var look_speed: float = 2.0
 
 var yaw := 0.0
-var pitch := 0.0
+var pitch := -0.3
 
 func _process(delta: float) -> void:
 	# Looking

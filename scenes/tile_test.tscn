@@ -1,0 +1,34 @@
+[gd_scene load_steps=8 format=3 uid="uid://douemxggwchfm"]
+
+[ext_resource type="PackedScene" uid="uid://bx24oon33yhj6" path="res://assets/tile_test.blend" id="1_y57rc"]
+[ext_resource type="Shader" uid="uid://l5wqy7i72fxe" path="res://shaders/blend.gdshader" id="2_qdkxk"]
+[ext_resource type="Texture2D" uid="uid://cvoom7qu4404c" path="res://assets/single_textures/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_diff_2k.jpg" id="3_a8qe0"]
+[ext_resource type="Texture2D" uid="uid://brs1husbmdekd" path="res://assets/single_textures/green_metal_rust_2k.blend/textures/green_metal_rust_diff_2k.jpg" id="4_pnknc"]
+[ext_resource type="Script" uid="uid://btw6rsvpf0k4w" path="res://scripts/aging_object.gd" id="5_pnknc"]
+[ext_resource type="Script" uid="uid://bpdskdcnfn7l" path="res://addons/context_probe/context_sampler.gd" id="6_06164"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_06164"]
+render_priority = 0
+shader = ExtResource("2_qdkxk")
+shader_parameter/mask_count = 0
+shader_parameter/weight = PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/albedo_base = ExtResource("3_a8qe0")
+shader_parameter/albedo_paint = ExtResource("4_pnknc")
+shader_parameter/base_metallic = 0.6
+shader_parameter/base_roughness = 0.3
+shader_parameter/age = 0.0
+
+[node name="tile_test" instance=ExtResource("1_y57rc")]
+
+[node name="Plane" parent="." index="0"]
+surface_material_override/0 = SubResource("ShaderMaterial_06164")
+script = ExtResource("5_pnknc")
+age = 909.215
+
+[node name="ContextSampler" type="Node3D" parent="Plane" index="0"]
+script = ExtResource("6_06164")
+metadata/_custom_type_script = "uid://bpdskdcnfn7l"
+
+[node name="DebugLabel" type="Label3D" parent="Plane" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36867315, 0)
+billboard = 2

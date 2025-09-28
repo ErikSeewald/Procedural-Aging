@@ -17,26 +17,39 @@ layout(push_constant) uniform Params {
 // RNG
 float seed;
 
-vec2 random2f(ivec2 p) 
+vec2 hash2D(ivec2 p) 
 {
-    float x = fract(sin(dot(vec2(p), vec2(127.1, 311.7))) * 43758.5453 * seed);
-    float y = fract(sin(dot(vec2(p), vec2(269.5, 183.3))) * 43758.5453 * seed);
-    return vec2(x, y);
+    uvec2 q = uvec2(p);
+    q = 1103515245U * ((q >> 1U) ^ (q.yx));
+    uint n = 1103515245U * (q.x ^ (q.y>>3));
+    uint m = 1103515245U * (q.y ^ (q.x>>3));
+    return vec2(n, m) * (1.0 / 4294967296.0);
+}
+
+// Positive mod m
+ivec2 imodp(ivec2 a, int m)
+{
+	return ivec2(((a.x % m) + m) % m, ((a.y % m) + m) % m);
 }
 
 // Returns the squared distances to the closest and second closest cell center
-vec2 voronoi_sq(vec2 pos)
+vec2 voronoi_sq_tiled(vec2 pos, int period)
 {
-	ivec2 cell_pos = ivec2(pos);
+	pos = fract(pos / float(period)) * float(period);
+
+	ivec2 cell_pos = ivec2(floor(pos));
     vec2 frac = fract(pos);
 
-    vec2 distances = vec2(10.0);
+    vec2 distances = vec2(1e9);
     for(int y=-1; y<=1; ++y)
 	{
 		for(int x=-1; x<=1; ++x)
 		{
-			ivec2 neighbor_pos = ivec2(x, y);
-			vec2 delta = vec2(neighbor_pos) + random2f(cell_pos + neighbor_pos) - frac;
+			ivec2 ncell = imodp(cell_pos + ivec2(x, y), period);
+			vec2 jitter = hash2D(ncell);
+
+			vec2 delta = vec2(x, y) + jitter - frac;
+			delta -= round(delta);
 			float distSq = dot(delta, delta);
 
 			if(distSq < distances.x)
@@ -55,32 +68,39 @@ vec2 voronoi_sq(vec2 pos)
     return distances;
 }
 
+
 // Returns the distance from one of the voronoi borders.
 // Is 0 directly on a border.
-float dist_from_border(vec2 pos)
+float dist_from_border_tiled(vec2 pos, int period)
 {
-    vec2 distances = voronoi_sq(pos);
+    vec2 distances = voronoi_sq_tiled(pos * float(period), period);
     return distances.y - distances.x;;
 }
 
-vec4 layer1(ivec2 pos, ivec2 dims, float age)
+vec4 method1(ivec2 pos, ivec2 dims, float age)
 {
-	vec2 uv = vec2(pos) / vec2(dims);
+	// So much refactoring to do :))))))))))))
+	age = 1000 - age; // Whatever number you need to subtract age from also changes based on the other params
+	vec2 uv = (vec2(pos)) / vec2(dims);
 
-	float b1 = dist_from_border(uv * 5.0);
-	float b2 = dist_from_border(uv * 10.0);
-	float b3 = dist_from_border(uv * 20.0);
+	const int P1 = 1;
+	const int P2 = 10;
+	const int P3 = 20;
 
-	float t = clamp(age * 0.01, 0.0, 1.0);
+	float b1 = dist_from_border_tiled(uv, P1);
+	float b2 = dist_from_border_tiled(uv, P2);
+	float b3 = dist_from_border_tiled(uv, P3);
+
+	float t = clamp(age * 0.05, 0.0, 1.0);
 
 	// blend them over time
-	// Here, the "age*0.01", the factors at b1, b2 as well as the "border*age*0.1" all play
+	// Here, the Pi, the factors at b1, b2 as well as the "border*age*0.1" all play
 	// an important role in the size and shape of the cracks. Test them a bit more.
-	float border = b1*0.3 + mix(0.0, b2*0.7, smoothstep(0.0, 0.5, t));
-	border = border + mix(0.0, b3, smoothstep(0.5, 1.0, t));
+	float border = b1*0.5 + mix(0.0, b2*0.7, smoothstep(0.0, 0.3, t));
+	border = border + mix(0.0, b3, smoothstep(0.3, 1.0, t));
 	border = clamp(border*age*0.1, 0.0, 1.0);
 		
-	return vec4(vec3(border), 1.0);
+	return vec4(vec3(1-border), 1.0);
 }
 
 void main()
@@ -96,7 +116,7 @@ void main()
 	
 	switch (layer)
 	{
-		case 0: color = layer1(pos, dims, pc.age); break;
+		case 0: color = method1(pos, dims, pc.age); break;
 		default: return;
 	}
 	

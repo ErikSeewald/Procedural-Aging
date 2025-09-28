@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://c4hvqyphiayku"]
+[gd_scene load_steps=22 format=3 uid="uid://c4hvqyphiayku"]
 
 [ext_resource type="Script" uid="uid://cng38wbkc6o1l" path="res://scripts/scene/fly_cam.gd" id="1_g8tjy"]
 [ext_resource type="Script" uid="uid://qsohuxakiknk" path="res://scripts/scene/scene_manager.gd" id="2_rcnun"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://bg5e1ysrvtvw8" path="res://addons/context_probe/context_probe.gd" id="7_mb3xt"]
 [ext_resource type="PackedScene" uid="uid://bx160s5humgli" path="res://scenes/debug_ui.tscn" id="7_tq85m"]
 [ext_resource type="Script" uid="uid://cht8i58wawxmi" path="res://addons/context_probe/context_params.gd" id="8_o4opr"]
+[ext_resource type="PackedScene" uid="uid://douemxggwchfm" path="res://scenes/tile_test.tscn" id="10_3t87x"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_160ns"]
 sky_top_color = Color(0.139497, 0.140391, 0.354607, 1)
@@ -32,7 +33,7 @@ ambient_light_color = Color(0.482749, 0.47207, 0.541328, 1)
 ambient_light_sky_contribution = 0.55
 ambient_light_energy = 3.82
 
-[sub_resource type="SphereMesh" id="SphereMesh_ibix0"]
+[sub_resource type="SphereMesh" id="SphereMesh_3t87x"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3t87x"]
 resource_local_to_scene = true
@@ -69,7 +70,7 @@ size = Vector3(2.508667, 1.0693359, 5.8935547)
 script = ExtResource("2_rcnun")
 
 [node name="Camera" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.898679, 0.438606, 0, -0.438606, 0.898679, 0, 1.42541, 2.35661)
+transform = Transform3D(1, 0, 0, 0, 0.66318196, 0.7484577, 0, -0.7484577, 0.66318196, 0, 0.708569, 1.6561717)
 script = ExtResource("1_g8tjy")
 
 [node name="Camera3D" type="Camera3D" parent="Camera"]
@@ -86,9 +87,10 @@ shadow_enabled = true
 shadow_opacity = 0.5
 
 [node name="TestMesh" parent="." instance=ExtResource("3_a7gid")]
-mesh = SubResource("SphereMesh_ibix0")
+transform = Transform3D(1.005247, 0, 0, 0, 1.0052474, 0, 0, 0, 1.0052488, 0, 0, 0)
+mesh = SubResource("SphereMesh_3t87x")
 surface_material_override/0 = SubResource("ShaderMaterial_3t87x")
-age = 31.355
+age = 959.745
 
 [node name="Plane" type="MeshInstance3D" parent="."]
 transform = Transform3D(4.17641, 0, 0, 0, 0.996555, 0, 0, 0, 6.55465, 0.188105, -0.44449, -0.204092)
@@ -117,6 +119,9 @@ metadata/_custom_type_script = "uid://bg5e1ysrvtvw8"
 [node name="ProbeShape" type="CollisionShape3D" parent="ContextProbe2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7543335, -0.03466797, -0.63427734)
 shape = SubResource("BoxShape3D_3t87x")
+
+[node name="tile_test" parent="." instance=ExtResource("10_3t87x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.19026399, -0.43989706, -2.18673)
 
 [connection signal="reset_ages" from="Debug UI" to="." method="reset_ages"]
 [connection signal="show_probes" from="Debug UI" to="." method="show_probes"]
