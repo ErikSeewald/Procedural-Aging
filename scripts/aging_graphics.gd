@@ -16,7 +16,7 @@ const groups_x: int = int(ceil(float(layer_width) / compute_tile_size))
 const groups_y: int = int(ceil(float(layer_height) / compute_tile_size))
 const groups_z: int = layer_count
 
-var rd: RenderingDevice = RenderingServer.get_rendering_device()
+var rd: RenderingDevice
 var shader_rid: RID
 var pipeline_rid: RID
 var tex_rid: RID
@@ -26,12 +26,24 @@ var push_bytes: PackedByteArray # For push constant compute params
 # GDSHADER
 var blend_material: ShaderMaterial
 
+# DEBUG
+@export var debuug: Array = [
+1000.0,
+3,
+10,
+20,
+0.5,
+0.7,
+0.3,
+0.05,
+0.1]
+
 func _init(blend: ShaderMaterial) -> void:
+	rd = RenderingServer.get_rendering_device()
 	_init_compute_shader()
 	
 	blend_material = blend
-	blend_material.set_shader_parameter("weight", [1.0, 0.0])
-	blend_material.set_shader_parameter("mask_count", layer_count)
+	blend_material.set_shader_parameter("weights", [1.0, 0.0])
 	blend_material.set_shader_parameter("masks", layers)
 
 func _init_compute_shader() -> void:
@@ -74,9 +86,10 @@ func _create_uniform_set() -> RID:
 
 func _create_push_constants() -> PackedByteArray:
 	var bytes = PackedByteArray()
-	bytes.resize(32)
+	bytes.resize(64) # USED TO BE 32
 	for i in 4:
 		bytes.encode_float(i*4, instanceColor[i])
+
 	return bytes
 
 ## Updates the aging shader with the given aging parameters.
@@ -85,6 +98,10 @@ func update(age: float, context: ContextParams) -> void:
 	blend_material.set_shader_parameter("age", age)
 	push_bytes.encode_float(16, age)
 	push_bytes.encode_float(20, context.temperature)
+	
+	# DEBUG
+	for i in 9:
+		push_bytes.encode_float(24 + i*4, debuug[i])
 	
 	var cl = rd.compute_list_begin()
 	rd.compute_list_bind_compute_pipeline(cl, pipeline_rid)

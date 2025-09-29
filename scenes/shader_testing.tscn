@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://c4hvqyphiayku"]
+[gd_scene load_steps=27 format=3 uid="uid://c4hvqyphiayku"]
 
 [ext_resource type="Script" uid="uid://cng38wbkc6o1l" path="res://scripts/scene/fly_cam.gd" id="1_g8tjy"]
 [ext_resource type="Script" uid="uid://qsohuxakiknk" path="res://scripts/scene/scene_manager.gd" id="2_rcnun"]
@@ -8,7 +8,11 @@
 [ext_resource type="Texture2D" uid="uid://brs1husbmdekd" path="res://assets/single_textures/green_metal_rust_2k.blend/textures/green_metal_rust_diff_2k.jpg" id="7_ibix0"]
 [ext_resource type="Script" uid="uid://bg5e1ysrvtvw8" path="res://addons/context_probe/context_probe.gd" id="7_mb3xt"]
 [ext_resource type="PackedScene" uid="uid://bx160s5humgli" path="res://scenes/debug_ui.tscn" id="7_tq85m"]
+[ext_resource type="Texture2D" uid="uid://c0wg2kmpentsv" path="res://assets/single_textures/green_metal_rust_2k.blend/textures/green_metal_rust_nor_gl_2k.png" id="8_g30sk"]
 [ext_resource type="Script" uid="uid://cht8i58wawxmi" path="res://addons/context_probe/context_params.gd" id="8_o4opr"]
+[ext_resource type="Texture2D" uid="uid://cse8uuw55uf3n" path="res://assets/single_textures/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_nor_gl_2k.png" id="8_p5hah"]
+[ext_resource type="Texture2D" uid="uid://t0xk1rw1uk3x" path="res://assets/single_textures/green_metal_rust_2k.blend/textures/green_metal_rust_rough_2k.jpg" id="9_aeb8e"]
+[ext_resource type="Texture2D" uid="uid://bb75x6l3ec5wc" path="res://assets/single_textures/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_rough_2k.png" id="9_pokwt"]
 [ext_resource type="PackedScene" uid="uid://douemxggwchfm" path="res://scenes/tile_test.tscn" id="10_3t87x"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_160ns"]
@@ -33,19 +37,28 @@ ambient_light_color = Color(0.482749, 0.47207, 0.541328, 1)
 ambient_light_sky_contribution = 0.55
 ambient_light_energy = 3.82
 
-[sub_resource type="SphereMesh" id="SphereMesh_3t87x"]
+[sub_resource type="SphereMesh" id="SphereMesh_p5hah"]
+
+[sub_resource type="Texture2DArrayRD" id="Texture2DArrayRD_p5hah"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3t87x"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("4_160ns")
-shader_parameter/mask_count = 1
-shader_parameter/weight = PackedFloat32Array(1, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/age = 900.775
+shader_parameter/masks = SubResource("Texture2DArrayRD_p5hah")
+shader_parameter/weights = [1.0, 0.0]
+shader_parameter/base_metallic = 0.7
 shader_parameter/albedo_base = ExtResource("6_o4opr")
+shader_parameter/normal_base = ExtResource("8_p5hah")
+shader_parameter/roughness_base = ExtResource("9_pokwt")
+shader_parameter/paint_metallic = 0.4
+shader_parameter/residue_cutoff = 0.9
+shader_parameter/residue_intensity = 0.75
+shader_parameter/residue_falloff = 1.6
 shader_parameter/albedo_paint = ExtResource("7_ibix0")
-shader_parameter/base_metallic = 1.0
-shader_parameter/base_roughness = 0.6
-shader_parameter/age = 0.0
+shader_parameter/normal_paint = ExtResource("8_g30sk")
+shader_parameter/roughness_paint = ExtResource("9_aeb8e")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_5140r"]
 
@@ -88,12 +101,13 @@ shadow_opacity = 0.5
 
 [node name="TestMesh" parent="." instance=ExtResource("3_a7gid")]
 transform = Transform3D(1.005247, 0, 0, 0, 1.0052474, 0, 0, 0, 1.0052488, 0, 0, 0)
-mesh = SubResource("SphereMesh_3t87x")
+mesh = SubResource("SphereMesh_p5hah")
 surface_material_override/0 = SubResource("ShaderMaterial_3t87x")
-age = 959.745
+age = 900.775
+p1 = 3
 
 [node name="Plane" type="MeshInstance3D" parent="."]
-transform = Transform3D(4.17641, 0, 0, 0, 0.996555, 0, 0, 0, 6.55465, 0.188105, -0.44449, -0.204092)
+transform = Transform3D(4.17641, 0, 0, 0, 0.996555, 0, 0, 0, 6.55465, 0.18543185, -0.4422262, -0.20468685)
 mesh = SubResource("PlaneMesh_5140r")
 surface_material_override/0 = SubResource("StandardMaterial3D_1oqqo")
 
@@ -110,8 +124,7 @@ transform = Transform3D(1.0044327, 0, 0, 0, 1.0044327, 0, 0, 0, 1.0044327, 0, 0,
 shape = SubResource("SphereShape3D_o4opr")
 
 [node name="ContextProbe2" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.475, 0.135, 5.43)
-visible = false
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.475, 0.135, 4.3217297)
 script = ExtResource("7_mb3xt")
 params = SubResource("Resource_ibix0")
 metadata/_custom_type_script = "uid://bg5e1ysrvtvw8"
@@ -121,7 +134,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7543335, -0.03466797, -0.63
 shape = SubResource("BoxShape3D_3t87x")
 
 [node name="tile_test" parent="." instance=ExtResource("10_3t87x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.19026399, -0.43989706, -2.18673)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.028728127, 0, -2.4514053)
 
 [connection signal="reset_ages" from="Debug UI" to="." method="reset_ages"]
 [connection signal="show_probes" from="Debug UI" to="." method="show_probes"]

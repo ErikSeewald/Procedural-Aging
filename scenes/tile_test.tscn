@@ -1,29 +1,36 @@
-[gd_scene load_steps=8 format=3 uid="uid://douemxggwchfm"]
+[gd_scene load_steps=12 format=3 uid="uid://douemxggwchfm"]
 
 [ext_resource type="PackedScene" uid="uid://bx24oon33yhj6" path="res://assets/tile_test.blend" id="1_y57rc"]
 [ext_resource type="Shader" uid="uid://l5wqy7i72fxe" path="res://shaders/blend.gdshader" id="2_qdkxk"]
 [ext_resource type="Texture2D" uid="uid://cvoom7qu4404c" path="res://assets/single_textures/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_diff_2k.jpg" id="3_a8qe0"]
 [ext_resource type="Texture2D" uid="uid://brs1husbmdekd" path="res://assets/single_textures/green_metal_rust_2k.blend/textures/green_metal_rust_diff_2k.jpg" id="4_pnknc"]
+[ext_resource type="Texture2D" uid="uid://cse8uuw55uf3n" path="res://assets/single_textures/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_nor_gl_2k.png" id="5_kq81a"]
 [ext_resource type="Script" uid="uid://btw6rsvpf0k4w" path="res://scripts/aging_object.gd" id="5_pnknc"]
+[ext_resource type="Texture2D" uid="uid://c0wg2kmpentsv" path="res://assets/single_textures/green_metal_rust_2k.blend/textures/green_metal_rust_nor_gl_2k.png" id="6_6ft3f"]
 [ext_resource type="Script" uid="uid://bpdskdcnfn7l" path="res://addons/context_probe/context_sampler.gd" id="6_06164"]
+[ext_resource type="Texture2D" uid="uid://bb75x6l3ec5wc" path="res://assets/single_textures/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_rough_2k.png" id="7_cxtro"]
+[ext_resource type="Texture2D" uid="uid://t0xk1rw1uk3x" path="res://assets/single_textures/green_metal_rust_2k.blend/textures/green_metal_rust_rough_2k.jpg" id="8_sa6bg"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_06164"]
 render_priority = 0
 shader = ExtResource("2_qdkxk")
-shader_parameter/mask_count = 0
-shader_parameter/weight = PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0)
-shader_parameter/albedo_base = ExtResource("3_a8qe0")
-shader_parameter/albedo_paint = ExtResource("4_pnknc")
-shader_parameter/base_metallic = 0.6
-shader_parameter/base_roughness = 0.3
 shader_parameter/age = 0.0
+shader_parameter/weights = PackedFloat32Array(0, 0)
+shader_parameter/base_metallic = 0.6
+shader_parameter/albedo_base = ExtResource("3_a8qe0")
+shader_parameter/normal_base = ExtResource("5_kq81a")
+shader_parameter/roughness_base = ExtResource("7_cxtro")
+shader_parameter/paint_metallic = 0.4
+shader_parameter/albedo_paint = ExtResource("4_pnknc")
+shader_parameter/normal_paint = ExtResource("6_6ft3f")
+shader_parameter/roughness_paint = ExtResource("8_sa6bg")
 
 [node name="tile_test" instance=ExtResource("1_y57rc")]
 
 [node name="Plane" parent="." index="0"]
+transform = Transform3D(0.99507296, 0, 0, 0, 0.99507296, 0, 0, 0, 0.99507296, 0, 0, 0)
 surface_material_override/0 = SubResource("ShaderMaterial_06164")
 script = ExtResource("5_pnknc")
-age = 909.215
 
 [node name="ContextSampler" type="Node3D" parent="Plane" index="0"]
 script = ExtResource("6_06164")

@@ -1,68 +1,78 @@
 shader_type spatial;
+render_mode specular_schlick_ggx;
 
+uniform float age = 0.0; // UNUSED FOR NOW
+
+group_uniforms compute_masks;
 uniform sampler2DArray masks;
-uniform int mask_count = 0;
+uniform float weights[2];
 
-// Per-layer parameters
-const int MAX_LAYERS = 8;
-uniform float weight[MAX_LAYERS];
-
-// Base material
-uniform sampler2D albedo_base;
-uniform sampler2D albedo_paint;
+group_uniforms base_layer;
 uniform float base_metallic = 0.6;
-uniform float base_roughness = 0.3;
+uniform sampler2D albedo_base;
+uniform sampler2D normal_base : hint_normal;
+uniform sampler2D roughness_base;
 
-// AGE
-const float MAX_AGE = 20.0;
-uniform float age;
+group_uniforms paint_layer;
+uniform float paint_metallic = 0.4;
+uniform float residue_cutoff = 0.9;
+uniform float residue_intensity = 0.75;
+uniform float residue_falloff = 1.6;
+uniform sampler2D albedo_paint;
+uniform sampler2D normal_paint : hint_normal;
+uniform sampler2D roughness_paint;
 
 vec3 sample_mask(int layer, vec2 uv)
 {
 	return texture(masks, vec3(uv, float(layer))).rgb;
 }
 
+vec3 adjust_contrast(vec3 color, float factor)
+{
+	return (color - 0.5) * factor + 0.5;
+}
+
 void fragment()
 {
+	int mask_count = textureSize(masks, 0).z;
+	
 	vec3 base_col = texture(albedo_base, UV).rgb;
+	float base_roughness = texture(roughness_base, UV).r;
+	vec3 base_normal = texture(normal_base, UV).rgb;
+	
 	vec3 paint_col = texture(albedo_paint, UV).rgb;
+	float paint_roughness = texture(roughness_paint, UV).r;
+	vec3 paint_normal = texture(normal_paint, UV).rgb;
+	
 	vec3 albedo = paint_col;
-	float metallic = base_metallic;
-	float roughness = base_roughness;
+	float metallic = paint_metallic;
+	float roughness = paint_roughness;
+	vec3 normal = paint_normal;
 
 	for (int i = 0; i < mask_count; i++)
 	{
-		float w = clamp(age / MAX_AGE * weight[i], 0.0, 1.0);
-		vec3 c = sample_mask(i, UV);
-		
-		// Use mask's red value as blend weight for now, ignore w until there
-		// are more masks again
-		c.r = clamp(c.r, 0.2, 1.0);
-		c.r -= 0.2;
-		
-		// Keep mostly in tact paint at higher opacity/weight
-		if (c.r > 0.8) {c.r = clamp(c.r + (c.r - 0.8), 0.0, 1.0);}
-		
-		//if (i == 0 && c.r > 0.5) {metallic = 0.8; albedo = base_col;}
-		//else if (i == 0) {roughness = 0.8; metallic = 0.8; SPECULAR = 0.5;}
+		if (i > 0) {break;} // Just layer one for debugging
+		float w = sample_mask(i, UV).r * weights[i];
 
-		albedo = mix(albedo, base_col, c.r);
-		roughness = mix(0.8, roughness, c.r);
+		albedo = mix(albedo, base_col, w);
+		roughness = mix(roughness, base_roughness, w);
+		metallic = mix(metallic, base_metallic, w);
+		normal = mix(normal, base_normal, w);
 		
-		// White outline/residue around edges of paint
-		if (c.r > 0.4 && c.r < 0.9) 
+		// Sharpen edges with paint residue
+		if (w > 0.4) 
 		{
-			float modif = 0.15 / (c.r - 0.2);
-			albedo = clamp(albedo + vec3(modif, modif, modif), 0.0, 1.0);
-			
-			// Desaturate
-			albedo = mix(albedo, vec3((albedo.r + albedo.g + albedo.b) / 3.0), modif);
+			float t = clamp((residue_cutoff - w) / 0.5, 0.0, 1.0);
+			float factor = residue_intensity * t * exp(-residue_falloff * (1.0 - t)); 
+			albedo = mix(albedo, clamp(paint_col + vec3(0.5), 0.0, 1.0), factor);
 		}
-		//metallic = clamp(metallic + c.r * w, 0.0, 1.0); // Red as roughness
-		//roughness = clamp(roughness + 0.05 * w, 0.0, 1.0);
 	}
+
+ 	// Adjust contrast and reduce brightness because the defaults look awful
+	albedo = adjust_contrast(albedo, 1.25) * 0.3;
 
 	ALBEDO = albedo;
 	METALLIC = metallic;
 	ROUGHNESS = roughness;
+	NORMAL_MAP = normal;
 }

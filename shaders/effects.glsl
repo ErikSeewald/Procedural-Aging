@@ -12,6 +12,8 @@ layout(push_constant) uniform Params {
 	vec4 instanceColor;
 	float age;
 	float temperature;
+	float pA; float p1; float p2; float p3; float pb1; 
+	float pb2; float pS; float pT; float pT2;
 } pc;
 
 // RNG
@@ -80,27 +82,27 @@ float dist_from_border_tiled(vec2 pos, int period)
 vec4 method1(ivec2 pos, ivec2 dims, float age)
 {
 	// So much refactoring to do :))))))))))))
-	age = 1000 - age; // Whatever number you need to subtract age from also changes based on the other params
+	age = pc.pA - age; // Whatever number you need to subtract age from also changes based on the other params
 	vec2 uv = (vec2(pos)) / vec2(dims);
 
-	const int P1 = 1;
-	const int P2 = 10;
-	const int P3 = 20;
+	const int P1 = int(pc.p1);
+	const int P2 = int(pc.p2);
+	const int P3 = int(pc.p3);
 
 	float b1 = dist_from_border_tiled(uv, P1);
 	float b2 = dist_from_border_tiled(uv, P2);
 	float b3 = dist_from_border_tiled(uv, P3);
 
-	float t = clamp(age * 0.05, 0.0, 1.0);
+	float t = clamp(age * pc.pT, 0.0, 1.0);
 
 	// blend them over time
-	// Here, the Pi, the factors at b1, b2 as well as the "border*age*0.1" all play
-	// an important role in the size and shape of the cracks. Test them a bit more.
-	float border = b1*0.5 + mix(0.0, b2*0.7, smoothstep(0.0, 0.3, t));
-	border = border + mix(0.0, b3, smoothstep(0.3, 1.0, t));
-	border = clamp(border*age*0.1, 0.0, 1.0);
+	float border = b1*pc.pb1 + mix(0.0, b2*pc.pb2, smoothstep(0.0, pc.pS, t));
+	border = border + mix(0.0, b3, smoothstep(pc.pS, 1.0, t));
+	border = clamp(border*age*pc.pT2, 0.0, 1.0);
 		
-	return vec4(vec3(1-border), 1.0);
+	float value = 1 - border;
+
+	return vec4(vec3(value), 1.0);
 }
 
 void main()
