@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://douemxggwchfm"]
+[gd_scene load_steps=13 format=3 uid="uid://douemxggwchfm"]
 
 [ext_resource type="PackedScene" uid="uid://bx24oon33yhj6" path="res://assets/tile_test.blend" id="1_y57rc"]
 [ext_resource type="Shader" uid="uid://l5wqy7i72fxe" path="res://shaders/blend.gdshader" id="2_qdkxk"]
@@ -11,16 +11,23 @@
 [ext_resource type="Texture2D" uid="uid://bb75x6l3ec5wc" path="res://assets/single_textures/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_rough_2k.png" id="7_cxtro"]
 [ext_resource type="Texture2D" uid="uid://t0xk1rw1uk3x" path="res://assets/single_textures/green_metal_rust_2k.blend/textures/green_metal_rust_rough_2k.jpg" id="8_sa6bg"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_06164"]
+[sub_resource type="Texture2DArrayRD" id="Texture2DArrayRD_kq81a"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kq81a"]
+resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("2_qdkxk")
 shader_parameter/age = 0.0
-shader_parameter/weights = PackedFloat32Array(0, 0)
-shader_parameter/base_metallic = 0.6
+shader_parameter/masks = SubResource("Texture2DArrayRD_kq81a")
+shader_parameter/weights = [1.0, 0.0]
+shader_parameter/base_metallic = 0.7
 shader_parameter/albedo_base = ExtResource("3_a8qe0")
 shader_parameter/normal_base = ExtResource("5_kq81a")
 shader_parameter/roughness_base = ExtResource("7_cxtro")
 shader_parameter/paint_metallic = 0.4
+shader_parameter/residue_cutoff = 0.9
+shader_parameter/residue_intensity = 0.75
+shader_parameter/residue_falloff = 1.6
 shader_parameter/albedo_paint = ExtResource("4_pnknc")
 shader_parameter/normal_paint = ExtResource("6_6ft3f")
 shader_parameter/roughness_paint = ExtResource("8_sa6bg")
@@ -29,8 +36,10 @@ shader_parameter/roughness_paint = ExtResource("8_sa6bg")
 
 [node name="Plane" parent="." index="0"]
 transform = Transform3D(0.99507296, 0, 0, 0, 0.99507296, 0, 0, 0, 0.99507296, 0, 0, 0)
-surface_material_override/0 = SubResource("ShaderMaterial_06164")
+surface_material_override/0 = SubResource("ShaderMaterial_kq81a")
 script = ExtResource("5_pnknc")
+pA = 3000.0
+p1 = 3
 
 [node name="ContextSampler" type="Node3D" parent="Plane" index="0"]
 script = ExtResource("6_06164")
@@ -39,3 +48,5 @@ metadata/_custom_type_script = "uid://bpdskdcnfn7l"
 [node name="DebugLabel" type="Label3D" parent="Plane" index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36867315, 0)
 billboard = 2
+text = "Age: 0 
+Temp: 10"

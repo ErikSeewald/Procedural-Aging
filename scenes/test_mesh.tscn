@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dayj48d625g8j"]
+[gd_scene load_steps=13 format=3 uid="uid://dayj48d625g8j"]
 
 [ext_resource type="Shader" uid="uid://l5wqy7i72fxe" path="res://shaders/blend.gdshader" id="1_iut2x"]
 [ext_resource type="Texture2D" uid="uid://cvoom7qu4404c" path="res://assets/single_textures/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_diff_2k.jpg" id="2_agye0"]
@@ -12,11 +12,14 @@
 
 [sub_resource type="SphereMesh" id="SphereMesh_6cpv6"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_8x84g"]
+[sub_resource type="Texture2DArrayRD" id="Texture2DArrayRD_xbad3"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xbad3"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("1_iut2x")
-shader_parameter/age = 900.0
+shader_parameter/age = 0.0
+shader_parameter/masks = SubResource("Texture2DArrayRD_xbad3")
 shader_parameter/weights = [1.0, 0.0]
 shader_parameter/base_metallic = 0.7
 shader_parameter/albedo_base = ExtResource("2_agye0")
@@ -34,8 +37,10 @@ shader_parameter/roughness_paint = ExtResource("7_n4fai")
 transform = Transform3D(1.0027078, 0, 0, 0, 1.0027082, 0, 0, 0, 1.0027096, 0, 0, 0)
 mesh = SubResource("SphereMesh_6cpv6")
 skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("ShaderMaterial_8x84g")
+surface_material_override/0 = SubResource("ShaderMaterial_xbad3")
 script = ExtResource("3_kjgf0")
+pA = 3000.0
+p1 = 3
 
 [node name="DebugLabel" type="Label3D" parent="."]
 transform = Transform3D(1, -1.69166e-10, -2.32831e-10, -8.91305e-11, 1, -4.65661e-10, 0, 0, 1, 0.00176512, 0.73930967, -0.00379661)

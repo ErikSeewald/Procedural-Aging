@@ -21,8 +21,8 @@ float seed;
 
 vec2 hash2D(ivec2 p) 
 {
-    uvec2 q = uvec2(p);
-    q = 1103515245U * uint(seed) * ((q >> 1U) ^ (q.yx));
+    uvec2 q = uvec2(p) ^ uvec2(seed, seed);
+    q = 1103515245U * ((q >> 1U) ^ (q.yx));
     uint n = 1103515245U * (q.x ^ (q.y>>3));
     uint m = 1103515245U * (q.y ^ (q.x>>3));
     return vec2(n, m) * (1.0 / 4294967296.0);

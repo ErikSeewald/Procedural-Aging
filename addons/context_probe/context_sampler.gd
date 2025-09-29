@@ -24,7 +24,7 @@ func _ready() -> void:
 	
 	tracker.area_entered.connect(_on_area_entered)
 	tracker.area_exited.connect(_on_area_exited)
-	
+
 func _on_area_entered(area: Area3D) -> void:
 	if area is ContextProbe:
 		_current_probes.append(area)
