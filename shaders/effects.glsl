@@ -22,7 +22,7 @@ float seed;
 vec2 hash2D(ivec2 p) 
 {
     uvec2 q = uvec2(p);
-    q = 1103515245U * ((q >> 1U) ^ (q.yx));
+    q = 1103515245U * uint(seed) * ((q >> 1U) ^ (q.yx));
     uint n = 1103515245U * (q.x ^ (q.y>>3));
     uint m = 1103515245U * (q.y ^ (q.x>>3));
     return vec2(n, m) * (1.0 / 4294967296.0);
@@ -81,6 +81,9 @@ float dist_from_border_tiled(vec2 pos, int period)
 
 vec4 method1(ivec2 pos, ivec2 dims, float age)
 {
+	// DEBUG
+	age = sqrt(age/4.0) * 500;
+
 	// So much refactoring to do :))))))))))))
 	age = pc.pA - age; // Whatever number you need to subtract age from also changes based on the other params
 	vec2 uv = (vec2(pos)) / vec2(dims);
@@ -102,7 +105,7 @@ vec4 method1(ivec2 pos, ivec2 dims, float age)
 		
 	float value = 1 - border;
 
-	return vec4(vec3(value), 1.0);
+	return vec4(vec3(value, 0.0, 0.0), 1.0);
 }
 
 void main()

@@ -45,7 +45,7 @@ ambient_light_energy = 3.82
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("4_160ns")
-shader_parameter/age = 900.775
+shader_parameter/age = 117.71
 shader_parameter/masks = SubResource("Texture2DArrayRD_p5hah")
 shader_parameter/weights = [1.0, 0.0]
 shader_parameter/base_metallic = 0.7
@@ -67,7 +67,7 @@ albedo_color = Color(0.606626, 0.606626, 0.606626, 1)
 
 [sub_resource type="Resource" id="Resource_o4opr"]
 script = ExtResource("8_o4opr")
-temperature = 6.76
+temperature = 8.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_o4opr"]
 radius = 5.0
@@ -103,8 +103,10 @@ shadow_opacity = 0.5
 transform = Transform3D(1.005247, 0, 0, 0, 1.0052474, 0, 0, 0, 1.0052488, 0, 0, 0)
 mesh = SubResource("SphereMesh_p5hah")
 surface_material_override/0 = SubResource("ShaderMaterial_3t87x")
-age = 900.775
+age = 117.71
+pA = 3000.0
 p1 = 3
+p2 = 11
 
 [node name="Plane" type="MeshInstance3D" parent="."]
 transform = Transform3D(4.17641, 0, 0, 0, 0.996555, 0, 0, 0, 6.55465, 0.18543185, -0.4422262, -0.20468685)
@@ -112,7 +114,7 @@ mesh = SubResource("PlaneMesh_5140r")
 surface_material_override/0 = SubResource("StandardMaterial3D_1oqqo")
 
 [node name="ContextProbe" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.805, 0.015, -6.33)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.805, 0.015, -10.78)
 visible = false
 collision_mask = 0
 script = ExtResource("7_mb3xt")
@@ -124,7 +126,7 @@ transform = Transform3D(1.0044327, 0, 0, 0, 1.0044327, 0, 0, 0, 1.0044327, 0, 0,
 shape = SubResource("SphereShape3D_o4opr")
 
 [node name="ContextProbe2" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.475, 0.135, 4.3217297)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.475, 0.135, 5.377)
 script = ExtResource("7_mb3xt")
 params = SubResource("Resource_ibix0")
 metadata/_custom_type_script = "uid://bg5e1ysrvtvw8"
