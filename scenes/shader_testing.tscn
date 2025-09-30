@@ -45,7 +45,7 @@ ambient_light_energy = 3.82
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("4_160ns")
-shader_parameter/age = 127.325
+shader_parameter/age = 0.0
 shader_parameter/masks = SubResource("Texture2DArrayRD_p5hah")
 shader_parameter/weights = [1.0, 0.0]
 shader_parameter/base_metallic = 0.7
@@ -53,9 +53,9 @@ shader_parameter/albedo_base = ExtResource("6_o4opr")
 shader_parameter/normal_base = ExtResource("8_p5hah")
 shader_parameter/roughness_base = ExtResource("9_pokwt")
 shader_parameter/paint_metallic = 0.4
-shader_parameter/residue_cutoff = 0.9
-shader_parameter/residue_intensity = 0.75
-shader_parameter/residue_falloff = 1.6
+shader_parameter/residue_cutoff = 0.765
+shader_parameter/residue_intensity = 3.0
+shader_parameter/residue_falloff = 0.025
 shader_parameter/albedo_paint = ExtResource("7_ibix0")
 shader_parameter/normal_paint = ExtResource("8_g30sk")
 shader_parameter/roughness_paint = ExtResource("9_aeb8e")
@@ -100,11 +100,11 @@ shadow_enabled = true
 shadow_opacity = 0.5
 
 [node name="TestMesh" parent="." instance=ExtResource("3_a7gid")]
-transform = Transform3D(1.005247, 0, 0, 0, 1.0052474, 0, 0, 0, 1.0052488, 0, 0, 0)
+transform = Transform3D(1.005247, 0, 0, 0, 1.0052474, 0, 0, 0, 1.0052488, -0.0013777614, -5.9604645e-08, 7.224083e-05)
 mesh = SubResource("SphereMesh_p5hah")
 surface_material_override/0 = SubResource("ShaderMaterial_3t87x")
-age = 127.325
-p2 = 11
+cell_weight_1 = 0.59
+cell_weight_2 = 0.91
 
 [node name="Plane" type="MeshInstance3D" parent="."]
 transform = Transform3D(4.17641, 0, 0, 0, 0.996555, 0, 0, 0, 6.55465, 0.18543185, -0.4422262, -0.20468685)

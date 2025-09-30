@@ -7,8 +7,8 @@ var instanceColor: Color = RngHelper.random_color()
 # LAYERS
 var layers: Texture2DArrayRD
 const layer_count: int = 2		# Needs to be >= 2
-const layer_width: int = 256
-const layer_height: int = 256
+const layer_width: int = 512
+const layer_height: int = 512
 
 # COMPUTE SHADER
 const compute_tile_size: int = 8
@@ -28,15 +28,13 @@ var blend_material: ShaderMaterial
 
 # DEBUG
 @export var debuug: Array = [
-1000.0,
-3,
-10,
-20,
-0.5,
-0.7,
-0.3,
-0.05,
-0.1]
+8,
+4,
+32,
+0.9,
+0.8,
+1.0,
+0.9]
 
 func _init(blend: ShaderMaterial) -> void:
 	rd = RenderingServer.get_rendering_device()
@@ -100,7 +98,7 @@ func update(age: float, context: ContextParams) -> void:
 	push_bytes.encode_float(20, context.temperature)
 	
 	# DEBUG
-	for i in 9:
+	for i in 7:
 		push_bytes.encode_float(24 + i*4, debuug[i])
 	
 	var cl = rd.compute_list_begin()

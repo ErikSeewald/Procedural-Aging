@@ -64,7 +64,7 @@ void fragment()
 		{
 			float t = clamp((residue_cutoff - w) / 0.5, 0.0, 1.0);
 			float factor = residue_intensity * t * exp(-residue_falloff * (1.0 - t)); 
-			albedo = mix(albedo, clamp(paint_col + vec3(0.5), 0.0, 1.0), factor);
+			albedo = mix(albedo, clamp(paint_col + vec3(0.1), 0.0, 1.0), factor);
 		}
 	}
 

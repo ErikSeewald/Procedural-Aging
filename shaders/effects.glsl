@@ -12,8 +12,9 @@ layout(push_constant) uniform Params {
 	vec4 instanceColor;
 	float age;
 	float temperature;
-	float pA; float p1; float p2; float p3; float pb1; 
-	float pb2; float pS; float pT; float pT2;
+	float cell_size_1; float cell_size_2; float cell_size_3; 
+	float cell_weight_1; float cell_weight_2; float cell_weight_3; 
+	float time_scale;
 } pc;
 
 // RNG
@@ -51,7 +52,6 @@ vec2 voronoi_sq_tiled(vec2 pos, int period)
 			vec2 jitter = hash2D(ncell);
 
 			vec2 delta = vec2(x, y) + jitter - frac;
-			delta -= round(delta);
 			float distSq = dot(delta, delta);
 
 			if(distSq < distances.x)
@@ -81,31 +81,26 @@ float dist_from_border_tiled(vec2 pos, int period)
 
 vec4 method1(ivec2 pos, ivec2 dims, float age)
 {
-	// DEBUG
-	age = sqrt(age/4.0) * 500;
-
 	// So much refactoring to do :))))))))))))
-	age = pc.pA - age; // Whatever number you need to subtract age from also changes based on the other params
+	//age = (100.0 * pc.time_scale) - age; // Whatever number you need to subtract age from also changes based on the other params
 	vec2 uv = (vec2(pos)) / vec2(dims);
 
-	const int P1 = int(pc.p1);
-	const int P2 = int(pc.p2);
-	const int P3 = int(pc.p3);
+	const int P1 = int(pc.cell_size_1);
+	const int P2 = int(pc.cell_size_2);
+	const int P3 = int(pc.cell_size_3);
 
 	float b1 = dist_from_border_tiled(uv, P1);
 	float b2 = dist_from_border_tiled(uv, P2);
 	float b3 = dist_from_border_tiled(uv, P3);
 
-	float t = clamp(age * pc.pT, 0.0, 1.0);
+	float t = clamp(age * pc.time_scale, 0.0, 1.0);
 
 	// blend them over time
-	float border = b1*pc.pb1 + mix(0.0, b2*pc.pb2, smoothstep(0.0, pc.pS, t));
-	border = border + mix(0.0, b3, smoothstep(pc.pS, 1.0, t));
-	border = clamp(border*age*pc.pT2, 0.0, 1.0);
-		
-	float value = 1 - border;
+	float border = b1*pc.cell_weight_1 + mix(0.0, b2*pc.cell_weight_2, t);
+	border = border + mix(0.0, b3 * pc.cell_weight_3, t);
+	border = clamp(border * age * pc.time_scale, 0.0, 1.0);
 
-	return vec4(vec3(value, 0.0, 0.0), 1.0);
+	return vec4(vec3(border, 0.0, 0.0), 1.0);
 }
 
 void main()
