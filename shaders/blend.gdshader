@@ -48,7 +48,7 @@ void fragment()
 	float metallic = paint_metallic;
 	float roughness = paint_roughness;
 	vec3 normal = paint_normal;
-
+	
 	for (int i = 0; i < mask_count; i++)
 	{
 		if (i > 0) {break;} // Just layer one for debugging
@@ -65,6 +65,12 @@ void fragment()
 			float t = clamp((residue_cutoff - w) / 0.5, 0.0, 1.0);
 			float factor = residue_intensity * t * exp(-residue_falloff * (1.0 - t)); 
 			albedo = mix(albedo, clamp(paint_col + vec3(0.1), 0.0, 1.0), factor);
+		}
+		else if (w > 0.3)
+		{
+			float t = clamp((residue_cutoff - w) / 0.5, 0.0, 1.0);
+			float factor = residue_intensity * t * exp(-5.0 * (1.0 - t));
+			albedo = mix(albedo, vec3(0.3, 0.1, 0.0), factor*0.1);
 		}
 	}
 

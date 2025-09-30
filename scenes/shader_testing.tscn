@@ -37,7 +37,7 @@ ambient_light_color = Color(0.482749, 0.47207, 0.541328, 1)
 ambient_light_sky_contribution = 0.55
 ambient_light_energy = 3.82
 
-[sub_resource type="SphereMesh" id="SphereMesh_p5hah"]
+[sub_resource type="SphereMesh" id="SphereMesh_iqdmv"]
 
 [sub_resource type="Texture2DArrayRD" id="Texture2DArrayRD_p5hah"]
 
@@ -45,7 +45,7 @@ ambient_light_energy = 3.82
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("4_160ns")
-shader_parameter/age = 0.0
+shader_parameter/age = 17.735
 shader_parameter/masks = SubResource("Texture2DArrayRD_p5hah")
 shader_parameter/weights = [1.0, 0.0]
 shader_parameter/base_metallic = 0.7
@@ -101,10 +101,12 @@ shadow_opacity = 0.5
 
 [node name="TestMesh" parent="." instance=ExtResource("3_a7gid")]
 transform = Transform3D(1.005247, 0, 0, 0, 1.0052474, 0, 0, 0, 1.0052488, -0.0013777614, -5.9604645e-08, 7.224083e-05)
-mesh = SubResource("SphereMesh_p5hah")
+mesh = SubResource("SphereMesh_iqdmv")
 surface_material_override/0 = SubResource("ShaderMaterial_3t87x")
+age = 17.735
 cell_weight_1 = 0.59
 cell_weight_2 = 0.91
+time_scale = 0.05
 
 [node name="Plane" type="MeshInstance3D" parent="."]
 transform = Transform3D(4.17641, 0, 0, 0, 0.996555, 0, 0, 0, 6.55465, 0.18543185, -0.4422262, -0.20468685)
@@ -112,7 +114,8 @@ mesh = SubResource("PlaneMesh_5140r")
 surface_material_override/0 = SubResource("StandardMaterial3D_1oqqo")
 
 [node name="ContextProbe" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.805, 0.015, -8.918081)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.805, 0.015, -10.358)
+visible = false
 collision_mask = 0
 script = ExtResource("7_mb3xt")
 params = SubResource("Resource_o4opr")
@@ -123,7 +126,8 @@ transform = Transform3D(1.0044327, 0, 0, 0, 1.0044327, 0, 0, 0, 1.0044327, 0, 0,
 shape = SubResource("SphereShape3D_o4opr")
 
 [node name="ContextProbe2" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.475, 0.135, 5.377)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.475, 0.135, 1.914)
+visible = false
 script = ExtResource("7_mb3xt")
 params = SubResource("Resource_ibix0")
 metadata/_custom_type_script = "uid://bg5e1ysrvtvw8"

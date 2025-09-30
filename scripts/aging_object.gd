@@ -28,6 +28,8 @@ func _process(delta: float) -> void:
 	debug_label.text = "Age: %d \nTemp: %d" %[age, cur_context.temperature]
 	aging_graphics.update(age, cur_context)
 	aging_graphics.debuug = [cell_size_1, cell_size_2, cell_size_3, cell_weight_1, cell_weight_2, cell_weight_3, time_scale]    
+	
+	get_active_material(0).set_shader_parameter("u_wto", global_transform.affine_inverse())
 
 func _exit_tree() -> void:
 	aging_graphics.cleanup()
