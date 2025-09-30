@@ -4,8 +4,8 @@ render_mode specular_schlick_ggx;
 uniform float age = 0.0; // UNUSED FOR NOW
 
 group_uniforms compute_masks;
-uniform sampler2DArray masks;
-uniform float weights[2];
+uniform sampler2D masks; // Divided into color channels
+uniform float weights[1];
 
 group_uniforms base_layer;
 uniform float base_metallic = 0.6;
@@ -22,11 +22,6 @@ uniform sampler2D albedo_paint;
 uniform sampler2D normal_paint : hint_normal;
 uniform sampler2D roughness_paint;
 
-vec3 sample_mask(int layer, vec2 uv)
-{
-	return texture(masks, vec3(uv, float(layer))).rgb;
-}
-
 vec3 adjust_contrast(vec3 color, float factor)
 {
 	return (color - 0.5) * factor + 0.5;
@@ -34,7 +29,7 @@ vec3 adjust_contrast(vec3 color, float factor)
 
 void fragment()
 {
-	int mask_count = textureSize(masks, 0).z;
+	int mask_count = 1;
 	
 	vec3 base_col = texture(albedo_base, UV).rgb;
 	float base_roughness = texture(roughness_base, UV).r;
@@ -52,7 +47,7 @@ void fragment()
 	for (int i = 0; i < mask_count; i++)
 	{
 		if (i > 0) {break;} // Just layer one for debugging
-		float w = sample_mask(i, UV).r * weights[i];
+		float w = texture(masks, UV).r * weights[i];
 
 		albedo = mix(albedo, base_col, w);
 		roughness = mix(roughness, base_roughness, w);

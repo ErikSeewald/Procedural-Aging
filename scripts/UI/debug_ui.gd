@@ -15,7 +15,7 @@ signal switch_scene
 signal test_multiple
 
 @warning_ignore("unused_signal")
-signal show_tex_array
+signal show_masks
 
 @warning_ignore("unused_signal")
 signal show_probes
@@ -43,9 +43,9 @@ var checkboxes: Array[Dictionary] = [
 	},
 	
 	{
-		"label": "Show TexArray",
-		"event": "show_tex_array",
-		"default": true,
+		"label": "Show Masks",
+		"event": "show_masks",
+		"default": false,
 		"args": {}
 	},
 	

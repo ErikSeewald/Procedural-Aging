@@ -5,8 +5,8 @@ class_name AgingGraphics
 var instanceColor: Color = RngHelper.random_color()
 
 # LAYERS
-var layers: Texture2DArrayRD
-const layer_count: int = 2		# Needs to be >= 2
+var masks: Texture2DRD # Mask layers in color channels
+const layer_count: int = 1
 const layer_width: int = 512
 const layer_height: int = 512
 
@@ -14,7 +14,7 @@ const layer_height: int = 512
 const compute_tile_size: int = 8
 const groups_x: int = int(ceil(float(layer_width) / compute_tile_size))
 const groups_y: int = int(ceil(float(layer_height) / compute_tile_size))
-const groups_z: int = layer_count
+const groups_z: int = 1
 
 var rd: RenderingDevice
 var shader_rid: RID
@@ -42,7 +42,7 @@ func _init(blend: ShaderMaterial) -> void:
 	
 	blend_material = blend
 	blend_material.set_shader_parameter("weights", [1.0, 0.0])
-	blend_material.set_shader_parameter("masks", layers)
+	blend_material.set_shader_parameter("masks", masks)
 
 func _init_compute_shader() -> void:
 	shader_rid = _create_effects_shader()
@@ -51,8 +51,8 @@ func _init_compute_shader() -> void:
 	u_set_rid = _create_uniform_set()	
 	push_bytes = _create_push_constants()
 
-	layers = Texture2DArrayRD.new()
-	layers.texture_rd_rid = tex_rid
+	masks = Texture2DRD.new()
+	masks.texture_rd_rid = tex_rid
 
 func _create_effects_shader() -> RID:
 	var effects_shader = load("res://shaders/effects.glsl")
@@ -63,7 +63,7 @@ func _create_effects_shader() -> RID:
 
 func _create_texture_format() -> RDTextureFormat:
 	var fmt := RDTextureFormat.new()
-	fmt.texture_type = RenderingDevice.TEXTURE_TYPE_2D_ARRAY
+	fmt.texture_type = RenderingDevice.TEXTURE_TYPE_2D
 	fmt.width = layer_width
 	fmt.height = layer_height
 	fmt.array_layers = layer_count

@@ -16,7 +16,7 @@
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("1_iut2x")
-shader_parameter/age = 9.135
+shader_parameter/age = 20.545
 shader_parameter/weights = [1.0, 0.0]
 shader_parameter/base_metallic = 0.7
 shader_parameter/albedo_base = ExtResource("2_agye0")

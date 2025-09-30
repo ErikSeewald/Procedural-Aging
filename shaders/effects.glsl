@@ -6,7 +6,7 @@ layout(local_size_x = 8, local_size_y = 8, local_size_z = 1) in;
 
 // Output
 layout(set = 0, binding = 0, rgba8)
-uniform writeonly image2DArray OUT_IMG;
+uniform writeonly image2D OUT_IMG;
 
 layout(push_constant) uniform Params {
 	vec4 instanceColor;
@@ -81,8 +81,6 @@ float dist_from_border_tiled(vec2 pos, int period)
 
 vec4 method1(ivec2 pos, ivec2 dims, float age)
 {
-	// So much refactoring to do :))))))))))))
-	//age = (100.0 * pc.time_scale) - age; // Whatever number you need to subtract age from also changes based on the other params
 	vec2 uv = (vec2(pos)) / vec2(dims);
 
 	const int P1 = int(pc.cell_size_1);
@@ -94,8 +92,7 @@ vec4 method1(ivec2 pos, ivec2 dims, float age)
 	float b3 = dist_from_border_tiled(uv, P3);
 
 	float t = clamp(age * pc.time_scale, 0.0, 1.0);
-
-	// blend them over time
+	
 	float border = b1*pc.cell_weight_1 + mix(0.0, b2*pc.cell_weight_2, t);
 	border = border + mix(0.0, b3 * pc.cell_weight_3, t);
 	border = clamp(border * age * pc.time_scale, 0.0, 1.0);
@@ -111,14 +108,7 @@ void main()
 	ivec2 dims = imageSize(OUT_IMG).xy;
 	if (pos.x >= dims.x || pos.y >= dims.y) { return; }
 	
-	int layer = int(gl_GlobalInvocationID.z);
-	vec4 color = vec4(0.0);
+	vec4 color = method1(pos, dims, pc.age);
 	
-	switch (layer)
-	{
-		case 0: color = method1(pos, dims, pc.age); break;
-		default: return;
-	}
-	
-	imageStore(OUT_IMG, ivec3(pos, layer), color);
+	imageStore(OUT_IMG, pos, color);
 }
