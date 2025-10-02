@@ -12,8 +12,7 @@ layout(push_constant) uniform Params {
 	vec4 instanceColor;
 	float age;
 	float temperature;
-	float cell_size_1; float cell_size_2; float cell_size_3; 
-	float cell_weight_1; float cell_weight_2; float cell_weight_3; 
+	uint patch_size;
 	float time_scale;
 } pc;
 
@@ -30,16 +29,15 @@ vec2 hash2D(ivec2 p)
 }
 
 // Positive mod m
-ivec2 imodp(ivec2 a, int m)
+ivec2 imodp(ivec2 a, uint m)
 {
 	return ivec2(((a.x % m) + m) % m, ((a.y % m) + m) % m);
 }
 
 // Returns the squared distances to the closest and second closest cell center
-vec2 voronoi_sq_tiled(vec2 pos, int period)
+vec2 voronoi_sq_tiled(vec2 pos, uint period)
 {
 	pos = fract(pos / float(period)) * float(period);
-
 	ivec2 cell_pos = ivec2(floor(pos));
     vec2 frac = fract(pos);
 
@@ -73,42 +71,55 @@ vec2 voronoi_sq_tiled(vec2 pos, int period)
 
 // Returns the distance from one of the voronoi borders.
 // Is 0 directly on a border.
-float dist_from_border_tiled(vec2 pos, int period)
+float dist_from_border_tiled(vec2 pos, uint period)
 {
     vec2 distances = voronoi_sq_tiled(pos * float(period), period);
     return distances.y - distances.x;;
 }
 
-vec4 method1(ivec2 pos, ivec2 dims, float age)
+// Samples the value of the paint mask based on the given parameters.
+// - The given patch size determines the size of the 'paint wear patches'.
+//
+// Returns a value between 0.0 (Paint fully intact) and 1.0 (Paint fully gone)
+float paint_mask(vec2 uv, ivec2 dims, float age, uint patch_size)
 {
-	vec2 uv = (vec2(pos)) / vec2(dims);
+	// Tiling works best if the cell sizes are powers of 2.
+	// The size_1 and size_2 are in fixed relation to create patches.
+	// size_3 is hard-coded to be half output resolution to add detail.
+	const uint size_1 = patch_size * 4;
+	const uint size_2 = patch_size * 8;
+	const uint size_3 = dims.x >> 1;
 
-	const int P1 = int(pc.cell_size_1);
-	const int P2 = int(pc.cell_size_2);
-	const int P3 = int(pc.cell_size_3);
+	// These weights are hard-coded so other aging effects 
+	// do not need to dynamically depend on this weight distribution.
+	// I also want to avoid parameter-choice paralysis.
+	const float w1 = 0.8;
+	const float w2 = 0.6;
+	const float w3 = 0.5;
 
-	float b1 = dist_from_border_tiled(uv, P1);
-	float b2 = dist_from_border_tiled(uv, P2);
-	float b3 = dist_from_border_tiled(uv, P3);
+	// Sample values based on distance to vornoi borders for each size
+	// and blend them together.
+	float d1 = dist_from_border_tiled(uv, size_1);
+	float d2 = dist_from_border_tiled(uv, size_2);
+	float d3 = dist_from_border_tiled(uv, size_3);
 
-	float t = clamp(age * pc.time_scale, 0.0, 1.0);
-	
-	float border = b1*pc.cell_weight_1 + mix(0.0, b2*pc.cell_weight_2, t);
-	border = border + mix(0.0, b3 * pc.cell_weight_3, t);
-	border = clamp(border * age * pc.time_scale, 0.0, 1.0);
-
-	return vec4(vec3(border, 0.0, 0.0), 1.0);
+	float value = d1*w1 + d2*w2 + d3*w3;
+	return clamp(value * age, 0.0, 1.0);
 }
 
 void main()
 {
-	seed = pc.temperature * pc.instanceColor.r;
-
 	ivec2 pos = ivec2(gl_GlobalInvocationID.xy);
 	ivec2 dims = imageSize(OUT_IMG).xy;
 	if (pos.x >= dims.x || pos.y >= dims.y) { return; }
-	
-	vec4 color = method1(pos, dims, pc.age);
-	
-	imageStore(OUT_IMG, pos, color);
+
+	vec2 uv = (vec2(pos)) / vec2(dims);
+	seed = pc.temperature * pc.instanceColor.r;
+	float age = pc.age * pc.time_scale;
+
+	float r = paint_mask(uv, dims, age, pc.patch_size);
+	float g = 0.0;
+	float b = 0.0;
+	float a = 1.0;	
+	imageStore(OUT_IMG, pos, vec4(r, g, b, a));
 }

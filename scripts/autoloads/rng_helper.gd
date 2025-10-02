@@ -1,5 +1,4 @@
 # Autoload for RNG helper functions. Mostly used for debugging.
-@tool
 extends Node
 
 var rng := RandomNumberGenerator.new()

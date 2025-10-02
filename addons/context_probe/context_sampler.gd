@@ -1,4 +1,3 @@
-@tool
 @icon("res://addons/context_probe/sampler_icon.svg")
 extends Node3D
 class_name ContextSampler

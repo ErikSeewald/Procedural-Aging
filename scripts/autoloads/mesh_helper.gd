@@ -1,5 +1,4 @@
 # Autoload for mesh related helper functions like managing debug wireframe meshes.
-@tool
 extends Node
 
 # MATERIALS
