@@ -6,12 +6,13 @@
 	uniform uint detail_size;
 	uniform float age;
 	uniform float time_scale;
-	varying float seed;
+	uniform uint seed;
+	uniform float uv_intensity;
 #endif
 
 vec2 hash2D(ivec2 p)
 {
-    uvec2 q = uvec2(p) ^ uvec2(uint(seed));
+    uvec2 q = uvec2(p) ^ uvec2(seed);
     q = 1103515245U * ((q >> 1U) ^ (q.yx));
     uint n = 1103515245U * (q.x ^ (q.y>>3u));
     uint m = 1103515245U * (q.y ^ (q.x>>3u));
@@ -98,5 +99,6 @@ float paint_mask(vec2 uv)
 	float d5 = dist_from_border_tiled(uv, size_5);
 
 	float value = d1*w1 + d2*w2 + d3*w3 + d4*w4 + d5*w5;
-	return clamp(value * age * time_scale, 0.0, 1.0);
+	float env_factor = uv_intensity/100.0;
+	return clamp(value * age * time_scale * env_factor, 0.0, 1.0);
 }

@@ -7,11 +7,23 @@
 
 uniform bool compat_mode = false;
 
+group_uniforms object_params;
 uniform float age = 0.0;
-uniform float temperature = 0.0;
-uniform float instance_id = 0.0;
+uniform float paint_stability = 0.6; // 0.0 - 1.0
+uniform float coat_thickness = 100.0; // micro meters
+uniform float mechanical_load = 0.6; // 0.0 - 1.0
+
+group_uniforms context_params;
+uniform float temperature = 20.0;
+uniform float humidity : hint_range(0.0, 100.0) = 60.0;
+uniform float precipitation = 1.0;
+uniform float uv_intensity = 100.0;
+uniform float wind_speed = 4.0;
+uniform float pollution =0.2;
+uniform float salinity : hint_range(0.0, 100.0) = 0.02;
 
 group_uniforms compute_params;
+uniform uint seed = 0;
 uniform uint patch_size = 1;
 uniform uint detail_size = 1;
 uniform float time_scale = 0.05;
@@ -38,9 +50,6 @@ uniform vec3 grime_color : source_color = vec3(0.6, 0.3, 0.0);
 uniform sampler2D albedo_paint;
 uniform sampler2D normal_paint : hint_normal;
 uniform sampler2D roughness_paint;
-
-varying float seed;
-float get_seed() { return temperature + instance_id*0.0001; }
 
 #define INCLUDE_PARAMS_DEFINED
 #include "paint_mask.gdshaderinc"

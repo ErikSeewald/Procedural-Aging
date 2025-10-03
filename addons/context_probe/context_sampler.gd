@@ -43,14 +43,10 @@ func sample_parameters() -> ContextParams:
 	if _current_probes.is_empty():
 		return ContextParams.new()
 	
-	var temp := 0.0
-	var humidity := 0.0
-	
-	for probe in _current_probes:
-		temp += probe.params.temperature
-		humidity += probe.params.humidity
-		
 	var sample := ContextParams.new()
-	sample.temperature = temp / _current_probes.size()
-	sample.humidity = humidity / _current_probes.size()
+	for param in sample.get_param_names():
+		var value = 0.0
+		for probe in _current_probes:
+			value += probe.params.get(param)
+		sample.set(param, value / _current_probes.size())
 	return sample

@@ -9,7 +9,7 @@ var age = 0.0
 func _ready():
 	add_to_group("age_nodes")
 	mat.set_shader_parameter("weights", [1.0])
-	mat.set_shader_parameter("instance_id", get_instance_id())
+	mat.set_shader_parameter("seed", get_instance_id())
 	age = 0.0
 	
 	# Maybe stop creating it via script and let it be set by users eventually
@@ -25,10 +25,12 @@ func _ready():
 func _process(delta: float) -> void:
 	age += delta
 	if debug_label:
-		debug_label.text = "Age: %d \nTemp: %d" %[age, cur_context.temperature]
+		debug_label.text = "Age: %d \nUV: %d" %[age, cur_context.uv_intensity]
 		
 	mat.set_shader_parameter("age", age)
-	mat.set_shader_parameter("temperature", cur_context.temperature)
+	
+	for param in cur_context.get_param_names():
+		mat.set_shader_parameter(param, cur_context.get(param))
 	
 	
 func _update_context(new_context: ContextParams) -> void:

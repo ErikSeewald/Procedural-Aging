@@ -40,7 +40,6 @@ void blend_paint_mask(inout vec3 albedo, inout float metallic,
 
 void fragment()
 {
-	seed = get_seed();
 	float pixel_size = length(dFdx(UV)) + length(dFdy(UV));
 	vec2 lod_uv = get_lod_uv(UV, pixel_size);
 	

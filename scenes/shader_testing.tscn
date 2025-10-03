@@ -45,9 +45,18 @@ resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("4_160ns")
 shader_parameter/compat_mode = false
-shader_parameter/age = 10.96
-shader_parameter/temperature = 1.955
-shader_parameter/instance_id = 0.34
+shader_parameter/age = 13.525
+shader_parameter/paint_stability = 0.6
+shader_parameter/coat_thickness = 100.0
+shader_parameter/mechanical_load = 0.6
+shader_parameter/temperature = 20.0
+shader_parameter/humidity = 60.0
+shader_parameter/precipitation = 1.0
+shader_parameter/uv_intensity = 100.0
+shader_parameter/wind_speed = 4.0
+shader_parameter/pollution = 0.2
+shader_parameter/salinity = 0.02
+shader_parameter/seed = 0
 shader_parameter/patch_size = 1
 shader_parameter/detail_size = 1
 shader_parameter/time_scale = 0.05
@@ -73,14 +82,16 @@ albedo_color = Color(0.606626, 0.606626, 0.606626, 1)
 
 [sub_resource type="Resource" id="Resource_o4opr"]
 script = ExtResource("8_o4opr")
-temperature = 8.0
+temperature = 8.845
+uv_intensity = 200.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_o4opr"]
 radius = 5.0
 
-[sub_resource type="Resource" id="Resource_ibix0"]
+[sub_resource type="Resource" id="Resource_pokwt"]
 script = ExtResource("8_o4opr")
-temperature = 24.0
+uv_intensity = 112.84
+metadata/_custom_type_script = "uid://cht8i58wawxmi"
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3t87x"]
 size = Vector3(2.508667, 1.0693359, 5.8935547)
@@ -116,7 +127,7 @@ mesh = SubResource("PlaneMesh_5140r")
 surface_material_override/0 = SubResource("StandardMaterial3D_1oqqo")
 
 [node name="ContextProbe" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.805, 0.015, -13.333)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.805, 0.015, -12.403)
 visible = false
 collision_mask = 0
 script = ExtResource("7_mb3xt")
@@ -128,10 +139,10 @@ transform = Transform3D(1.0044327, 0, 0, 0, 1.0044327, 0, 0, 0, 1.0044327, 0, 0,
 shape = SubResource("SphereShape3D_o4opr")
 
 [node name="ContextProbe2" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.265, 0.135, 2.244)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.135, 0.05, 2.909)
 visible = false
 script = ExtResource("7_mb3xt")
-params = SubResource("Resource_ibix0")
+params = SubResource("Resource_pokwt")
 metadata/_custom_type_script = "uid://bg5e1ysrvtvw8"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ContextProbe2"]
