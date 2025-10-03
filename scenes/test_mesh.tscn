@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://dayj48d625g8j"]
 
-[ext_resource type="Shader" uid="uid://l5wqy7i72fxe" path="res://shaders/blend.gdshader" id="1_iut2x"]
+[ext_resource type="Shader" uid="uid://l5wqy7i72fxe" path="res://shaders/pm_aging.gdshader" id="1_iut2x"]
 [ext_resource type="Texture2D" uid="uid://cvoom7qu4404c" path="res://assets/single_textures/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_diff_2k.jpg" id="2_agye0"]
 [ext_resource type="Texture2D" uid="uid://brs1husbmdekd" path="res://assets/single_textures/green_metal_rust_2k.blend/textures/green_metal_rust_diff_2k.jpg" id="3_6cpv6"]
 [ext_resource type="Script" uid="uid://btw6rsvpf0k4w" path="res://scripts/aging_object.gd" id="3_kjgf0"]
@@ -20,6 +20,7 @@ shader_parameter/age = 12.42
 shader_parameter/temperature = 1.955
 shader_parameter/instance_id = 0.34
 shader_parameter/patch_size = 1
+shader_parameter/detail_size = 1
 shader_parameter/time_scale = 0.05
 shader_parameter/weights = [1.0]
 shader_parameter/base_metallic = 0.7

@@ -18,17 +18,18 @@ vec2 hash2D(ivec2 p)
     return vec2(float(n), float(m)) * (1.0 / 4294967296.0);
 }
 
-// Positive mod m
+// Returns the the positive value of a % m
 ivec2 imodp(ivec2 a, int m)
 {
 	return ivec2(((a.x % m) + m) % m, ((a.y % m) + m) % m);
 }
 
-// Returns the squared distances to the closest and second closest cell center
-vec2 voronoi_sq_tiled(vec2 pos, uint period)
+// Returns the squared distances to the closest and second closest cell center.bool
+// Tiles and scales based on the given scale paarameter.
+vec2 voronoi_sq_tiled(vec2 pos, uint scale)
 {
-	pos = fract(pos / float(period)) * float(period);
-	ivec2 cell_pos = ivec2(floor(pos));
+	pos = (pos*float(scale)) / float(scale);
+	ivec2 cell_pos = ivec2(pos);
     vec2 frac = fract(pos);
 
     vec2 distances = vec2(1e9);
@@ -36,8 +37,8 @@ vec2 voronoi_sq_tiled(vec2 pos, uint period)
 	{
 		for(int x=-1; x<=1; ++x)
 		{
-			ivec2 ncell = imodp(cell_pos + ivec2(x, y), int(period));
-			vec2 jitter = hash2D(ncell);
+			ivec2 neighbor_cell = imodp(cell_pos + ivec2(x, y), int(scale));
+			vec2 jitter = hash2D(neighbor_cell);
 
 			vec2 delta = vec2(float(x), float(y)) + jitter - frac;
 			float distSq = dot(delta, delta);
@@ -61,9 +62,9 @@ vec2 voronoi_sq_tiled(vec2 pos, uint period)
 
 // Returns the distance from one of the voronoi borders.
 // Is 0 directly on a border.
-float dist_from_border_tiled(vec2 pos, uint period)
+float dist_from_border_tiled(vec2 pos, uint scale)
 {
-    vec2 distances = voronoi_sq_tiled(pos * float(period), period);
+    vec2 distances = voronoi_sq_tiled(pos * float(scale), scale);
     return distances.y - distances.x;
 }
 

@@ -1,6 +1,6 @@
 extends Node3D
 
-@export var move_speed: float = 6.0
+@export var move_speed: float = 5.0
 @export var look_speed: float = 2.0
 
 var yaw := 0.0

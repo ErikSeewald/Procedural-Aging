@@ -12,23 +12,21 @@ var testing_multiple := false
 var spawned_objects := []
 
 # SHOWING MASKS
-"""
-@onready var masks: Texture2DRD = test_mesh.aging_graphics.masks
 var showing_masks := false
-var _tex_rect: TextureRect"""
+var _mask_rect: ColorRect
 
 # SHOWING PROBES
 var showing_probes := false
-var probe_meshes: Dictionary[ContextProbe, MeshInstance3D] = {}
+var probe_meshes: Dictionary[ContextProbe, Dictionary] = {} # probe -> {shape -> mesh_inst}
 
 func _ready() -> void:
-	"""
-	_tex_rect = TextureRect.new()
-	_tex_rect.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	_tex_rect.scale = Vector2(0.75, 0.75)
-	_tex_rect.visible = false
-	_tex_rect.texture = ImageTexture.create_from_image(masks.get_image())
-	add_child(_tex_rect)"""
+	_mask_rect = ColorRect.new()
+	_mask_rect.size = Vector2(256.0, 256.0)
+	var mat = ShaderMaterial.new()
+	mat.shader = load("res://shaders/mask_rect.gdshader")
+	_mask_rect.material = mat
+	_mask_rect.visible = false
+	add_child(_mask_rect)
 
 ## Resets the ages of all nodes in the 'age_nodes' group
 func reset_ages(_args: Dictionary) -> void:
@@ -59,22 +57,19 @@ func test_multiple(args: Dictionary) -> void:
 ## If toggled, the display will pull the current state tex array
 ## every frame and display it.
 func show_masks(args: Dictionary) -> void:
-	pass
-	"""
-	test_mesh.aging_graphics.masks.get_image()
 	showing_masks = args["toggled"]
-	_tex_rect.visible = showing_masks"""
+	_mask_rect.visible = showing_masks
 
 ## Toggles the display of the context probe collision shapes.
 func show_probes(args: Dictionary) -> void:
 	showing_probes = args["toggled"]
-	for m: MeshInstance3D in probe_meshes.values():
-		m.visible = showing_probes
+	for dict: Dictionary in probe_meshes.values():
+		for m: MeshInstance3D in dict.values():
+			m.visible = showing_probes
 
 func _process(_delta: float) -> void:
-	"""
 	if showing_masks:
-		_update_masks_display()"""
+		_update_masks_display()
 	if showing_probes:
 		_update_probe_display()
 
@@ -85,23 +80,31 @@ func _clear_instances(instances: Array) -> void:
 			inst.queue_free()
 	instances.clear()
 
-"""
+
 func _update_masks_display() -> void:
-	_tex_rect.texture.update(masks.get_image())"""
+	for u in test_mesh.mat.shader.get_shader_uniform_list():
+		var value = test_mesh.mat.get_shader_parameter(u.name)
+		_mask_rect.material.set_shader_parameter(u.name, value)
 
 ## Renders the current state of the probe collisions.
 ## Does not deal with sudden changes to the shape class or 
 ## probes added during runtime.
 func _update_probe_display() -> void:
 	for p: ContextProbe in get_tree().get_nodes_in_group("context_probes"):
-		var mesh_inst: MeshInstance3D
 		if not probe_meshes.has(p):
-			mesh_inst = MeshHelper.new_wireframe_mesh()
-			MeshHelper.add_transparent_child_shape(mesh_inst, p.collision_shape.shape)
-			add_child(mesh_inst)
-			probe_meshes[p] = mesh_inst
-		else:
-			mesh_inst = probe_meshes[p]
-
-		mesh_inst.global_transform = p.collision_shape.global_transform
-		MeshHelper.match_wireframe_to_shape(mesh_inst, p.collision_shape.shape)
+			probe_meshes[p] = {}
+		
+		# Add untracked collision shapes
+		for s in p.get_children():
+			if s is CollisionShape3D and not probe_meshes[p].has(s):
+				var m = MeshHelper.new_wireframe_mesh()
+				MeshHelper.add_transparent_child_shape(m, s.shape)
+				add_child(m)
+				probe_meshes[p][s] = m
+				
+				
+		# Update collision shape meshes
+		for shape: CollisionShape3D in probe_meshes[p].keys():
+			var mesh: MeshInstance3D = probe_meshes[p][shape]
+			mesh.global_transform = shape.global_transform
+			MeshHelper.match_wireframe_to_shape(mesh, shape.shape)
