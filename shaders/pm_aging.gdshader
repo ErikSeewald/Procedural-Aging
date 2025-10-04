@@ -20,20 +20,32 @@ void blend_paint_mask(inout vec3 albedo, inout float metallic,
 
 	float w = paint_mask(lod_uv);
 
-	albedo = mix(albedo, base_col, w);
+	float aw = w;
+	float ht = moisture+uv_and_heat;
+	if (w < residue_edge)
+	 { 
+		aw *= 0.75;
+		
+		albedo = mix(albedo, vec3(0.95, 0.95, 0.5), ht*0.25*w);
+		roughness = mix(roughness, 1.0, ht*0.25*w);
+		normal = mix(normal, base_normal, ht*0.5*w);
+	}
+	albedo = mix(mix(albedo, grime_color, pollution*0.25), base_col, aw);
+	
 	roughness = mix(roughness, base_roughness, w);
 	metallic = mix(metallic, base_metallic, w);
 	normal = mix(normal, base_normal, w);
 
-	if (w > residue_edge)
+	if (w > residue_edge - pollution*0.05 - ht*0.02)
 	{
 		float factor = residue_intensity * clamp((residue_falloff - w), 0.0, 1.0);
 		if (compat_mode) {factor *= 0.35;}
 		albedo = mix(albedo, residue_color, factor);
 	}
-	else if (w > grime_edge)
+	else if (w > grime_edge - pollution*0.1)
 	{
 		float factor = grime_intensity * clamp((grime_falloff - w), 0.0, 1.0);
+		factor += pollution*0.2;
 		albedo = mix(albedo, grime_color, factor);
 	}
 }

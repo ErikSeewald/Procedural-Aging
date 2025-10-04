@@ -4,40 +4,17 @@ extends Resource
 # All changes to these export variables should emit the "changed" signal
 # so that ContextSamplers can connect to it.
 
-## Temperature in degrees celsius
-@export var temperature: float = 20.0:
+@export_range(0.0, 1.0) var uv_and_heat: float = 0.5:
 	set(value):
-		temperature = _set_and_emit(temperature, value)
+		uv_and_heat = _set_and_emit(uv_and_heat, value)
 
-## Humidity in %
-@export_range(0.0, 100.0) var humidity: float = 60:
-	set(value):
-		humidity = _set_and_emit(humidity, value)
-
-## Precipitation in mm/day
-@export var precipitation: float = 1.0:
-	set(value):
-		precipitation = _set_and_emit(precipitation, value)
-
-## UV intensity in W*m^(-2)
-@export var uv_intensity: float = 100.0:
-	set(value):
-		uv_intensity = _set_and_emit(uv_intensity, value)
-
-## Wind speed in m*s^(-1)
-@export var wind_speed: float = 4.0:
-	set(value):
-		wind_speed = _set_and_emit(wind_speed, value)
-
-## Pollution factor
-@export var pollution: float = 0.2:
+@export_range(0.0, 1.0) var pollution: float = 0.5:
 	set(value):
 		pollution = _set_and_emit(pollution, value)
-
-## Salinity in %
-@export_range(0.0, 100.0) var salinity: float = 0.02:
+		
+@export_range(0.0, 1.0) var moisture: float = 0.5:
 	set(value):
-		salinity = _set_and_emit(salinity, value)	
+		moisture = _set_and_emit(moisture, value)
 
 ## Returns an Array of names of all context params.
 ## Can be useful for .get(name) and .set(name, value).

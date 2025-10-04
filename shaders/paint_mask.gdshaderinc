@@ -7,7 +7,9 @@
 	uniform float age;
 	uniform float time_scale;
 	uniform uint seed;
-	uniform float uv_intensity;
+	uniform float uv_and_heat;
+	uniform float pollution;
+	uniform float moisture;
 #endif
 
 vec2 hash2D(ivec2 p)
@@ -15,7 +17,7 @@ vec2 hash2D(ivec2 p)
     uvec2 q = uvec2(p) ^ uvec2(seed);
     q = 1103515245U * ((q >> 1U) ^ (q.yx));
     uint n = 1103515245U * (q.x ^ (q.y>>3u));
-    uint m = 1103515245U * (q.y ^ (q.x>>3u));
+    uint m = 110425244U * (q.y ^ (q.x>>3u)); // Needs to be different to avoid symmetry
     return vec2(float(n), float(m)) * (1.0 / 4294967296.0);
 }
 
@@ -69,11 +71,19 @@ float dist_from_border_tiled(vec2 pos, uint scale)
     return distances.y - distances.x;
 }
 
+float calculate_acceleration()
+{
+	return 1.0;
+	//return (moisture + uv_and_heat * 0.75 + pollution * 0.25);
+}
+
 // Samples the value of the paint mask based on the given parameters.
 //
 // Returns a value between 0.0 (Paint fully intact) and 1.0 (Paint fully gone)
 float paint_mask(vec2 uv)
-{
+{	
+	float acceleration = calculate_acceleration();
+	
 	// Tiling works best if the cell sizes are powers of 2.
 	uint size_1 = patch_size * 4u;
 	uint size_2 = patch_size * 8u;
@@ -97,8 +107,11 @@ float paint_mask(vec2 uv)
 	float d3 = dist_from_border_tiled(uv, size_3);
 	float d4 = dist_from_border_tiled(uv, size_4);
 	float d5 = dist_from_border_tiled(uv, size_5);
+	
+	float de = dist_from_border_tiled(uv, 2u);
 
 	float value = d1*w1 + d2*w2 + d3*w3 + d4*w4 + d5*w5;
-	float env_factor = uv_intensity/100.0;
-	return clamp(value * age * time_scale * env_factor, 0.0, 1.0);
+	value += de*age*time_scale*3.0;
+	
+	return clamp(value * age * time_scale * acceleration, 0.0, 1.0);
 }

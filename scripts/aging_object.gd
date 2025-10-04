@@ -25,7 +25,7 @@ func _ready():
 func _process(delta: float) -> void:
 	age += delta
 	if debug_label:
-		debug_label.text = "Age: %d \nUV: %d" %[age, cur_context.uv_intensity]
+		debug_label.text = "Age: %d" %[age]
 		
 	mat.set_shader_parameter("age", age)
 	

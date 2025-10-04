@@ -8,7 +8,7 @@ const uint lods[LOD_COUNT] = uint[LOD_COUNT](64u, 96u, 128u, 144u, 192u, 256u, 3
 // pixel_size in relation to uv coordinates.
 vec2 get_lod_uv(vec2 uv, float pixel_size)
 {
-	if (pixel_size < 0.0008) { return uv; }
+	if (pixel_size < 0.0012) { return uv; }
 
 	uint lod;
 	for (int i = 0; i < LOD_COUNT; ++i)
