@@ -11,22 +11,9 @@ var scene_index = 0
 var testing_multiple := false
 var spawned_objects := []
 
-# SHOWING MASKS
-var showing_masks := false
-var _mask_rect: ColorRect
-
 # SHOWING PROBES
 var showing_probes := false
 var probe_meshes: Dictionary[ContextProbe, Dictionary] = {} # probe -> {shape -> mesh_inst}
-
-func _ready() -> void:
-	_mask_rect = ColorRect.new()
-	_mask_rect.size = Vector2(256.0, 256.0)
-	var mat = ShaderMaterial.new()
-	mat.shader = load("res://shaders/mask_rect.gdshader")
-	_mask_rect.material = mat
-	_mask_rect.visible = false
-	add_child(_mask_rect)
 
 ## Resets the ages of all nodes in the 'age_nodes' group
 func reset_ages(_args: Dictionary) -> void:
@@ -53,13 +40,6 @@ func test_multiple(args: Dictionary) -> void:
 	else:
 		_clear_instances(spawned_objects)
 
-## Toggles the display of the tesh mesh tex array.
-## If toggled, the display will pull the current state tex array
-## every frame and display it.
-func show_masks(args: Dictionary) -> void:
-	showing_masks = args["toggled"]
-	_mask_rect.visible = showing_masks
-
 ## Toggles the display of the context probe collision shapes.
 func show_probes(args: Dictionary) -> void:
 	showing_probes = args["toggled"]
@@ -68,8 +48,6 @@ func show_probes(args: Dictionary) -> void:
 			m.visible = showing_probes
 
 func _process(_delta: float) -> void:
-	if showing_masks:
-		_update_masks_display()
 	if showing_probes:
 		_update_probe_display()
 
@@ -79,12 +57,6 @@ func _clear_instances(instances: Array) -> void:
 		if is_instance_valid(inst):
 			inst.queue_free()
 	instances.clear()
-
-
-func _update_masks_display() -> void:
-	for u in test_mesh.mat.shader.get_shader_uniform_list():
-		var value = test_mesh.mat.get_shader_parameter(u.name)
-		_mask_rect.material.set_shader_parameter(u.name, value)
 
 ## Renders the current state of the probe collisions.
 ## Does not deal with sudden changes to the shape class or 

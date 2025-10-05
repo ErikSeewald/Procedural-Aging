@@ -15,9 +15,6 @@ signal switch_scene
 signal test_multiple
 
 @warning_ignore("unused_signal")
-signal show_masks
-
-@warning_ignore("unused_signal")
 signal show_probes
 
 var buttons: Array[Dictionary] = [
@@ -40,13 +37,6 @@ var checkboxes: Array[Dictionary] = [
 		"event": "test_multiple",
 		"default": false,
 		"args": {"amount": 100}
-	},
-	
-	{
-		"label": "Show Masks",
-		"event": "show_masks",
-		"default": false,
-		"args": {}
 	},
 	
 	{

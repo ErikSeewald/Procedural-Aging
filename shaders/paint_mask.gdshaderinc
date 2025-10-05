@@ -10,34 +10,33 @@
 	uniform float uv_and_heat;
 	uniform float pollution;
 	uniform float moisture;
+	uniform float uv_scale;
 #endif
 
 vec3 hash3D(vec3 p)
 {
-	float s = fract(float(seed) / 3.0)*100.0;
-	p += s * 0.12345;
+	const vec3 c0 = vec3(127.1, 311.7, 74.7);
+	const vec3 c1 = vec3(269.5, 183.3, 246.1);
+	const vec3 c2 = vec3(113.5, 271.9, 124.6);
+	
+	float s = float(seed) / float(0xffffffffu) * 1.0e9;
+	float f0 = dot(p, c0) + s * 0.01;
+	float f1 = dot(p, c1) + s * 0.02;
+	float f2 = dot(p, c2) + s * 0.03;
 
-	p = vec3(
-		dot(p, vec3(127.1, 311.7, 74.7)  + s * 0.1),
-		dot(p, vec3(269.5, 183.3, 246.1) + s * 0.2),
-		dot(p, vec3(113.5, 271.9, 124.6) + s * 0.3)
-		);
-
-	vec3 h = fract(sin(p) * 43758.5453);
-
-	h += dot(h, h.yzx + (19.19 + s * 0.017));
-	return fract(h * (0.75 + 0.05 * fract(s * 0.318)));
+	vec3 h = fract(sin(vec3(f0, f1, f2)) * 43758.5453);
+	return fract(h);
 }
 
 // Returns the squared distances to the closest and second closest cell center.bool
 // Tiles and scales based on the given scale paarameter.
 vec2 voronoi_sq_tiled(vec3 pos, uint scale)
 {
-	pos = (pos*float(scale)) / float(scale);
+	pos = pos*float(scale);
 	ivec3 cell_pos = ivec3(floor(pos));
-    vec3 frac = fract(pos);
+	vec3 frac = fract(pos);
 
-    vec2 distances = vec2(1e9);
+	vec2 distances = vec2(1e9);
 	for (int z=-1; z<=1; ++z)
 	{
 	    for(int y=-1; y<=1; ++y)
@@ -63,9 +62,8 @@ vec2 voronoi_sq_tiled(vec3 pos, uint scale)
 			}
 		}
 	}
-
-
-    return distances;
+	
+	return distances;
 }
 
 
@@ -73,26 +71,29 @@ vec2 voronoi_sq_tiled(vec3 pos, uint scale)
 // Is 0 directly on a border.
 float dist_from_border_tiled(vec3 pos, uint scale)
 {
-    vec2 distances = voronoi_sq_tiled(pos * float(scale), scale);
+    vec2 distances = voronoi_sq_tiled(pos, scale);
     return distances.y - distances.x;
 }
 
+// Returns the aging acceleration factor based on the related uniforms.
 float calculate_acceleration()
 {
-	return 1.0;
-	//return (moisture + uv_and_heat * 0.75 + pollution * 0.25);
+	return (moisture + uv_and_heat * 0.75 + pollution * 0.25);
 }
 
-// Samples the value of the paint mask based on the given parameters.
+// Samples the value of the paint mask at the given position.
+// - detail_factor allows scaling the weights of the detail layers
+//	to reduce aliasing. (The factor is clamped between 0.0 and 1.0 before use)
 //
 // Returns a value between 0.0 (Paint fully intact) and 1.0 (Paint fully gone)
-float paint_mask(vec3 pos)
+float paint_mask(vec3 pos, float detail_factor)
 {	
+	pos = pos * uv_scale;
 	float acceleration = calculate_acceleration();
 	
-	uint size_1 = patch_size * 4u;
-	uint size_2 = patch_size * 8u;
-	uint size_3 = patch_size * 32u;
+	uint size_1 = patch_size * 2u;
+	uint size_2 = patch_size * 4u;
+	uint size_3 = patch_size * 16u;
 	uint size_4 = detail_size * 256u;
 	uint size_5 = detail_size * 512u;
 
@@ -102,8 +103,12 @@ float paint_mask(vec3 pos)
 	const float w1 = 0.8;
 	const float w2 = 0.6;
 	const float w3 = 0.2;
-	const float w4 = 0.3;
-	const float w5 = 0.3;
+	
+	const float detail_weight = 0.3;
+	const float base_detail_factor = 2.0; // The base detail should wear down slower
+	detail_factor = clamp(detail_factor, 0.0, 1.0);
+	float w4 = detail_weight * min(detail_factor * base_detail_factor, 1.0);
+	float w5 = detail_weight * detail_factor;
 
 	// Sample values based on distance to vornoi borders for each size
 	// and blend them together.
@@ -113,10 +118,13 @@ float paint_mask(vec3 pos)
 	float d4 = dist_from_border_tiled(pos, size_4);
 	float d5 = dist_from_border_tiled(pos, size_5);
 	
-	float de = dist_from_border_tiled(pos, 2u);
-
 	float value = d1*w1 + d2*w2 + d3*w3 + d4*w4 + d5*w5;
-	value += de*age*time_scale*3.0;
+	
+	// Introduce a larger wear mask that increases in weight over time
+	// to reduce the border-banding of the other layers at later stages
+	const uint wear_size = 2u;
+	float wear = voronoi_sq_tiled(pos * float(wear_size), wear_size).x;
+	value += wear*age*time_scale;
 	
 	return clamp(value * age * time_scale * acceleration, 0.0, 1.0);
 }
