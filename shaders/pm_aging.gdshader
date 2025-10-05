@@ -1,9 +1,21 @@
 shader_type spatial;
 render_mode specular_schlick_ggx;
-#include "pm_aging_header.gdshaderinc" // Uniforms, parameters and helper functions
+#include "pm_aging_header.gdshaderinc"
+#include "paint_mask.gdshaderinc"
+#include "color_util.gdshaderinc"
+#include "lod.gdshaderinc"
+
+varying vec3 v_obj_pos;
+varying vec3 v_obj_nrm;
+
+void vertex()
+{
+	v_obj_pos = VERTEX;
+	v_obj_nrm = NORMAL;
+}
 
 void blend_paint_mask(inout vec3 albedo, inout float metallic, 
-	inout float roughness, inout vec3 normal, vec2 uv, vec2 lod_uv)
+	inout float roughness, inout vec3 normal, vec2 uv, vec3 mask_pos)
 {
 	vec3 base_col = texture(albedo_base, uv).rgb;
 	float base_roughness = texture(roughness_base, uv).r;
@@ -18,7 +30,7 @@ void blend_paint_mask(inout vec3 albedo, inout float metallic,
 	roughness = paint_roughness;
 	normal = paint_normal;
 
-	float w = paint_mask(lod_uv);
+	float w = paint_mask(mask_pos);
 
 	float aw = w;
 	float ht = moisture+uv_and_heat;
@@ -52,15 +64,20 @@ void blend_paint_mask(inout vec3 albedo, inout float metallic,
 
 void fragment()
 {
-	float pixel_size = length(dFdx(UV)) + length(dFdy(UV));
-	vec2 lod_uv = get_lod_uv(UV, pixel_size);
+	vec3 dx = dFdx(v_obj_pos);
+	vec3 dy = dFdy(v_obj_pos);
+	float pixel_size = max(length(dx), length(dy));
+	
+	vec3 mask_pos = v_obj_pos;
+	vec3 lod_mask_pos = get_lod_mask_pos(mask_pos, pixel_size);
+	lod_mask_pos *=  uv_scale;
 	
 	vec3 albedo;
 	float metallic;
 	float roughness;
 	vec3 normal;
 	
-	blend_paint_mask(albedo, metallic, roughness, normal, UV, lod_uv);
+	blend_paint_mask(albedo, metallic, roughness, normal, UV, lod_mask_pos);
 	mode_albedo_adjustment(albedo, compat_mode);
 
 	ALBEDO = albedo;

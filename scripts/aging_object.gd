@@ -8,7 +8,6 @@ var age = 0.0
 
 func _ready():
 	add_to_group("age_nodes")
-	mat.set_shader_parameter("weights", [1.0])
 	mat.set_shader_parameter("seed", get_instance_id())
 	age = 0.0
 	

@@ -1,6 +1,6 @@
 /*
 * Header for the painted-metal aging shader.
-* Contains uniforms, variables and other gdshaderinc includes.
+* Contains uniforms and variables.
 * The header has been separated so that debugging shaders that render components
 * (like a canvas shader for displaying masks on their own) can simply include this file.
 */
@@ -20,6 +20,7 @@ uniform float moisture: hint_range(0.0, 1.0) = 0.5;
 
 group_uniforms compute_params;
 uniform uint seed = 0;
+uniform float uv_scale = 1.0;
 uniform uint patch_size = 1;
 uniform uint detail_size = 1;
 uniform float time_scale = 0.05;
@@ -48,6 +49,3 @@ uniform sampler2D normal_paint : hint_normal;
 uniform sampler2D roughness_paint;
 
 #define INCLUDE_PARAMS_DEFINED
-#include "paint_mask.gdshaderinc"
-#include "color_util.gdshaderinc"
-#include "lod.gdshaderinc"

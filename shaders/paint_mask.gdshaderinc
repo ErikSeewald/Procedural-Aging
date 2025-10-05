@@ -12,52 +12,58 @@
 	uniform float moisture;
 #endif
 
-vec2 hash2D(ivec2 p)
+vec3 hash3D(vec3 p)
 {
-    uvec2 q = uvec2(p) ^ uvec2(seed);
-    q = 1103515245U * ((q >> 1U) ^ (q.yx));
-    uint n = 1103515245U * (q.x ^ (q.y>>3u));
-    uint m = 110425244U * (q.y ^ (q.x>>3u)); // Needs to be different to avoid symmetry
-    return vec2(float(n), float(m)) * (1.0 / 4294967296.0);
-}
+	float s = fract(float(seed) / 3.0)*100.0;
+	p += s * 0.12345;
 
-// Returns the the positive value of a % m
-ivec2 imodp(ivec2 a, int m)
-{
-	return ivec2(((a.x % m) + m) % m, ((a.y % m) + m) % m);
+	p = vec3(
+		dot(p, vec3(127.1, 311.7, 74.7)  + s * 0.1),
+		dot(p, vec3(269.5, 183.3, 246.1) + s * 0.2),
+		dot(p, vec3(113.5, 271.9, 124.6) + s * 0.3)
+		);
+
+	vec3 h = fract(sin(p) * 43758.5453);
+
+	h += dot(h, h.yzx + (19.19 + s * 0.017));
+	return fract(h * (0.75 + 0.05 * fract(s * 0.318)));
 }
 
 // Returns the squared distances to the closest and second closest cell center.bool
 // Tiles and scales based on the given scale paarameter.
-vec2 voronoi_sq_tiled(vec2 pos, uint scale)
+vec2 voronoi_sq_tiled(vec3 pos, uint scale)
 {
 	pos = (pos*float(scale)) / float(scale);
-	ivec2 cell_pos = ivec2(pos);
-    vec2 frac = fract(pos);
+	ivec3 cell_pos = ivec3(floor(pos));
+    vec3 frac = fract(pos);
 
     vec2 distances = vec2(1e9);
-    for(int y=-1; y<=1; ++y)
+	for (int z=-1; z<=1; ++z)
 	{
-		for(int x=-1; x<=1; ++x)
+	    for(int y=-1; y<=1; ++y)
 		{
-			ivec2 neighbor_cell = imodp(cell_pos + ivec2(x, y), int(scale));
-			vec2 jitter = hash2D(neighbor_cell);
-
-			vec2 delta = vec2(float(x), float(y)) + jitter - frac;
-			float distSq = dot(delta, delta);
-
-			if(distSq < distances.x)
+			for(int x=-1; x<=1; ++x)
 			{
-				distances.y = distances.x;
-				distances.x = distSq;
-			}
+				ivec3 neighbor_cell = cell_pos + ivec3(x, y, z);
+				vec3 jitter = hash3D(vec3(neighbor_cell));
 
-			else if(distSq < distances.y)
-			{
-				distances.y = distSq;
+				vec3 delta = vec3(float(x), float(y), float(z)) + jitter - frac;
+				float distSq = dot(delta, delta);
+
+				if(distSq < distances.x)
+				{
+					distances.y = distances.x;
+					distances.x = distSq;
+				}
+
+				else if(distSq < distances.y)
+				{
+					distances.y = distSq;
+				}
 			}
 		}
 	}
+
 
     return distances;
 }
@@ -65,7 +71,7 @@ vec2 voronoi_sq_tiled(vec2 pos, uint scale)
 
 // Returns the distance from one of the voronoi borders.
 // Is 0 directly on a border.
-float dist_from_border_tiled(vec2 pos, uint scale)
+float dist_from_border_tiled(vec3 pos, uint scale)
 {
     vec2 distances = voronoi_sq_tiled(pos * float(scale), scale);
     return distances.y - distances.x;
@@ -80,11 +86,10 @@ float calculate_acceleration()
 // Samples the value of the paint mask based on the given parameters.
 //
 // Returns a value between 0.0 (Paint fully intact) and 1.0 (Paint fully gone)
-float paint_mask(vec2 uv)
+float paint_mask(vec3 pos)
 {	
 	float acceleration = calculate_acceleration();
 	
-	// Tiling works best if the cell sizes are powers of 2.
 	uint size_1 = patch_size * 4u;
 	uint size_2 = patch_size * 8u;
 	uint size_3 = patch_size * 32u;
@@ -102,13 +107,13 @@ float paint_mask(vec2 uv)
 
 	// Sample values based on distance to vornoi borders for each size
 	// and blend them together.
-	float d1 = dist_from_border_tiled(uv, size_1);
-	float d2 = dist_from_border_tiled(uv, size_2);
-	float d3 = dist_from_border_tiled(uv, size_3);
-	float d4 = dist_from_border_tiled(uv, size_4);
-	float d5 = dist_from_border_tiled(uv, size_5);
+	float d1 = dist_from_border_tiled(pos, size_1);
+	float d2 = dist_from_border_tiled(pos, size_2);
+	float d3 = dist_from_border_tiled(pos, size_3);
+	float d4 = dist_from_border_tiled(pos, size_4);
+	float d5 = dist_from_border_tiled(pos, size_5);
 	
-	float de = dist_from_border_tiled(uv, 2u);
+	float de = dist_from_border_tiled(pos, 2u);
 
 	float value = d1*w1 + d2*w2 + d3*w3 + d4*w4 + d5*w5;
 	value += de*age*time_scale*3.0;
