@@ -4,14 +4,31 @@ shader_type spatial;
 #include "color_util.gdshaderinc"
 
 varying vec3 obj_pos;
-void vertex() { obj_pos = VERTEX; }
+varying float vertex_weight;
+void vertex() 
+{ 
+	obj_pos = VERTEX; 
+	
+	vertex_weight = 0.0;
+	if (use_vertex_weight)
+	{
+		switch (vertex_weight_channel)
+		{
+			case 0u: vertex_weight = COLOR.r; break;
+			case 1u: vertex_weight = COLOR.g; break;
+			case 2u: vertex_weight = COLOR.b; break;
+			case 3u: vertex_weight = COLOR.a; break;
+		}	
+		vertex_weight *= vertex_weight_scale;
+	}
+}
 
 // Returns a level of detail factor based on pixel_size relative to
 // object position. The factor is in the range of (0.0, 1.0).
 float get_lod()
 {
-	vec3 dx = dFdx(obj_pos);
-	vec3 dy = dFdy(obj_pos);
+	vec3 dx = dFdx(obj_pos * uv_scale);
+	vec3 dy = dFdy(obj_pos * uv_scale);
 	float pixel_size = max(length(dx), length(dy));
 	return clamp(pow(pixel_size * 650.0 + 0.75, -2), 0.0, 1.0);
 }
@@ -56,7 +73,7 @@ void blend_paint_mask(inout vec3 albedo, inout float metallic,
 	roughness = paint_roughness;
 	normal = paint_normal;
 
-	float w = paint_mask(obj_pos * uv_scale, get_lod());
+	float w = paint_mask(obj_pos * uv_scale, get_lod(), vertex_weight);
 
  	// Intensify difference between inside and outside of the paint edges
 	float adjusted_w = clamp(w + w - residue_edge, 0.0, 1.0);

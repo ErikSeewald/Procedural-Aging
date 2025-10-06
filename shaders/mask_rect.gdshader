@@ -7,5 +7,5 @@ uniform float z_offset = 0.0;
 
 void fragment()
 {
-	COLOR = vec4(paint_mask(vec3(UV.x, UV.y, z_offset), 1.0), 0.0, 0.0, 1.0);
+	COLOR = vec4(paint_mask(vec3(UV.x, UV.y, z_offset), 1.0, 0.0), 0.0, 0.0, 1.0);
 }
