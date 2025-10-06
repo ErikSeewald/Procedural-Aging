@@ -2,15 +2,15 @@
 // without leaving this standalone file with errors.
 // -> Whichever file includes this one needs to define INCLUDE_PARAMS_DEFINED
 #ifndef INCLUDE_PARAMS_DEFINED
-	uniform uint patch_size;
-	uniform uint detail_size;
+	uniform float patch_size;
+	uniform float detail_size;
 	uniform float age;
 	uniform float time_scale;
 	uniform uint seed;
 	uniform float uv_and_heat;
 	uniform float pollution;
 	uniform float moisture;
-	uniform float uv_scale;
+	uniform float mechanical_load;
 #endif
 
 vec3 hash3D(vec3 p)
@@ -30,9 +30,9 @@ vec3 hash3D(vec3 p)
 
 // Returns the squared distances to the closest and second closest cell center.bool
 // Tiles and scales based on the given scale paarameter.
-vec2 voronoi_sq_tiled(vec3 pos, uint scale)
+vec2 voronoi_sq_tiled(vec3 pos, float scale)
 {
-	pos = pos*float(scale);
+	pos = pos * scale;
 	ivec3 cell_pos = ivec3(floor(pos));
 	vec3 frac = fract(pos);
 
@@ -69,7 +69,7 @@ vec2 voronoi_sq_tiled(vec3 pos, uint scale)
 
 // Returns the distance from one of the voronoi borders.
 // Is 0 directly on a border.
-float dist_from_border_tiled(vec3 pos, uint scale)
+float dist_from_border_tiled(vec3 pos, float scale)
 {
     vec2 distances = voronoi_sq_tiled(pos, scale);
     return distances.y - distances.x;
@@ -78,7 +78,7 @@ float dist_from_border_tiled(vec3 pos, uint scale)
 // Returns the aging acceleration factor based on the related uniforms.
 float calculate_acceleration()
 {
-	return (moisture + uv_and_heat * 0.75 + pollution * 0.25);
+	return (moisture + mechanical_load + uv_and_heat * 0.75 + pollution * 0.25);
 }
 
 // Samples the value of the paint mask at the given position.
@@ -87,15 +87,14 @@ float calculate_acceleration()
 //
 // Returns a value between 0.0 (Paint fully intact) and 1.0 (Paint fully gone)
 float paint_mask(vec3 pos, float detail_factor)
-{	
-	pos = pos * uv_scale;
+{
 	float acceleration = calculate_acceleration();
 	
-	uint size_1 = patch_size * 2u;
-	uint size_2 = patch_size * 4u;
-	uint size_3 = patch_size * 16u;
-	uint size_4 = detail_size * 256u;
-	uint size_5 = detail_size * 512u;
+	float size_1 = patch_size * 2.0;
+	float size_2 = patch_size * 4.0;
+	float size_3 = patch_size * 16.0;
+	float size_4 = detail_size * 256.0;
+	float size_5 = detail_size * 512.0;
 
 	// These weights are hard-coded so other aging effects
 	// do not need to dynamically depend on this weight distribution.
@@ -122,8 +121,8 @@ float paint_mask(vec3 pos, float detail_factor)
 	
 	// Introduce a larger wear mask that increases in weight over time
 	// to reduce the border-banding of the other layers at later stages
-	const uint wear_size = 2u;
-	float wear = voronoi_sq_tiled(pos * float(wear_size), wear_size).x;
+	const float wear_size = 2.0;
+	float wear = voronoi_sq_tiled(pos * wear_size, wear_size).x;
 	value += wear*age*time_scale;
 	
 	return clamp(value * age * time_scale * acceleration, 0.0, 1.0);

@@ -1,5 +1,4 @@
 shader_type spatial;
-render_mode specular_schlick_ggx;
 #include "pm_aging_header.gdshaderinc"
 #include "paint_mask.gdshaderinc"
 #include "color_util.gdshaderinc"
@@ -23,8 +22,9 @@ float get_lod()
 void blend_grime_and_residue(inout vec3 albedo, float w)
 {
 	// Offset the edges by the corresponding context parameters
-	float residue_edge_offset = pollution*0.05 - (moisture+uv_and_heat)*0.02;
-	float grime_edge_offset = pollution*0.1;
+	float paint_stability_offset = (paint_stability - 0.5) * 0.05;
+	float residue_edge_offset = pollution*0.05 + (moisture+uv_and_heat)*0.02 - paint_stability_offset;
+	float grime_edge_offset = pollution*0.1 - paint_stability_offset;
 	
 	if (w > residue_edge - residue_edge_offset)
 	{
@@ -56,29 +56,32 @@ void blend_paint_mask(inout vec3 albedo, inout float metallic,
 	roughness = paint_roughness;
 	normal = paint_normal;
 
-	float w = paint_mask(obj_pos, get_lod());
+	float w = paint_mask(obj_pos * uv_scale, get_lod());
 
-	float adjusted_w = w;
+ 	// Intensify difference between inside and outside of the paint edges
+	float adjusted_w = clamp(w + w - residue_edge, 0.0, 1.0);
 	if (w < residue_edge)
 	 { 
 		// Reduce the wear/blend on the inside of the residue edge
 		// for a stronger edge wear look.
-		adjusted_w *= 0.5;
+		float stability_divsor = clamp(paint_stability, 0.35, 1.0);
+		adjusted_w = w * 0.25 / stability_divsor;
 		
 		// Moisture and uv/heat should reduce gloss, surface roughness
 		// and add yellowing to the paint surface.
-		float mu = (moisture+uv_and_heat) * 0.25;
+		float mus = (moisture+uv_and_heat) * 0.25 / stability_divsor;
 		const vec3 yellowing = vec3(0.95, 0.95, 0.5);
-		albedo = mix(albedo, yellowing, mu*w);
-		roughness = mix(roughness, 1.0, mu*w);
-		normal = mix(normal, base_normal, mu*5.0*w); // Stronger reduction factor needed here
+		albedo = mix(albedo, yellowing, mus*w);
+		roughness = mix(roughness, 1.0, mus*w);
+		normal = mix(normal, base_normal, mus*5.0*w); // Stronger reduction factor needed here
 	}
+	
 	vec3 extra_grime = mix(albedo, grime_color, pollution*0.25);
 	albedo = mix(extra_grime, base_col, adjusted_w);
 	
 	roughness = mix(roughness, base_roughness, adjusted_w);
 	metallic = mix(metallic, base_metallic, adjusted_w);
-	normal = mix(normal, base_normal, min(adjusted_w*2.0, 1.0));
+	normal = mix(normal, base_normal, adjusted_w);
 
 	// Order is important here. This step needs to happen after the others uniform
 	// the parameters no longer make sense. Use the non adjusted weight here.

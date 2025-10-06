@@ -9,15 +9,14 @@ group_uniforms render_params;
 uniform bool compat_mode = false;
 uniform uint seed = 0;
 uniform float uv_scale = 1.0;
-uniform uint patch_size = 2;
-uniform uint detail_size = 1;
-uniform float time_scale = 0.05;
+uniform float patch_size = 2.0;
+uniform float detail_size = 1.0;
+uniform float time_scale = 0.01;
 
 group_uniforms object_params;
 uniform float age = 0.0;
-uniform float paint_stability = 0.6; // 0.0 - 1.0
-uniform float coat_thickness = 100.0; // micro meters
-uniform float mechanical_load = 0.6; // 0.0 - 1.0
+uniform float paint_stability: hint_range(0.0, 1.0) = 0.5;
+uniform float mechanical_load: hint_range(0.0, 1.0)= 0.5;
 
 group_uniforms context_params;
 uniform float uv_and_heat: hint_range(0.0, 1.0) = 0.5;

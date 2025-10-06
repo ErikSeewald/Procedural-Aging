@@ -15,11 +15,11 @@
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("2_qdkxk")
-shader_parameter/compat_mode = false
-shader_parameter/seed = 3
-shader_parameter/uv_scale = 0.23
-shader_parameter/patch_size = 1
-shader_parameter/detail_size = 1
+shader_parameter/compat_mode = true
+shader_parameter/seed = 0
+shader_parameter/uv_scale = 0.035
+shader_parameter/patch_size = 14.3
+shader_parameter/detail_size = 2.235
 shader_parameter/time_scale = 0.05
 shader_parameter/age = 12.25
 shader_parameter/paint_stability = 0.6
