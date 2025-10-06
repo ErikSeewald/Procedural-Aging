@@ -77,12 +77,14 @@ void blend_paint_mask(inout vec3 albedo, inout float metallic,
 
  	// Intensify difference between inside and outside of the paint edges
 	float adjusted_w = clamp(w + w - residue_edge, 0.0, 1.0);
+	float normal_factor = 1.0; // Outside of residue it should be 100% base normal
 	if (w < residue_edge)
 	 { 
 		// Reduce the wear/blend on the inside of the residue edge
 		// for a stronger edge wear look.
 		float stability_divsor = clamp(paint_stability, 0.35, 1.0);
 		adjusted_w = w * 0.25 / stability_divsor;
+		normal_factor = adjusted_w;
 		
 		// Moisture and uv/heat should reduce gloss, surface roughness
 		// and add yellowing to the paint surface.
@@ -98,7 +100,7 @@ void blend_paint_mask(inout vec3 albedo, inout float metallic,
 	
 	roughness = mix(roughness, base_roughness, adjusted_w);
 	metallic = mix(metallic, base_metallic, adjusted_w);
-	normal = mix(normal, base_normal, adjusted_w);
+	normal = mix(normal, base_normal, normal_factor);
 
 	// Order is important here. This step needs to happen after the others uniform
 	// the parameters no longer make sense. Use the non adjusted weight here.

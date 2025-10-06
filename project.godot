@@ -28,6 +28,12 @@ window/stretch/aspect="expand"
 
 enabled=PackedStringArray("res://addons/boujie_water_shader/plugin.cfg")
 
+[importer_defaults]
+
+animation_library={
+&"blender/meshes/colors": true
+}
+
 [input]
 
 move_forward={
