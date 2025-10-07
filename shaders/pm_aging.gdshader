@@ -1,14 +1,14 @@
 shader_type spatial;
 #include "pm_aging_header.gdshaderinc"
-#include "paint_mask.gdshaderinc"
+#include "masks.gdshaderinc"
 #include "color_util.gdshaderinc"
 
 varying vec3 obj_pos;
 varying float vertex_weight;
-void vertex() 
-{ 
-	obj_pos = VERTEX; 
-	
+void vertex()
+{
+	obj_pos = VERTEX;
+
 	vertex_weight = 0.0;
 	if (use_vertex_weight)
 	{
@@ -18,7 +18,7 @@ void vertex()
 			case 1u: vertex_weight = COLOR.g; break;
 			case 2u: vertex_weight = COLOR.b; break;
 			case 3u: vertex_weight = COLOR.a; break;
-		}	
+		}
 		vertex_weight *= vertex_weight_scale;
 	}
 }
@@ -42,7 +42,7 @@ void blend_grime_and_residue(inout vec3 albedo, float w)
 	float paint_stability_offset = (paint_stability - 0.5) * 0.05;
 	float residue_edge_offset = pollution*0.05 + (moisture+uv_and_heat)*0.02 - paint_stability_offset;
 	float grime_edge_offset = pollution*0.1 - paint_stability_offset;
-	
+
 	if (w > residue_edge - residue_edge_offset)
 	{
 		float factor = residue_intensity * clamp((residue_falloff - w), 0.0, 1.0);
@@ -57,7 +57,7 @@ void blend_grime_and_residue(inout vec3 albedo, float w)
 	}
 }
 
-void blend_paint_mask(inout vec3 albedo, inout float metallic, 
+void blend_paint_mask(inout vec3 albedo, inout float metallic,
 	inout float roughness, inout vec3 normal, vec2 uv)
 {
 	vec3 base_col = texture(albedo_base, uv).rgb;
@@ -79,13 +79,13 @@ void blend_paint_mask(inout vec3 albedo, inout float metallic,
 	float adjusted_w = clamp(w + w - residue_edge, 0.0, 1.0);
 	float normal_factor = 1.0; // Outside of residue it should be 100% base normal
 	if (w < residue_edge)
-	 { 
+	 {
 		// Reduce the wear/blend on the inside of the residue edge
 		// for a stronger edge wear look.
 		float stability_divsor = clamp(paint_stability, 0.35, 1.0);
 		adjusted_w = w * 0.25 / stability_divsor;
 		normal_factor = adjusted_w;
-		
+
 		// Moisture and uv/heat should reduce gloss, surface roughness
 		// and add yellowing to the paint surface.
 		float mus = (moisture+uv_and_heat) * 0.25 / stability_divsor;
@@ -94,10 +94,10 @@ void blend_paint_mask(inout vec3 albedo, inout float metallic,
 		roughness = mix(roughness, 1.0, mus*w);
 		normal = mix(normal, base_normal, mus*5.0*w); // Stronger reduction factor needed here
 	}
-	
+
 	vec3 extra_grime = mix(albedo, grime_color, pollution*0.25);
 	albedo = mix(extra_grime, base_col, adjusted_w);
-	
+
 	roughness = mix(roughness, base_roughness, adjusted_w);
 	metallic = mix(metallic, base_metallic, adjusted_w);
 	normal = mix(normal, base_normal, normal_factor);
@@ -109,12 +109,21 @@ void blend_paint_mask(inout vec3 albedo, inout float metallic,
 
 void fragment()
 {
+	vec3 albedo = vec3(0.4, 0.4, 0.42);
+	float metallic = base_metallic;
+	float roughness = texture(roughness_base, UV).r;
+	vec3 normal = texture(normal_base, UV).rgb;
+
+	float w = rust_mask(obj_pos * uv_scale, get_lod(), vertex_weight);
+	albedo = mix(albedo, vec3(0.4, 0.1, 0.1), w);
+
+	/*
 	vec3 albedo;
 	float metallic;
 	float roughness;
 	vec3 normal;
-	
-	blend_paint_mask(albedo, metallic, roughness, normal, UV);
+
+	blend_paint_mask(albedo, metallic, roughness, normal, UV);*/
 	mode_albedo_adjustment(albedo, compat_mode);
 
 	ALBEDO = albedo;

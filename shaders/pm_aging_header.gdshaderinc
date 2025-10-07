@@ -53,4 +53,8 @@ uniform sampler2D albedo_paint;
 uniform sampler2D normal_paint : hint_normal;
 uniform sampler2D roughness_paint;
 
+group_uniforms rust;
+uniform float rust_chance = 0.15;
+uniform float rust_origin_scale = 200.0;
+
 #define INCLUDE_PARAMS_DEFINED
