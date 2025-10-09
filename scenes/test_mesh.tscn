@@ -18,9 +18,12 @@ shader = ExtResource("1_iut2x")
 shader_parameter/compat_mode = false
 shader_parameter/seed = 0
 shader_parameter/uv_scale = 1.0
-shader_parameter/patch_size = 2.0
-shader_parameter/detail_size = 1.0
+shader_parameter/patch_scale = 2.0
+shader_parameter/detail_scale = 1.0
 shader_parameter/time_scale = 0.01
+shader_parameter/use_vertex_weight = false
+shader_parameter/vertex_weight_scale = 1.0
+shader_parameter/vertex_weight_channel = 0
 shader_parameter/age = 36.735
 shader_parameter/paint_stability = 0.5
 shader_parameter/mechanical_load = 0.5
@@ -41,6 +44,7 @@ shader_parameter/grime_color = Color(0.6, 0.3, 0, 1)
 shader_parameter/albedo_paint = ExtResource("3_6cpv6")
 shader_parameter/normal_paint = ExtResource("5_d0lx4")
 shader_parameter/roughness_paint = ExtResource("7_n4fai")
+shader_parameter/rust_mask_scale = 2.2
 
 [node name="TestMesh" type="MeshInstance3D"]
 transform = Transform3D(1.0027078, 0, 0, 0, 1.0027082, 0, 0, 0, 1.0027096, 0, 0, 0)

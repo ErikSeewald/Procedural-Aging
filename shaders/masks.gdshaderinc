@@ -12,7 +12,10 @@
 	uniform float pollution;
 	uniform float moisture;
 	uniform float mechanical_load;
-	uniform float rust_mask_scale;
+	uniform float rust_pit_scale;
+	uniform float rust_detail_scale;
+	uniform float rust_sharpness;
+	uniform float uniform_corrosion_speed;
 #endif
 
 float adjust_aging_speed(float vertex_weight)
@@ -21,21 +24,49 @@ float adjust_aging_speed(float vertex_weight)
 	* (1.0 + vertex_weight) * age * time_scale;
 }
 
-float rust_mask(vec3 pos, float detail_factor, float vertex_weight)
+
+// Implementation of 3D fractal brownian motion
+float fbm(vec3 pos)
 {
-	float v1 = 1.0 - voronoi3d_sq(pos*rust_mask_scale);
-	float v2 = 1.0 - voronoi3d_sq(pos*rust_mask_scale*2.0); // More disorder in how many points appear first
-	float v = v1*v2* log(1.0 + age * time_scale) * 10.0; // Exponential "point" spawn falloff
+	const int iterations = 5;
+	const float hurst = exp2(-0.5);
 
-	// This is supposed to mimic picking a set of random points and having more of them appear
-	// over time with an exponential falloff.
-	// By intensifying the voronoi pattern and choosing a cutoff point, a growing "closeness"
-	// to the original points can be mimicked because not all voronoi points reach the cutoff
-	// at the same time.
+	float value = 0.0;
+	float amplitude = 1.0;
+	float frequency = 1.0;
+	for(int i = 0; i < iterations; ++i)
+	{
+		value += amplitude * noise(frequency * pos);
+		amplitude *= hurst;
+		frequency *= 2.0;
+	}
 
-	float f = pos.y * 2.0; // f will be whatever growth function is used by the "points"
+	return value;
+}
 
-	return v > 0.5 ? f : 0.0;
+// Returns a jittered version of the input vec3 using fractal brownian motion
+// and constant offsets to get different values for each axis.
+vec3 fbm_jitter(vec3 p)
+{
+	return vec3(fbm(p),
+				fbm(p + vec3(1.2, 3.4, 5.6)),
+				fbm(p + vec3(7.8, 9.0, 0.9))
+			);
+}
+
+// Returns a value focused on but able to go beyond the range of 0.0 to 1.0
+float rust_mask(vec3 pos, float vertex_weight, float paint_mask)
+{
+	float patches = 1.0 - voronoi3d_sq(pos*rust_pit_scale);
+	float swirl = pow(noise(fbm_jitter(pos*rust_pit_scale)), 2.0); // pow2 for stronger slopes
+	float detail = fbm(pos*rust_detail_scale);
+
+	float pitting_corrosion = swirl * patches * detail;
+	float uniform_corrosion = exp(age * uniform_corrosion_speed) * time_scale;
+
+	float value = pitting_corrosion + uniform_corrosion;
+	value *= pow((1.0 + paint_mask), 2) * (1.0 + vertex_weight) * age * time_scale;
+	return value;
 }
 
 // Samples the value of the paint mask at the given position.

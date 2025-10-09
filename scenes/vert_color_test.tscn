@@ -22,7 +22,7 @@ shader_parameter/time_scale = 0.01
 shader_parameter/use_vertex_weight = true
 shader_parameter/vertex_weight_scale = 1.0
 shader_parameter/vertex_weight_channel = 0
-shader_parameter/age = 13.845
+shader_parameter/age = 28.305
 shader_parameter/paint_stability = 0.5
 shader_parameter/mechanical_load = 0.5
 shader_parameter/uv_and_heat = 0.5
@@ -42,8 +42,10 @@ shader_parameter/grime_color = Color(0.6, 0.3, 0, 1)
 shader_parameter/albedo_paint = ExtResource("4_36a7w")
 shader_parameter/normal_paint = ExtResource("6_s6jiq")
 shader_parameter/roughness_paint = ExtResource("8_oj73j")
-shader_parameter/rust_chance = 1.125
-shader_parameter/rust_origin_scale = 1.975
+shader_parameter/rust_pit_scale = 5.0
+shader_parameter/rust_detail_scale = 100.0
+shader_parameter/rust_sharpness = 0.4
+shader_parameter/uniform_corrosion_speed = 0.01
 
 [node name="vert_color_test" instance=ExtResource("1_2ij4v")]
 

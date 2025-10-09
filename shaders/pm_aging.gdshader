@@ -74,6 +74,13 @@ void blend_paint_mask(inout vec3 albedo, inout float metallic,
 	normal = paint_normal;
 
 	float w = paint_mask(obj_pos * uv_scale, get_lod(), vertex_weight);
+	
+	if (w > residue_edge)
+	{
+		float ww = rust_mask(obj_pos * uv_scale, vertex_weight, w);
+		base_col = mix(base_col, vec3(0.45, 0.30, 0.2), ww);
+		base_roughness = mix(base_roughness, clamp(base_roughness + 0.3, 0.0, 1.0), ww);
+	}
 
  	// Intensify difference between inside and outside of the paint edges
 	float adjusted_w = clamp(w + w - residue_edge, 0.0, 1.0);
@@ -109,21 +116,27 @@ void blend_paint_mask(inout vec3 albedo, inout float metallic,
 
 void fragment()
 {
-	vec3 albedo = vec3(0.4, 0.4, 0.42);
-	float metallic = base_metallic;
-	float roughness = texture(roughness_base, UV).r;
-	vec3 normal = texture(normal_base, UV).rgb;
 
-	float w = rust_mask(obj_pos * uv_scale, get_lod(), vertex_weight);
-	albedo = mix(albedo, vec3(0.4, 0.1, 0.1), w);
-
-	/*
 	vec3 albedo;
 	float metallic;
 	float roughness;
 	vec3 normal;
+	
+	vec3 base_col = desaturate(texture(albedo_base, UV).rgb, 0.0);
+	float base_roughness = texture(roughness_base, UV).r;
+	vec3 base_normal = texture(normal_base, UV).rgb;
+	
+	float ww = rust_mask(obj_pos * uv_scale, vertex_weight, 1.0);
+	base_col = mix(base_col, mix(vec3(0.55, 0.4, 0.2), vec3(0.45, 0.30, 0.2), smoothstep(0.2, 1.0, ww)), clamp(ww, 0.0, 1.0));
+	base_col = mix(base_col, vec3(0.35, 0.1, 0.0), smoothstep(1.0, 3.0, ww )*0.3);
+	base_roughness = mix(base_roughness, clamp(base_roughness + 0.3, 0.0, 1.0), clamp(ww, 0.0, 1.0));
+	
+	albedo = base_col;
+	metallic = base_metallic;
+	roughness = base_roughness;
+	normal = base_normal;
 
-	blend_paint_mask(albedo, metallic, roughness, normal, UV);*/
+	//blend_paint_mask(albedo, metallic, roughness, normal, UV);
 	mode_albedo_adjustment(albedo, compat_mode);
 
 	ALBEDO = albedo;

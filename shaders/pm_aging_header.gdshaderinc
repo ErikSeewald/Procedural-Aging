@@ -54,6 +54,9 @@ uniform sampler2D normal_paint : hint_normal;
 uniform sampler2D roughness_paint;
 
 group_uniforms rust;
-uniform float rust_mask_scale = 2.0;
+uniform float rust_pit_scale = 5.0;
+uniform float rust_detail_scale = 100.0;
+uniform float rust_sharpness : hint_range(0.0, 1.0) = 0.4;
+uniform float uniform_corrosion_speed = 0.01;
 
 #define INCLUDE_PARAMS_DEFINED
