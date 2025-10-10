@@ -5,6 +5,7 @@ uniform float z_offset = 0.0;
 uniform bool red = true;
 uniform bool green = true;
 uniform bool blue = true;
+uniform bool overwrite_all = false;
 
 uniform float rH = 0.4;
 #include "pm_aging_header.gdshaderinc"
@@ -12,16 +13,15 @@ uniform float rH = 0.4;
 
 void fragment()
 {
+	float min_rust = age * uniform_corrosion_speed;
 	vec3 pos = vec3(UV.x, UV.y, z_offset);
-	float patches = 1.0 - voronoi3d_sq(pos*rust_pit_scale);
-	float swirl = noise(pattern(pos*rust_pit_scale));
+	float r = max(min_rust, voronoi3d_sq(pos*pitting_factor));
+	float g = max(min_rust, 1.0 - fbm(pos*pit_scale));
+	float b = fbm(pos*rust_detail_scale);
+	float a = r * g * b;
 
-	float r = patches;
-	float g = swirl;
-	float b = r*r*g* age*time_scale;
-	float f = fbm(pos*100.0) / 2.0;
-	f = smoothstep(0.45, 1.0, f*b);
-	f = f*b;
-	if (f < 0.45) { f = 0.0 ; }
-	COLOR = vec4(red ? r : 0.0, green ? g : 0.0, blue ? f : 0.0,  1.0);
+	if (!overwrite_all)
+	{	COLOR = vec4(red ? r : 0.0, green ? g : 0.0, blue ? b : 0.0, 1.0); }
+	else { COLOR = vec4(a, a, a, 1.0); }
+
 }

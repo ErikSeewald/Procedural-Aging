@@ -12,9 +12,9 @@
 	uniform float pollution;
 	uniform float moisture;
 	uniform float mechanical_load;
-	uniform float rust_pit_scale;
+	uniform float pitting_factor;
+	uniform float pit_scale;
 	uniform float rust_detail_scale;
-	uniform float rust_sharpness;
 	uniform float uniform_corrosion_speed;
 #endif
 
@@ -36,7 +36,7 @@ float fbm(vec3 pos)
 	float frequency = 1.0;
 	for(int i = 0; i < iterations; ++i)
 	{
-		value += amplitude * noise(frequency * pos);
+		value += amplitude * voronoi3d_sq(frequency * pos);
 		amplitude *= hurst;
 		frequency *= 2.0;
 	}
@@ -44,27 +44,16 @@ float fbm(vec3 pos)
 	return value;
 }
 
-// Returns a jittered version of the input vec3 using fractal brownian motion
-// and constant offsets to get different values for each axis.
-vec3 fbm_jitter(vec3 p)
-{
-	return vec3(fbm(p),
-				fbm(p + vec3(1.2, 3.4, 5.6)),
-				fbm(p + vec3(7.8, 9.0, 0.9))
-			);
-}
-
 // Returns a value focused on but able to go beyond the range of 0.0 to 1.0
 float rust_mask(vec3 pos, float vertex_weight, float paint_mask)
 {
-	float patches = 1.0 - voronoi3d_sq(pos*rust_pit_scale);
-	float swirl = pow(noise(fbm_jitter(pos*rust_pit_scale)), 2.0); // pow2 for stronger slopes
+	float min_rust = age * uniform_corrosion_speed;
+
+	float patches = max(min_rust, voronoi3d_sq(pos*pitting_factor));
+	float pits = max(min_rust, 1.0 - fbm(pos*pit_scale));
 	float detail = fbm(pos*rust_detail_scale);
 
-	float pitting_corrosion = swirl * patches * detail;
-	float uniform_corrosion = exp(age * uniform_corrosion_speed) * time_scale;
-
-	float value = pitting_corrosion + uniform_corrosion;
+	float value = patches * pits * detail * 5.0;
 	value *= pow((1.0 + paint_mask), 2) * (1.0 + vertex_weight) * age * time_scale;
 	return value;
 }

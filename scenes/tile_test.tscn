@@ -44,6 +44,10 @@ shader_parameter/grime_color = Color(0.6, 0.3, 0, 1)
 shader_parameter/albedo_paint = ExtResource("4_pnknc")
 shader_parameter/normal_paint = ExtResource("6_6ft3f")
 shader_parameter/roughness_paint = ExtResource("8_sa6bg")
+shader_parameter/pitting_factor = 2.0
+shader_parameter/pit_scale = 6.0
+shader_parameter/rust_detail_scale = 100.0
+shader_parameter/uniform_corrosion_speed = 0.001
 
 [node name="tile_test" instance=ExtResource("1_y57rc")]
 

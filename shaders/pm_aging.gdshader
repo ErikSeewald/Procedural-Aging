@@ -127,9 +127,11 @@ void fragment()
 	vec3 base_normal = texture(normal_base, UV).rgb;
 	
 	float ww = rust_mask(obj_pos * uv_scale, vertex_weight, 1.0);
+	
 	base_col = mix(base_col, mix(vec3(0.55, 0.4, 0.2), vec3(0.45, 0.30, 0.2), smoothstep(0.2, 1.0, ww)), clamp(ww, 0.0, 1.0));
 	base_col = mix(base_col, vec3(0.35, 0.1, 0.0), smoothstep(1.0, 3.0, ww )*0.3);
 	base_roughness = mix(base_roughness, clamp(base_roughness + 0.3, 0.0, 1.0), clamp(ww, 0.0, 1.0));
+	
 	
 	albedo = base_col;
 	metallic = base_metallic;
