@@ -38,13 +38,13 @@ group_uniforms paint_layer;
 uniform float paint_metallic = 0.4;
 
 // The residue left behind by worn away paint
-const float residue_edge = 0.4;
+const float residue_edge_default = 0.4;
 uniform float residue_intensity = 3.0;
 uniform float residue_falloff = 0.6;
 uniform vec3 residue_color : source_color = vec3(0.7, 0.75, 0.7);
 
 // The grime accumulating at the wear edges of paint
-const float grime_edge = 0.35;
+const float grime_edge_default = 0.35;
 uniform float grime_intensity = 0.1;
 uniform float grime_falloff = 1.0;
 uniform vec3 grime_color : source_color = vec3(0.6, 0.3, 0.0);

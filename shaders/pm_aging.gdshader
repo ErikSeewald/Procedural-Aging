@@ -30,35 +30,37 @@ float get_lod()
 	vec3 dx = dFdx(obj_pos * uv_scale);
 	vec3 dy = dFdy(obj_pos * uv_scale);
 	float pixel_size = max(length(dx), length(dy));
-	return clamp(pow(pixel_size * 650.0 + 0.75, -2), 0.0, 1.0);
+	return clamp(pow(pixel_size * 500.0, -0.5), 0.0, 1.0);
 }
+
+uniform float sharpness = 0.001;
 
 // Using distinct cutoff edges for paint residue and accumulated grime,
 // which are both achieved using blending, the smooth edges of the mask
 // can be sharpened and intensified. The blend looks pretty flat without this.
-void blend_grime_and_residue(inout vec3 albedo, float w)
+void blend_grime_and_residue(inout vec3 albedo, float w, 
+	float residue_edge, float grime_edge)
 {
-	// Offset the edges by the corresponding context parameters
-	float paint_stability_offset = (paint_stability - 0.5) * 0.05;
-	float residue_edge_offset = pollution*0.05 + (moisture+uv_and_heat)*0.02 - paint_stability_offset;
-	float grime_edge_offset = pollution*0.1 - paint_stability_offset;
+	float residue_mask = smoothstep(residue_edge, residue_edge + sharpness, w); 
+	float residue_fade = clamp((residue_falloff - w), 0.0, 1.0);
+	float residue_factor = residue_mask * residue_intensity * residue_fade;
 
-	if (w > residue_edge - residue_edge_offset)
-	{
-		float factor = residue_intensity * clamp((residue_falloff - w), 0.0, 1.0);
-		if (compat_mode) {factor *= 0.35;} // Compat rendering has much more intensity by default
-		albedo = mix(albedo, residue_color, factor);
-	}
-	else if (w > grime_edge - grime_edge_offset)
-	{
-		float factor = grime_intensity * clamp((grime_falloff - w), 0.0, 1.0);
-		factor += pollution*0.2; // Pollution should make more grime appear
-		albedo = mix(albedo, grime_color, factor);
-	}
+	float compat_scale = mix(1.0, 0.35, float(compat_mode));
+	residue_factor *= compat_scale;
+
+	float grime_mask = smoothstep(grime_edge, grime_edge + sharpness, w);
+	float grime_fade = clamp((grime_falloff - w), 0.0, 1.0);
+	float grime_factor = grime_mask * grime_intensity * grime_fade;
+	grime_factor += pollution * 0.2;
+
+	float total_factor = max(residue_factor, grime_factor);
+	vec3 target_color = mix(grime_color, residue_color, step(residue_edge, w));
+	albedo = mix(albedo, target_color, total_factor);
 }
 
 void blend_paint_mask(inout vec3 albedo, inout float metallic,
-	inout float roughness, inout vec3 normal, vec2 uv)
+	inout float roughness, inout vec3 normal, vec2 uv, float w,
+	float residue_edge, float grime_edge)
 {
 	vec3 base_col = texture(albedo_base, uv).rgb;
 	float base_roughness = texture(roughness_base, uv).r;
@@ -72,15 +74,6 @@ void blend_paint_mask(inout vec3 albedo, inout float metallic,
 	metallic = paint_metallic;
 	roughness = paint_roughness;
 	normal = paint_normal;
-
-	float w = paint_mask(obj_pos * uv_scale, get_lod(), vertex_weight);
-	
-	if (w > residue_edge)
-	{
-		float ww = rust_mask(obj_pos * uv_scale, vertex_weight, w);
-		base_col = mix(base_col, vec3(0.45, 0.30, 0.2), ww);
-		base_roughness = mix(base_roughness, clamp(base_roughness + 0.3, 0.0, 1.0), ww);
-	}
 
  	// Intensify difference between inside and outside of the paint edges
 	float adjusted_w = clamp(w + w - residue_edge, 0.0, 1.0);
@@ -111,34 +104,43 @@ void blend_paint_mask(inout vec3 albedo, inout float metallic,
 
 	// Order is important here. This step needs to happen after the others uniform
 	// the parameters no longer make sense. Use the non adjusted weight here.
-	blend_grime_and_residue(albedo, w);
+	blend_grime_and_residue(albedo, w, residue_edge, grime_edge);
+}
+
+void blend_rust_mask(inout vec3 albedo, inout float metallic,
+	inout float roughness, inout vec3 normal, float pm_weight, float w, float grime_edge)
+{
+	w *= 100.0 * (pm_weight - grime_edge);
+	albedo = mix(albedo, mix(vec3(0.55, 0.4, 0.2), vec3(0.45, 0.30, 0.2), smoothstep(0.2, 1.0, w)), clamp(w, 0.0, 1.0));
+	albedo = mix(albedo, vec3(0.35, 0.1, 0.0), smoothstep(1.0, 3.0, w )*0.3);
+	roughness = mix(roughness, clamp(roughness + 0.3, 0.0, 1.0), clamp(w, 0.0, 1.0));
+	
+	normal = normalize(normal + w * 0.15 * (normal - obj_pos));
 }
 
 void fragment()
 {
-
 	vec3 albedo;
 	float metallic;
 	float roughness;
 	vec3 normal;
 	
-	vec3 base_col = desaturate(texture(albedo_base, UV).rgb, 0.0);
-	float base_roughness = texture(roughness_base, UV).r;
-	vec3 base_normal = texture(normal_base, UV).rgb;
+	// Offset the edges by the corresponding context parameters
+	float paint_stability_offset = (paint_stability - 0.5) * 0.05;
+	float residue_edge = residue_edge_default - (pollution*0.05 + (moisture+uv_and_heat)*0.02 - paint_stability_offset);
+	float grime_edge = grime_edge_default - (pollution*0.1 - paint_stability_offset);
 	
-	float ww = rust_mask(obj_pos * uv_scale, vertex_weight, 1.0);
+	float detail_mask = get_detail_mask(obj_pos * uv_scale, vertex_weight);
+	float pm_weight = paint_mask(obj_pos * uv_scale, vertex_weight, detail_mask);
 	
-	base_col = mix(base_col, mix(vec3(0.55, 0.4, 0.2), vec3(0.45, 0.30, 0.2), smoothstep(0.2, 1.0, ww)), clamp(ww, 0.0, 1.0));
-	base_col = mix(base_col, vec3(0.35, 0.1, 0.0), smoothstep(1.0, 3.0, ww )*0.3);
-	base_roughness = mix(base_roughness, clamp(base_roughness + 0.3, 0.0, 1.0), clamp(ww, 0.0, 1.0));
+	blend_paint_mask(albedo, metallic, roughness, normal, UV, pm_weight, residue_edge, grime_edge);
 	
+	if (pm_weight > grime_edge) 
+	{
+		float w = rust_mask(obj_pos * uv_scale, vertex_weight, pm_weight, detail_mask, get_lod());
+		blend_rust_mask(albedo, metallic, roughness, normal, pm_weight, w, grime_edge);
+	}
 	
-	albedo = base_col;
-	metallic = base_metallic;
-	roughness = base_roughness;
-	normal = base_normal;
-
-	//blend_paint_mask(albedo, metallic, roughness, normal, UV);
 	mode_albedo_adjustment(albedo, compat_mode);
 
 	ALBEDO = albedo;

@@ -46,6 +46,7 @@ shader_parameter/pitting_factor = 2.0
 shader_parameter/pit_scale = 6.0
 shader_parameter/rust_detail_scale = 100.0
 shader_parameter/uniform_corrosion_speed = 0.001
+shader_parameter/sharpness = 0.001
 
 [node name="vert_color_test" instance=ExtResource("1_2ij4v")]
 
