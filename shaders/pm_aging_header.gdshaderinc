@@ -10,7 +10,8 @@ uniform bool compat_mode = false; // Whether the shader should adjust to compati
 uniform uint seed = 0; // Seed used by all pseudo-rng functions
 uniform float uv_scale = 1.0; // Scale of the UV(W) coordinates used to sample procedural (3D) textures
 uniform float patch_scale = 2.0; // Scaling of the larger paint wear patches
-uniform float detail_scale = 1.0; // Scaling of the small paint wear patches that add detail
+uniform float pitting_factor = 2.0;
+uniform float detail_scale = 100.0;
 uniform float time_scale = 0.01; // Scaling of the time it takes to age
 
 group_uniforms vertex_colors;
@@ -35,28 +36,20 @@ uniform sampler2D normal_base : hint_normal;
 uniform sampler2D roughness_base;
 
 group_uniforms paint_layer;
+uniform bool use_paint_layer = true;
 uniform float paint_metallic = 0.4;
 
 // The residue left behind by worn away paint
-const float residue_edge_default = 0.4;
-uniform float residue_intensity = 3.0;
-uniform float residue_falloff = 0.6;
-uniform vec3 residue_color : source_color = vec3(0.7, 0.75, 0.7);
-
-// The grime accumulating at the wear edges of paint
-const float grime_edge_default = 0.35;
-uniform float grime_intensity = 0.1;
-uniform float grime_falloff = 1.0;
-uniform vec3 grime_color : source_color = vec3(0.6, 0.3, 0.0);
+const float grime_edge_default = 0.4;
+uniform float grime_intensity = 3.0;
+uniform float grime_falloff = 0.6;
+uniform vec3 grime_color : source_color = vec3(0.65, 0.45, 0.3);
 
 uniform sampler2D albedo_paint;
 uniform sampler2D normal_paint : hint_normal;
 uniform sampler2D roughness_paint;
 
 group_uniforms rust;
-uniform float pitting_factor = 2.0;
-uniform float pit_scale = 6.0;
-uniform float rust_detail_scale = 100.0;
 uniform float uniform_corrosion_speed = 0.001;
 
 #define INCLUDE_PARAMS_DEFINED
