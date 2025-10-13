@@ -39,10 +39,9 @@ group_uniforms paint_layer;
 uniform bool use_paint_layer = true;
 uniform float paint_metallic = 0.4;
 
-// The residue left behind by worn away paint
 const float grime_edge_default = 0.4;
-uniform float grime_intensity = 3.0;
-uniform float grime_falloff = 0.6;
+uniform float grime_intensity = 4.0;
+uniform float grime_falloff = 0.5;
 uniform vec3 grime_color : source_color = vec3(0.65, 0.45, 0.3);
 
 uniform sampler2D albedo_paint;
