@@ -45,7 +45,7 @@ resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("4_160ns")
 shader_parameter/compat_mode = false
-shader_parameter/seed = 14
+shader_parameter/seed = 0
 shader_parameter/uv_scale = 1.0
 shader_parameter/patch_scale = 2.0
 shader_parameter/pitting_factor = 2.0
@@ -54,7 +54,7 @@ shader_parameter/time_scale = 0.01
 shader_parameter/use_vertex_weight = false
 shader_parameter/vertex_weight_scale = 1.0
 shader_parameter/vertex_weight_channel = 0
-shader_parameter/age = 44.18
+shader_parameter/age = 63.48
 shader_parameter/paint_stability = 0.5
 shader_parameter/mechanical_load = 0.5
 shader_parameter/uv_and_heat = 0.0
@@ -72,7 +72,7 @@ shader_parameter/grime_color = Color(0.65, 0.45, 0.3, 1)
 shader_parameter/albedo_paint = ExtResource("7_iqdmv")
 shader_parameter/normal_paint = ExtResource("9_ujtkt")
 shader_parameter/roughness_paint = ExtResource("11_kijjg")
-shader_parameter/uniform_corrosion_speed = 0.001
+shader_parameter/uniform_corrosion_speed = 0.02
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3xn8w"]
 shader = ExtResource("14_p5hah")
@@ -162,7 +162,7 @@ script = ExtResource("13_3xn8w")
 target_obj = NodePath("../TestMesh")
 
 [node name="Plane" type="MeshInstance3D" parent="."]
-transform = Transform3D(4.17641, 0, 0, 0, 0.996555, 0, 0, 0, 6.55465, 0.18234219, -0.43662974, -0.20576021)
+transform = Transform3D(4.17641, 0, 0, 0, 0.996555, 0, 0, 0, 6.55465, 0.18234219, -0.43412927, -0.20576021)
 mesh = SubResource("PlaneMesh_5140r")
 surface_material_override/0 = SubResource("StandardMaterial3D_1oqqo")
 

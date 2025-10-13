@@ -94,7 +94,7 @@ void blend_paint_mask(inout outputs outs, vec2 uv, float w,
 		const vec3 yellowing = vec3(0.95, 0.95, 0.5);
 		outs.albedo = mix(outs.albedo, yellowing, mus*w);
 		outs.roughness = mix(outs.roughness, 1.0, mus*w);
-		outs.normal = mix(outs.normal, base_normal, mus*5.0*w); // Stronger reduction factor needed here
+		outs.normal = mix(outs.normal, base_normal, mus*w);
 	}
 
 	vec3 extra_grime = mix(outs.albedo, grime_color, pollution*0.25);
@@ -112,9 +112,24 @@ void blend_paint_mask(inout outputs outs, vec2 uv, float w,
 void blend_rust_mask(inout outputs outs, float pm_weight, float w, float grime_edge)
 {
 	w *= 50.0 * (pm_weight - grime_edge);
-	outs.albedo = mix(outs.albedo, mix(vec3(0.55, 0.4, 0.2), vec3(0.45, 0.30, 0.2), smoothstep(0.2, 1.0, w)), clamp(w, 0.0, 1.0));
-	outs.albedo = mix(outs.albedo, vec3(0.35, 0.1, 0.0), smoothstep(1.0, 3.0, w )*0.3);
-	outs.roughness = mix(outs.roughness, clamp(outs.roughness + 0.3, 0.0, 1.0), clamp(w, 0.0, 1.0));
+
+	vec3 rust_color = desaturate(mix(vec3(0.6, 0.4, 0.1), vec3(0.45, 0.25, 0.15), smoothstep(0.2, 1.0, w)), 0.8);
+
+	outs.albedo = mix(outs.albedo, rust_color, clamp(w, 0.0, 1.0));
+
+	vec3 new_col = desaturate(vec3(0.6, 0.25, 0.05), 0.4);
+	for (int i = 0; i < 5; ++i)
+	{
+		new_col = new_col - (hash3D(new_col) * 0.06);
+		outs.albedo = mix(outs.albedo, new_col, smoothstep(float(i)+1.5, float(i*2) + 2.5, w )*0.5);
+	outs.roughness = mix(outs.roughness, clamp(outs.roughness + 0.3, 0.0, 1.0), smoothstep(float(i), float(i*2) + 0.5, w )*0.5);
+	}
+
+/*
+	outs.albedo = mix(outs.albedo, vec3(0.45, 0.1, 0.0), smoothstep(1.0, 3.0, w )*0.3);
+	outs.albedo = mix(outs.albedo, vec3(0.25, 0.0, 0.0), smoothstep(1.5, 5.0, w )*0.2);
+	outs.albedo = mix(outs.albedo, vec3(0.35, .2, 0.0), smoothstep(3.0, 7.0, w )*0.3);*/
+
 
 	//normal = normalize(normal + w * 0.15 * (normal - obj_pos));
 }
