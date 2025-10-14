@@ -13,6 +13,7 @@ uniform float patch_scale = 2.0; // Scaling of the larger paint wear patches
 uniform float pitting_factor = 2.0;
 uniform float detail_scale = 100.0;
 uniform float time_scale = 0.01; // Scaling of the time it takes to age
+uniform float uniform_corrosion_speed = 0.001;
 
 group_uniforms vertex_colors;
 uniform bool use_vertex_weight = false; // If enabled, higher vertex color values make their surroundings age faster.
@@ -49,6 +50,11 @@ uniform sampler2D normal_paint : hint_normal;
 uniform sampler2D roughness_paint;
 
 group_uniforms rust;
-uniform float uniform_corrosion_speed = 0.001;
+uniform vec3 rust_color_1: source_color = vec3(0.6,0.42,0.19);
+uniform vec3 rust_color_2: source_color = vec3(0.63,0.38,0.2);
+uniform vec3 rust_color_3: source_color = vec3(0.55, 0.33, 0.2);
+uniform vec3 rust_color_4: source_color = vec3(0.41, 0.3, 0.28);
+uniform float rust_red_shift = 0.5;
+uniform float rust_green_shift = 0.1;
 
 #define INCLUDE_PARAMS_DEFINED

@@ -76,7 +76,7 @@ float get_detail_mask(vec3 pos)
 
 float get_pit_mask(vec3 pos)
 {
-	return 1.0 - voronoi_fbm(pos*patch_scale*3.0);
+	return clamp(1.0 - voronoi_fbm(pos*patch_scale*3.0), 0.0, 1.0);
 }
 
 float get_wear_mask(vec3 pos)
@@ -131,6 +131,7 @@ float paint_mask(vec3 pos, float vertex_weight, maskset mask_set)
 	// Introduce a larger wear mask that increases in weight over time
 	// to reduce the border-banding of the other layers at later stages
 	value += mask_set.wear_mask * adjusted_speed;
+	value += uniform_corrosion_speed * exp(adjusted_speed);
 
 	return clamp(value * adjusted_speed, 0.0, 1.0);
 }

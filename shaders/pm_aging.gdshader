@@ -62,20 +62,18 @@ void blend_grime(inout outputs outs, float w,
 }
 
 void blend_paint_mask(inout outputs outs, vec2 uv, float w,
-	float grime_edge, float lod)
+	float grime_edge, float lod, float rust_w)
 {
-	vec3 base_col = texture(albedo_base, uv).rgb;
-	float base_roughness = texture(roughness_base, uv).r;
-	vec3 base_normal = texture(normal_base, uv).rgb;
+	vec3 base_col = outs.albedo;
+	float base_roughness = outs.roughness;
+	float base_metallic_adj = outs.metallic;
+	vec3 base_normal = outs.normal;
 
-	vec3 paint_col = texture(albedo_paint, uv).rgb;
-	float paint_roughness = texture(roughness_paint, uv).r;
-	vec3 paint_normal = texture(normal_paint, uv).rgb;
-
-	outs.albedo = paint_col;
+	// Replace base with paint layer and wear it away
+	outs.albedo = texture(albedo_paint, uv).rgb;
 	outs.metallic = paint_metallic;
-	outs.roughness = paint_roughness;
-	outs.normal = paint_normal;
+	outs.roughness = texture(roughness_paint, uv).r;
+	outs.normal = texture(normal_paint, uv).rgb;
 
  	// Intensify difference between inside and outside of the paint edges
 	float adjusted_w = clamp(w + w - grime_edge, 0.0, 1.0);
@@ -97,11 +95,12 @@ void blend_paint_mask(inout outputs outs, vec2 uv, float w,
 		outs.normal = mix(outs.normal, base_normal, mus*w);
 	}
 
-	vec3 extra_grime = mix(outs.albedo, grime_color, pollution*0.25);
-	outs.albedo = mix(extra_grime, base_col, adjusted_w);
+
+	vec3 extra_grime = mix(outs.albedo, grime_color, pollution * adjusted_w);
+	outs.albedo = mix(extra_grime, base_col, smoothstep(0.0, 1.0, adjusted_w*adjusted_w*4.0));
 
 	outs.roughness = mix(outs.roughness, base_roughness, adjusted_w);
-	outs.metallic = mix(outs.metallic, base_metallic, adjusted_w);
+	outs.metallic = mix(outs.metallic, base_metallic_adj, adjusted_w);
 	outs.normal = mix(outs.normal, base_normal, normal_factor);
 
 	// Order is important here. This step needs to happen after the others uniform
@@ -109,31 +108,26 @@ void blend_paint_mask(inout outputs outs, vec2 uv, float w,
 	blend_grime(outs, w, grime_edge, lod);
 }
 
-uniform vec3 l1: source_color = vec3(0.65, 0.25, 0.0);
-uniform vec3 l2: source_color = vec3(0.6, 0.2, 0.0);
-uniform vec3 l3: source_color = vec3(0.5, 0.15, 0.1);
-uniform vec3 l4: source_color = vec3(0.25, 0.1, 0.1);
 
-void blend_rust_mask(inout outputs outs, float pm_weight, float w, float grime_edge, float detail_mask)
+void blend_rust_mask(inout outputs outs, float w, maskset mask_set)
 {
-	w *= 50.0 * (pm_weight - grime_edge);
+	vec3 col = mix(outs.albedo, rust_color_1, smoothstep(0.0, 0.1, w));
+	col = mix(col, rust_color_2, smoothstep(1.0, 2.0, w));
+	col = mix(col, rust_color_3, smoothstep(2.0, 3.0, w));
+	col = mix(col, rust_color_4, smoothstep(5.0, 10.0, w));
 
-	vec3 rc = mix(outs.albedo, l1, smoothstep(0.0, 0.1, w));
-	rc = mix(rc, l2, smoothstep(0.3, 1.8, w));
-	rc = mix(rc, l3, smoothstep(2.0, 3.0, w));
-	rc = mix(rc, l4, smoothstep(5.0, 10.0, w));
+	col.r += mask_set.detail_mask * rust_red_shift;
+	col.g += mask_set.detail_mask * rust_green_shift;
 
-	rc.r += detail_mask * 0.3;
-	rc.g += detail_mask * 0.1;
-	
-	rc = desaturate(rc, 0.9) * 0.75;
+	col = desaturate(col, clamp(1.0 - mask_set.pit_mask*mask_set.detail_mask, 0.0, 1.0));
+	col = desaturate(col, 0.75);
 
-	outs.albedo = mix(outs.albedo, rc, clamp(w, 0.0, 1.0));
+	outs.albedo = mix(outs.albedo, col, clamp(w, 0.0, 1.0));
 
-	for (int i = 0; i < 5; ++i)
+	// TODO: This is a goop of meaninglessness
+	for (int i = 0; i < 3; ++i)
 	{
-
-		outs.roughness = mix(outs.roughness, clamp(outs.roughness + 0.2, 0.0, 0.8), smoothstep(float(i), float(i*2) + 0.5, w ));
+		outs.roughness = mix(outs.roughness, clamp(outs.roughness + 0.2, 0.0, 0.95), smoothstep(float(i), float(i*2) + 2.0, w ));
 		outs.metallic = mix(outs.metallic, clamp(outs.metallic - 0.1, 0.2, 1.0), smoothstep(float(i), float(i*2) + 0.5, w ));
 	}
 }
@@ -159,15 +153,22 @@ void fragment()
 		pm_weight = paint_mask(obj_pos * uv_scale, vertex_weight, mask_set);
 	}
 
-	blend_paint_mask(outs, UV, pm_weight, grime_edge, lod);
+	outs.albedo = texture(albedo_base, UV).rgb;
+	outs.metallic = base_metallic;
+	outs.roughness = texture(roughness_base, UV).r;
+	outs.normal = texture(normal_base, UV).rgb;
 
-	if (pm_weight > grime_edge - 0.15)
+	float rust_w = 0.0;
+	if (!use_paint_layer || pm_weight > grime_edge)
 	{
-		float w = rust_mask(obj_pos * uv_scale, vertex_weight, mask_set, lod);
-		blend_rust_mask(outs, pm_weight, w, grime_edge - 0.15, mask_set.detail_mask);
+		rust_w = rust_mask(obj_pos * uv_scale, vertex_weight, mask_set, lod);
+		rust_w *= 200.0 * (pm_weight - grime_edge);
+		blend_rust_mask(outs, rust_w, mask_set);
 	}
+	blend_paint_mask(outs, UV, pm_weight, grime_edge, lod, rust_w);
 
 	mode_albedo_adjustment(outs.albedo, compat_mode);
+
 
 	ALBEDO = outs.albedo;
 	METALLIC = outs.metallic;
