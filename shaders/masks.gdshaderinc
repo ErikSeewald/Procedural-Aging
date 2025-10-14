@@ -93,7 +93,7 @@ float rust_mask(vec3 pos, float vertex_weight, maskset mask_set, float detail_fa
 
 	float patches = max(min_rust, mask_set.wear_mask);
 	float pits = max(min_rust, mask_set.pit_mask);
-	float detail = mask_set.detail_mask + (1.0 - detail_factor);
+	float detail = mask_set.detail_mask;
 
 	float value = patches * pits * detail;
 	return value * adjusted_speed;

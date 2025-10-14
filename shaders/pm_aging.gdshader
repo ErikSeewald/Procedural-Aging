@@ -43,12 +43,12 @@ float get_lod()
 }
 
 // Using distinct cutoff edges for accumulated grime,
-// the smooth edges of the mask  can be sharpened and intensified.
+// the smooth edges of the mask can be sharpened and intensified.
 // The blend looks pretty flat without this.
 void blend_grime(inout outputs outs, float w,
 	float grime_edge, float lod)
 {
-	float s = 0.01 / (lod*lod);
+	float s = 0.02 / (lod*lod);
 
 	float grime_mask = smoothstep(grime_edge, grime_edge + s, w);
 	float grime_fade = clamp((grime_falloff - w), 0.0, 1.0);
@@ -58,7 +58,7 @@ void blend_grime(inout outputs outs, float w,
 	grime_factor *= compat_scale;
 
 	outs.albedo = mix(outs.albedo, grime_color, grime_factor);
-	outs.roughness = mix(outs.roughness, clamp(outs.roughness + 0.2, 0.0, 1.0), grime_factor);
+	outs.roughness = mix(outs.roughness, clamp(outs.roughness + 0.3, 0.0, 1.0), grime_factor);
 }
 
 void blend_paint_mask(inout outputs outs, vec2 uv, float w,
@@ -109,29 +109,33 @@ void blend_paint_mask(inout outputs outs, vec2 uv, float w,
 	blend_grime(outs, w, grime_edge, lod);
 }
 
-void blend_rust_mask(inout outputs outs, float pm_weight, float w, float grime_edge)
+uniform vec3 l1: source_color = vec3(0.65, 0.25, 0.0);
+uniform vec3 l2: source_color = vec3(0.6, 0.2, 0.0);
+uniform vec3 l3: source_color = vec3(0.5, 0.15, 0.1);
+uniform vec3 l4: source_color = vec3(0.25, 0.1, 0.1);
+
+void blend_rust_mask(inout outputs outs, float pm_weight, float w, float grime_edge, float detail_mask)
 {
 	w *= 50.0 * (pm_weight - grime_edge);
 
-	vec3 rust_color = desaturate(mix(vec3(0.6, 0.4, 0.1), vec3(0.45, 0.25, 0.15), smoothstep(0.2, 1.0, w)), 0.8);
+	vec3 rc = mix(outs.albedo, l1, smoothstep(0.0, 0.1, w));
+	rc = mix(rc, l2, smoothstep(0.3, 1.8, w));
+	rc = mix(rc, l3, smoothstep(2.0, 3.0, w));
+	rc = mix(rc, l4, smoothstep(5.0, 10.0, w));
 
-	outs.albedo = mix(outs.albedo, rust_color, clamp(w, 0.0, 1.0));
+	rc.r += detail_mask * 0.3;
+	rc.g += detail_mask * 0.1;
+	
+	rc = desaturate(rc, 0.9) * 0.75;
 
-	vec3 new_col = desaturate(vec3(0.6, 0.25, 0.05), 0.4);
+	outs.albedo = mix(outs.albedo, rc, clamp(w, 0.0, 1.0));
+
 	for (int i = 0; i < 5; ++i)
 	{
-		new_col = new_col - (hash3D(new_col) * 0.06);
-		outs.albedo = mix(outs.albedo, new_col, smoothstep(float(i)+1.5, float(i*2) + 2.5, w )*0.5);
-	outs.roughness = mix(outs.roughness, clamp(outs.roughness + 0.3, 0.0, 1.0), smoothstep(float(i), float(i*2) + 0.5, w )*0.5);
+
+		outs.roughness = mix(outs.roughness, clamp(outs.roughness + 0.2, 0.0, 0.8), smoothstep(float(i), float(i*2) + 0.5, w ));
+		outs.metallic = mix(outs.metallic, clamp(outs.metallic - 0.1, 0.2, 1.0), smoothstep(float(i), float(i*2) + 0.5, w ));
 	}
-
-/*
-	outs.albedo = mix(outs.albedo, vec3(0.45, 0.1, 0.0), smoothstep(1.0, 3.0, w )*0.3);
-	outs.albedo = mix(outs.albedo, vec3(0.25, 0.0, 0.0), smoothstep(1.5, 5.0, w )*0.2);
-	outs.albedo = mix(outs.albedo, vec3(0.35, .2, 0.0), smoothstep(3.0, 7.0, w )*0.3);*/
-
-
-	//normal = normalize(normal + w * 0.15 * (normal - obj_pos));
 }
 
 void fragment()
@@ -160,7 +164,7 @@ void fragment()
 	if (pm_weight > grime_edge - 0.15)
 	{
 		float w = rust_mask(obj_pos * uv_scale, vertex_weight, mask_set, lod);
-		blend_rust_mask(outs, pm_weight, w, grime_edge - 0.15);
+		blend_rust_mask(outs, pm_weight, w, grime_edge - 0.15, mask_set.detail_mask);
 	}
 
 	mode_albedo_adjustment(outs.albedo, compat_mode);
