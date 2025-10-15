@@ -39,6 +39,7 @@ uniform sampler2D roughness_base;
 group_uniforms paint_layer;
 uniform bool use_paint_layer = true;
 uniform float paint_metallic = 0.4;
+uniform float paint_edge_sharpness: hint_range(0.0, 1.0) = 0.98;
 
 const float grime_edge_default = 0.4;
 uniform float grime_intensity = 4.0;

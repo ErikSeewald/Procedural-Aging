@@ -67,11 +67,11 @@ float snoise_fbm(vec3 pos)
 	return value;
 }
 
-float get_detail_mask(vec3 pos)
+float get_detail_mask(vec3 pos, float lod)
 {
 	float mask = snoise_fbm(pos*detail_scale);
 	mask = (mask * 0.5) + 0.5; // Remap to 0.0-1.0
-	return mix(mask, 0.5, 0.5); // Flatten around 0.5
+	return mix(mask, 0.5, clamp(0.5 + lod, 0.0, 1.0)); // Flatten around 0.5
 }
 
 float get_pit_mask(vec3 pos)
@@ -85,7 +85,7 @@ float get_wear_mask(vec3 pos)
 }
 
 // Returns a value focused on but able to go beyond the range of 0.0 to 1.0
-float rust_mask(vec3 pos, float vertex_weight, maskset mask_set, float detail_factor)
+float rust_mask(float vertex_weight, maskset mask_set)
 {
 	float adjusted_speed = adjust_aging_speed(vertex_weight);
 
