@@ -124,16 +124,17 @@ void blend_rust_mask(inout outputs outs, float w, maskset mask_set)
 	col.r += mask_set.detail_mask * rust_red_shift;
 	col.g += mask_set.detail_mask * rust_green_shift;
 
-	col = desaturate(col, clamp(1.0 - mask_set.pit_mask*mask_set.detail_mask, 0.0, 1.0));
+	float pollution_factor = (0.5+pollution);
+	col = desaturate(col, clamp(1.0 - mask_set.pit_mask*mask_set.detail_mask* pollution_factor, 0.0, 1.0));
 	col = desaturate(col, 0.75);
 
 	w = smoothstep(0.0, 1.0, clamp(w, 0.0, 1.0));
 	outs.albedo = mix(outs.albedo, col, w);
 
 	float scaled_w = w * 0.15;
-	outs.roughness = clamp(outs.roughness + scaled_w, 0.0, 0.9);
+	outs.roughness = clamp(outs.roughness + scaled_w * pollution_factor, 0.0, 0.9);
 	outs.metallic = clamp(outs.metallic - scaled_w, 0.2, 1.0);
-	outs.specular = clamp(outs.specular - scaled_w, 0.2, 1.0);
+	outs.specular = clamp(outs.specular - scaled_w * pollution_factor, 0.2, 1.0);
 }
 
 void fragment()

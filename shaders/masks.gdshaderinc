@@ -76,7 +76,7 @@ float get_detail_mask(vec3 pos, float lod)
 
 float get_pit_mask(vec3 pos)
 {
-	return clamp(1.0 - voronoi_fbm(pos*patch_scale*3.0), 0.0, 1.0);
+	return clamp(1.0 - voronoi_fbm(pos*patch_scale*3.0 *(0.75+mechanical_load)), 0.0, 1.0);
 }
 
 float get_wear_mask(vec3 pos)
@@ -89,7 +89,8 @@ float rust_mask(float vertex_weight, maskset mask_set)
 {
 	float adjusted_speed = adjust_aging_speed(vertex_weight);
 
-	float min_rust = exp(adjusted_speed) * uniform_corrosion_speed * (1.0 + mask_set.pit_mask);
+	float min_rust = exp(adjusted_speed) * uniform_corrosion_speed 
+		* (1.0 + mask_set.pit_mask) *(1.0+uv_and_heat*2.0);
 
 	float patches = max(min_rust, mask_set.wear_mask);
 	float pits = max(min_rust, mask_set.pit_mask);
