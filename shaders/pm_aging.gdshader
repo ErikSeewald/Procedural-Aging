@@ -13,6 +13,8 @@ struct outputs
 	float specular;
 };
 
+
+
 varying vec3 obj_pos;
 varying float vertex_weight;
 void vertex()
@@ -31,6 +33,12 @@ void vertex()
 		}
 		vertex_weight *= vertex_weight_scale;
 	}
+}
+
+float adjust_aging_speed()
+{
+	return (moisture + mechanical_load + uv_and_heat * 0.75 + pollution * 0.25)
+	* (1.0 + vertex_weight) * age * time_scale;
 }
 
 // Returns a level of detail factor based on pixel_size relative to
@@ -152,15 +160,10 @@ void blend_rust_mask(inout outputs outs, float w, maskset mask_set)
 	outs.specular = clamp(outs.specular - scaled_w * pollution_factor, 0.2, 1.0);
 }
 
-float adjust_aging_speed()
-{
-	return (moisture + mechanical_load + uv_and_heat * 0.75 + pollution * 0.25)
-	* (1.0 + vertex_weight) * age * time_scale;
-}
-
 void fragment()
 {
 	outputs outs;
+	float seed_f = float(seed) / float(0xffffffffu);
 	vec3 pos = obj_pos*uv_scale;
 	float strength = adjust_aging_speed();
 
@@ -171,13 +174,13 @@ void fragment()
 	// Use maskset struct to compactly pass these around
 	maskset mask_set;
 	mask_set.detail_mask = get_detail_mask(pos, get_lod());
-	mask_set.pit_mask = get_pit_mask(pos);
-	mask_set.wear_mask = get_wear_mask(pos);
+	mask_set.pit_mask = get_pit_mask(pos, seed_f);
+	mask_set.wear_mask = get_wear_mask(pos, seed_f);
 
 	float pm_weight = 1.0;
 	if (use_paint_layer)
 	{
-		pm_weight = paint_mask(pos, strength, mask_set);
+		pm_weight = paint_mask(pos, strength, mask_set, seed_f);
 	}
 
 	outs.albedo = texture(albedo_base, UV).rgb;

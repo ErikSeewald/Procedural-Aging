@@ -26,6 +26,11 @@ uniform float compat_contrast = 1.2;
 uniform float compat_grime_intensity = 0.5;
 uniform float compat_rust_darken = 0.65;
 
+/// Parameters related to performance adjustments
+group_uniforms performance;
+uniform int voronoi_fbm_iterations = 5;
+uniform int snoise_fbm_iterations = 4;
+
 /// Configuration parameters for the use of vertex colors as wear weights
 group_uniforms vertex_colors;
 uniform bool use_vertex_weight = false; // Higher vertex color values make their surroundings age faster
