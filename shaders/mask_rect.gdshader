@@ -14,6 +14,6 @@ void fragment()
 {
 	float seed_f = float(seed) / float(0xffffffffu);
 	vec3 pos = vec3(UV.x, UV.y, z_offset);
-	vec3 v = voronoi_hash3d(pos, seed_f);
-	COLOR = vec4(v.x, v.y, v.z, 1.0);
+	float v = get_pit_mask(pos, seed_f);
+	COLOR = vec4(v > 0.0 ? v : 0.0, v < 0.0 ? abs(v) : 0.0, 0.0, 1.0);
 }

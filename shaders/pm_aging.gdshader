@@ -13,10 +13,13 @@ struct outputs
 	float specular;
 };
 
+const float grime_edge_default = 0.4; // The default edge (paint mask value) of grime deposition
 
+varying vec3 obj_pos; // Interpolated fragment position in object space
+varying float vertex_weight; // Interpolated vertex paint weight at the current fragment 
 
-varying vec3 obj_pos;
-varying float vertex_weight;
+// The vertex shader only pepares the interpolated obj_pos vector
+// and saves the vertex paint weight.
 void vertex()
 {
 	obj_pos = VERTEX;
@@ -35,14 +38,9 @@ void vertex()
 	}
 }
 
-float adjust_aging_speed()
-{
-	return (moisture + mechanical_load + uv_and_heat * 0.75 + pollution * 0.25)
-	* (1.0 + vertex_weight) * age * time_scale;
-}
-
 // Returns a level of detail factor based on pixel_size relative to
-// object position. The factor is in the range of (0.0, 1.0).
+// object position.
+// The value rises exponentially with larger pixel size.
 float get_lod()
 {
 	vec3 dx = dFdx(obj_pos * uv_scale);
@@ -52,7 +50,7 @@ float get_lod()
 }
 
 // Adjusts contrast and reduces brightness based on the selected rendering mode.
-void mode_albedo_adjustment(inout vec3 albedo, bool is_compat_mode)
+vec3 mode_albedo_adjustment(vec3 albedo, bool is_compat_mode)
 {
 	if (is_compat_mode)
 	{
@@ -65,32 +63,71 @@ void mode_albedo_adjustment(inout vec3 albedo, bool is_compat_mode)
 		albedo = desaturate(albedo, forward_saturate);
 		albedo = adjust_contrast(albedo, forward_contrast)  * forward_darken;
 	}
+	
+	return albedo;
 }
 
-// Using distinct cutoff edges for accumulated grime,
-// the smooth edges of the mask can be sharpened and intensified.
-// The blend looks pretty flat without this.
-void blend_grime(inout outputs outs, float w, float grime_edge, maskset mask_set)
+// Returns a factor describing the desired strength of the aging effects
+// based on the actual age and the uniforms that affect it.
+float get_aged_strength()
 {
-	float s = (1.0 - paint_edge_sharpness);
+ 	// Moisture has the strongest effect on paint wear, uv/heat and pollution less so.
+	// Note: Though the paint mask effects the rust growth, when the coating is gone or unused
+	// it no longer fully makes sense to use this paint based weight distribution.
+	// However, in favor of having a single fixed heuristic for both cases, no distinction is made.
+	const float moisture_w = 1.0;
+	const float uv_w = 0.85;
+	const float pollution_w = 0.25;
+	float env = moisture*moisture_w + uv_and_heat*uv_w + pollution*pollution_w;
+	
+	float weight = (1.0 + vertex_weight);
+	return env * weight * age * time_scale;
+}
 
-	float grime_mask = smoothstep(grime_edge - s, grime_edge + s, w);
+// Returns the grime accumulation edge offset by the corresponding env/object parameters.
+float offset_grime_edge()
+{
+	const float pollution_w = 0.05; // Pollution should have the strongest effect on grime
+	float pollution_offset = pollution * pollution_w;
+	
+	const float moisture_uv_w = 0.02; // Moisture and uv/heat both have the same effect on the offset
+	float moisture_uv_offset = (moisture+uv_and_heat) * moisture_uv_w;
+
+	float edge_offset = pollution_offset + moisture_uv_offset;
+	
+	const float sability_w = 0.03; // Strong stability should reduce the grime edge offset
+	float stability_offset = paint_stability * sability_w;
+	return grime_edge_default - edge_offset + stability_offset;
+}
+
+// Blends grime into the edges of the paint mask to simulate grime accumulation.
+// Modifies the given inout outpus based on the given paint mask weight and
+// the given edge defining at which mask value grime mainly deposits.
+void blend_grime(inout outputs outs, float pm_weight, float grime_edge)
+{	
+	// Kept constant instead of as uniforms because these values, 
+	// unlike grime color, are not very dependant on the base and paint albedo.
+	const float grime_roughness = 0.8;
+	const float grime_specular = 0.1;
+	
+	// Use an offset based on the edge sharpness to smoothstep the weight around the edge
+	float offset = (1.0 - paint_edge_sharpness);
+	float grime_mask = smoothstep(grime_edge - offset, grime_edge + offset, pm_weight);
+	
+	// Fade out the grime intensity based on the selected falloff
 	float fade_factor = (1.0 - grime_falloff) + grime_edge_default;
-	float grime_fade = clamp((fade_factor - w), 0.0, 1.0);
+	float grime_fade = clamp((fade_factor - pm_weight), 0.0, 1.0);
+	
 	float grime_factor = grime_mask * grime_intensity * grime_fade;
-
-	float compat_scale = mix(1.0, compat_grime_intensity, float(compat_mode));
-	grime_factor *= compat_scale;
-
-
+	grime_factor *= mix(1.0, compat_grime_intensity, float(compat_mode));
 
 	outs.albedo = mix(outs.albedo, grime_color, grime_factor);
-	outs.roughness = mix(outs.roughness, clamp(outs.roughness + 0.3, 0.0, 1.0), grime_factor);
-	outs.specular = mix(outs.specular, 0.1, grime_factor);
+	outs.roughness = mix(outs.roughness, grime_roughness, grime_factor);
+	outs.specular = mix(outs.specular, grime_specular, grime_factor);
 }
 
 void blend_paint_mask(inout outputs outs, vec2 uv, float w,
-	float grime_edge, float rust_w, maskset mask_set)
+	float grime_edge)
 {
 	vec3 base_col = outs.albedo;
 	float base_roughness = outs.roughness;
@@ -133,7 +170,7 @@ void blend_paint_mask(inout outputs outs, vec2 uv, float w,
 
 	// Order is important here. This step needs to happen after the others uniform
 	// the parameters no longer make sense. Use the non adjusted weight here.
-	blend_grime(outs, w, grime_edge, mask_set);
+	blend_grime(outs, w, grime_edge);
 }
 
 void blend_rust_mask(inout outputs outs, float w, maskset mask_set)
@@ -162,45 +199,52 @@ void blend_rust_mask(inout outputs outs, float w, maskset mask_set)
 
 void fragment()
 {
+	// Default the outputs to the base layer, age it, and then 
+	// put the paint layer on top based on the paint mask.
 	outputs outs;
-	float seed_f = float(seed) / float(0xffffffffu);
-	vec3 pos = obj_pos*uv_scale;
-	float strength = adjust_aging_speed();
-
-	// Offset the edges by the corresponding context parameters
-	float stability_offset = (paint_stability - 0.5) * 0.05;
-	float grime_edge = grime_edge_default - (pollution*0.05 + (moisture+uv_and_heat)*0.02 - stability_offset);
-
-	// Use maskset struct to compactly pass these around
-	maskset mask_set;
-	mask_set.detail_mask = get_detail_mask(pos, get_lod());
-	mask_set.pit_mask = get_pit_mask(pos, seed_f);
-	mask_set.wear_mask = get_wear_mask(pos, seed_f);
-
-	float pm_weight = 1.0;
-	if (use_paint_layer)
-	{
-		pm_weight = paint_mask(pos, strength, mask_set, seed_f);
-	}
-
 	outs.albedo = texture(albedo_base, UV).rgb;
 	outs.metallic = base_metallic;
 	outs.roughness = texture(roughness_base, UV).r;
 	outs.normal = texture(normal_base, UV).rgb;
 	outs.specular = SPECULAR;
+	
+	// The scaling for the seed was heuristically chosen to look good for both
+	// very high and very low uint seeds. A low scaling means no big difference
+	// between neighbor seeds while a high scaling can cause maxing out the float range
+	// for large seeds.
+	float seed_f = float(seed) / float(0xffffffffu) * 1.0e7;
 
-	float rust_w = 0.0;
-	if (!use_paint_layer || pm_weight > grime_edge)
+	// The interpolated object space position scaled by uv_scale is used by all
+	// procedural sampling functions.
+	vec3 pos = obj_pos*uv_scale;
+
+	float lod = get_lod();
+	float strength = get_aged_strength();
+
+	// Calculate these once and then compactly pass them around in the maskset struct.
+	maskset mask_set;
+	mask_set.detail_mask = get_detail_mask(pos, lod);
+	mask_set.pit_mask = get_pit_mask(pos, seed_f);
+	mask_set.wear_mask = get_wear_mask(pos, seed_f);
+
+	float pm_weight = 1.0; // Weight of the paint mask where 1.0 means the paint is fully removed.
+	if (use_paint_layer)
 	{
-		rust_w = rust_mask(strength, mask_set);
-		rust_w *= 200.0 * (pm_weight - grime_edge);
+		pm_weight = paint_mask(pos, strength, mask_set, seed_f);
+	}
+	
+	float grime_edge = offset_grime_edge();
+	if (pm_weight > grime_edge) // Rust only needs to be calculated where it can actually be visible
+	{
+		float rust_w = rust_mask(strength, mask_set);
+		rust_w *= rust_growth_factor * (pm_weight - grime_edge); // Rust grows more strongly where paint has worn away
 		blend_rust_mask(outs, rust_w, mask_set);
 	}
-	blend_paint_mask(outs, UV, pm_weight, grime_edge, rust_w, mask_set);
+	
+	blend_paint_mask(outs, UV, pm_weight, grime_edge);
+	
 
-	mode_albedo_adjustment(outs.albedo, compat_mode);
-
-	ALBEDO = outs.albedo;
+	ALBEDO = mode_albedo_adjustment(outs.albedo, compat_mode);
 	METALLIC = outs.metallic;
 	ROUGHNESS = outs.roughness;
 	NORMAL_MAP = outs.normal;

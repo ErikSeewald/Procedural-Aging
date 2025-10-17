@@ -10,6 +10,7 @@ uniform uint seed = 0; // Seed used by all pseudo-rng functions
 uniform float uv_scale = 1.0; // Scale of the UV(W) coordinates used to sample procedural (3D) textures
 uniform float patch_scale = 2.0; // Scaling of the paint wear and rust patches
 uniform float wear_scale = 2.0; // Scaling of the wear masks that affects the strength of the other masks
+uniform float pit_scale = 8.0; // Scaling of the pit mask that is used for pitting corrosion and paint wear.
 uniform float detail_scale = 100.0; // Scaling of the mask that adds detail to the other masks
 uniform float time_scale = 0.01; // Scales the affect of the age uniform
 uniform float uniform_corrosion_speed = 0.001; // Speed of uniform corrosion vs local corrosion
@@ -41,7 +42,6 @@ uniform uint vertex_weight_channel = 0; // Color channel used as the weight fact
 group_uniforms object_parameters;
 uniform float age = 0.0;
 uniform float paint_stability: hint_range(0.0, 1.0) = 0.5; // Affects residue, grime, roughness and yellowing
-uniform float mechanical_load: hint_range(0.0, 1.0)= 0.5; // Intensity of mechanical wear the object is subject to
 
 /// Wear scaling parameters of the environment context (details on the effects are in the docs)
 group_uniforms context_parameters;
@@ -67,13 +67,13 @@ uniform sampler2D roughness_paint;
 
 /// The grime accumulating at the edges of worn paint
 group_uniforms grime;
-const float grime_edge_default = 0.4; // The default edge (paint mask value) of grime deposition
 uniform float grime_intensity = 4.0;
 uniform float grime_falloff: hint_range(0.0, 1.0) = 0.9;
 uniform vec3 grime_color : source_color = vec3(0.75, 0.45, 0.2);
 
 /// The rust that is growing on the metallic base layer
 group_uniforms rust;
+uniform float rust_growth_factor = 200.0; // The factor with which rust grows in relation to other effects
 uniform vec3 rust_color_1: source_color = vec3(0.6,0.42,0.19);
 uniform vec3 rust_color_2: source_color = vec3(0.63,0.38,0.2);
 uniform vec3 rust_color_3: source_color = vec3(0.55, 0.33, 0.2);
