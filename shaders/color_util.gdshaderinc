@@ -11,10 +11,3 @@ vec3 desaturate(vec3 color, float factor)
     float gray = dot(color, vec3(0.299, 0.587, 0.114));
     return mix(vec3(gray), color, factor);
 }
-
-// Adjusts contrast and reduces brightness based on the selected rendering mode.
-void mode_albedo_adjustment(inout vec3 albedo, bool is_compat_mode)
-{
-	if (is_compat_mode) { albedo = desaturate(albedo, 0.9) * 0.8; }
-	else { albedo = adjust_contrast(albedo, 1.25) * 0.3; }
-}

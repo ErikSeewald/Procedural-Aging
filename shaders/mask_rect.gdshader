@@ -12,15 +12,6 @@ uniform bool overwrite_all = false;
 
 void fragment()
 {
-	float min_rust = age * uniform_corrosion_speed;
-	vec3 pos = vec3(UV.x, UV.y, z_offset);
-	float r = max(min_rust, voronoi3d_sq(pos*pitting_factor));
-	float g = 0.0;
-	float b = 0.0;
-	float a = r * g * b;
 
-	if (!overwrite_all)
-	{	COLOR = vec4(red ? r : 0.0, green ? g : 0.0, blue ? b : 0.0, 1.0); }
-	else { COLOR = vec4(a, a, a, 1.0); }
 
 }

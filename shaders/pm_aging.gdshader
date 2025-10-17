@@ -43,6 +43,22 @@ float get_lod()
 	return clamp(exp(pixel_size*100.0) - 1.0, 0.0, 1.0);
 }
 
+// Adjusts contrast and reduces brightness based on the selected rendering mode.
+void mode_albedo_adjustment(inout vec3 albedo, bool is_compat_mode)
+{
+	if (is_compat_mode)
+	{
+		albedo = desaturate(albedo, compat_saturate);
+		albedo = adjust_contrast(albedo, compat_contrast) * compat_darken;
+	}
+
+	else
+	{
+		albedo = desaturate(albedo, forward_saturate);
+		albedo = adjust_contrast(albedo, forward_contrast)  * forward_darken;
+	}
+}
+
 // Using distinct cutoff edges for accumulated grime,
 // the smooth edges of the mask can be sharpened and intensified.
 // The blend looks pretty flat without this.
@@ -51,18 +67,16 @@ void blend_grime(inout outputs outs, float w, float grime_edge, maskset mask_set
 	float s = (1.0 - paint_edge_sharpness);
 
 	float grime_mask = smoothstep(grime_edge - s, grime_edge + s, w);
-	float grime_fade = clamp((grime_falloff - w), 0.0, 1.0);
+	float fade_factor = (1.0 - grime_falloff) + grime_edge_default;
+	float grime_fade = clamp((fade_factor - w), 0.0, 1.0);
 	float grime_factor = grime_mask * grime_intensity * grime_fade;
 
-	float compat_scale = mix(1.0, 0.35, float(compat_mode));
+	float compat_scale = mix(1.0, compat_grime_intensity, float(compat_mode));
 	grime_factor *= compat_scale;
 
-	vec3 col = grime_color;
-	col.r += mask_set.detail_mask * rust_red_shift * 0.5;
-	col.g += mask_set.detail_mask * rust_green_shift * 0.5;
 
 
-	outs.albedo = mix(outs.albedo, col, grime_factor);
+	outs.albedo = mix(outs.albedo, grime_color, grime_factor);
 	outs.roughness = mix(outs.roughness, clamp(outs.roughness + 0.3, 0.0, 1.0), grime_factor);
 	outs.specular = mix(outs.specular, 0.1, grime_factor);
 }
@@ -126,7 +140,8 @@ void blend_rust_mask(inout outputs outs, float w, maskset mask_set)
 
 	float pollution_factor = (0.5+pollution);
 	col = desaturate(col, clamp(1.0 - mask_set.pit_mask*mask_set.detail_mask* pollution_factor, 0.0, 1.0));
-	col = desaturate(col, 0.75);
+	if (!compat_mode) { col = desaturate(col, 0.75); }
+	else { col *= compat_rust_darken; }
 
 	w = smoothstep(0.0, 1.0, clamp(w, 0.0, 1.0));
 	outs.albedo = mix(outs.albedo, col, w);
@@ -137,10 +152,17 @@ void blend_rust_mask(inout outputs outs, float w, maskset mask_set)
 	outs.specular = clamp(outs.specular - scaled_w * pollution_factor, 0.2, 1.0);
 }
 
+float adjust_aging_speed()
+{
+	return (moisture + mechanical_load + uv_and_heat * 0.75 + pollution * 0.25)
+	* (1.0 + vertex_weight) * age * time_scale;
+}
+
 void fragment()
 {
 	outputs outs;
 	vec3 pos = obj_pos*uv_scale;
+	float strength = adjust_aging_speed();
 
 	// Offset the edges by the corresponding context parameters
 	float stability_offset = (paint_stability - 0.5) * 0.05;
@@ -155,7 +177,7 @@ void fragment()
 	float pm_weight = 1.0;
 	if (use_paint_layer)
 	{
-		pm_weight = paint_mask(pos, vertex_weight, mask_set);
+		pm_weight = paint_mask(pos, strength, mask_set);
 	}
 
 	outs.albedo = texture(albedo_base, UV).rgb;
@@ -166,8 +188,8 @@ void fragment()
 
 	float rust_w = 0.0;
 	if (!use_paint_layer || pm_weight > grime_edge)
-	{		
-		rust_w = rust_mask(vertex_weight, mask_set);
+	{
+		rust_w = rust_mask(strength, mask_set);
 		rust_w *= 200.0 * (pm_weight - grime_edge);
 		blend_rust_mask(outs, rust_w, mask_set);
 	}

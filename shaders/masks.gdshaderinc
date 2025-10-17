@@ -6,7 +6,7 @@
 // -> Whichever file includes this one needs to define INCLUDE_PARAMS_DEFINED
 #ifndef INCLUDE_PARAMS_DEFINED
 	uniform float patch_scale;
-	uniform float pitting_factor;
+	uniform float wear_scale;
 	uniform float detail_scale;
 	uniform float age;
 	uniform float time_scale;
@@ -24,12 +24,6 @@ struct maskset
 	float pit_mask;
 	float detail_mask;
 };
-
-float adjust_aging_speed(float vertex_weight)
-{
-	return (moisture + mechanical_load + uv_and_heat * 0.75 + pollution * 0.25)
-	* (1.0 + vertex_weight) * age * time_scale;
-}
 
 float voronoi_fbm(vec3 pos)
 {
@@ -81,36 +75,39 @@ float get_pit_mask(vec3 pos)
 
 float get_wear_mask(vec3 pos)
 {
-	return voronoi3d_sq(pos*pitting_factor);
+	return voronoi3d_sq(pos*wear_scale);
 }
 
-// Returns a value focused on but able to go beyond the range of 0.0 to 1.0
-float rust_mask(float vertex_weight, maskset mask_set)
+// Samples the value of the rust mask at the given position.
+// - strength defines how strongly the mask is aged
+// - mask_set contains the wear, pit and detail masks to be blended in
+// - makes use of some uniforms that are not passed as parameters
+//
+// Returns a value around 0.0 and 1.0 which can go beyond 1.0 for strong rust wear.
+float rust_mask(float strength, maskset mask_set)
 {
-	float adjusted_speed = adjust_aging_speed(vertex_weight);
+	const float uv_uniform_factor = 2.0; // UV/heat should visibly speed up uniform corrosion
+	float min_rust = exp(strength) // Use a global minimum rust amount as uniform corrosion
+		* uniform_corrosion_speed
+		* (1.0 + mask_set.pit_mask) // Have uniform corrosion still favor pits
+		* (1.0 + uv_and_heat * uv_uniform_factor);
 
-	float min_rust = exp(adjusted_speed) * uniform_corrosion_speed 
-		* (1.0 + mask_set.pit_mask) *(1.0+uv_and_heat*2.0);
-
-	float patches = max(min_rust, mask_set.wear_mask);
+	float wear = max(min_rust, mask_set.wear_mask);
 	float pits = max(min_rust, mask_set.pit_mask);
-	float detail = mask_set.detail_mask;
+	float detail = mask_set.detail_mask; // No min_rust here to avoid fully flat corrosion
 
-	float value = patches * pits * detail;
-	return value * adjusted_speed;
+	float value = wear * pits * detail;
+	return value * strength;
 }
 
 // Samples the value of the paint mask at the given position.
-// - vertex_weight allows using vertex paint to make specific areas of the mesh age more
-//  intensely
+// - strength defines how strongly the mask is aged
 // - mask_set contains the wear, pit and detail masks to be blended in
 // - makes use of some uniforms that are not passed as parameters
 //
 // Returns a value between 0.0 (Paint fully intact) and 1.0 (Paint fully gone)
-float paint_mask(vec3 pos, float vertex_weight, maskset mask_set)
+float paint_mask(vec3 pos, float strength, maskset mask_set)
 {
-	float adjusted_speed = adjust_aging_speed(vertex_weight);
-
 	// These weights are hard-coded so other aging effects
 	// do not need to dynamically depend on this weight distribution.
 	// I also want to avoid parameter-choice paralysis.
@@ -119,7 +116,7 @@ float paint_mask(vec3 pos, float vertex_weight, maskset mask_set)
 	const float w3 = 0.6;
 	const float w4 = 0.2;
 
-	// Similar reason for these scale factors to be kept constant
+	// Similar reason for these scale factors to be kept constant.
 	const float s1 = 2.0;
 	const float s2 = 4.0;
 
@@ -130,9 +127,9 @@ float paint_mask(vec3 pos, float vertex_weight, maskset mask_set)
 	float value = p1*w1 + p2*w2 + p3*w3 + p4*w4;
 
 	// Introduce a larger wear mask that increases in weight over time
-	// to reduce the border-banding of the other layers at later stages
-	value += mask_set.wear_mask * adjusted_speed;
-	value += uniform_corrosion_speed * exp(adjusted_speed);
+	// to reduce the border-banding of the other layers at later stages.
+	value += mask_set.wear_mask * strength;
+	value += uniform_corrosion_speed * exp(strength);
 
-	return clamp(value * adjusted_speed, 0.0, 1.0);
+	return clamp(value * strength, 0.0, 1.0);
 }
