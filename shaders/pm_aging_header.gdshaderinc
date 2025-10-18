@@ -61,6 +61,7 @@ group_uniforms paint_layer;
 uniform bool use_paint_layer = true;
 uniform float paint_metallic = 0.4;
 uniform float paint_edge_sharpness: hint_range(0.0, 1.0) = 0.98;
+uniform vec3 paint_yellowing: source_color = vec3(0.85, 0.85, 0.5); // Yellowing added during aging
 uniform sampler2D albedo_paint;
 uniform sampler2D normal_paint : hint_normal;
 uniform sampler2D roughness_paint;

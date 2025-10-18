@@ -101,24 +101,20 @@ float offset_grime_edge()
 }
 
 // Blends grime into the edges of the paint mask to simulate grime accumulation.
-// Modifies the given inout outpus based on the given paint mask weight and
-// the given edge defining at which mask value grime mainly deposits.
-void blend_grime(inout outputs outs, float pm_weight, float grime_edge)
+// Modifies the given inout outpus based on the paint mask weight and the version
+// of it that has been smoothed around the grime edge, defining grime accumulation spots.
+void blend_grime(inout outputs outs, float pm_weight, float smooth_pm_weight)
 {	
 	// Kept constant instead of as uniforms because these values, 
 	// unlike grime color, are not very dependant on the base and paint albedo.
 	const float grime_roughness = 0.8;
 	const float grime_specular = 0.1;
 	
-	// Use an offset based on the edge sharpness to smoothstep the weight around the edge
-	float offset = (1.0 - paint_edge_sharpness);
-	float grime_mask = smoothstep(grime_edge - offset, grime_edge + offset, pm_weight);
-	
 	// Fade out the grime intensity based on the selected falloff
 	float fade_factor = (1.0 - grime_falloff) + grime_edge_default;
 	float grime_fade = clamp((fade_factor - pm_weight), 0.0, 1.0);
 	
-	float grime_factor = grime_mask * grime_intensity * grime_fade;
+	float grime_factor = smooth_pm_weight * grime_intensity * grime_fade;
 	grime_factor *= mix(1.0, compat_grime_intensity, float(compat_mode));
 
 	outs.albedo = mix(outs.albedo, grime_color, grime_factor);
@@ -126,8 +122,10 @@ void blend_grime(inout outputs outs, float pm_weight, float grime_edge)
 	outs.specular = mix(outs.specular, grime_specular, grime_factor);
 }
 
-void blend_paint_mask(inout outputs outs, vec2 uv, float w,
-	float grime_edge)
+// Blends the paint layer on top of the base layer in the given inout outputs
+// based on the given paint mask weight.
+// Factors in the grime edge to apply certain effects only on either side of it.
+void blend_paint_mask(inout outputs outs, vec2 uv, float pm_weight, float smooth_pm_weight)
 {
 	vec3 base_col = outs.albedo;
 	float base_roughness = outs.roughness;
@@ -141,36 +139,32 @@ void blend_paint_mask(inout outputs outs, vec2 uv, float w,
 	outs.normal = texture(normal_paint, uv).rgb;
 
  	// Intensify difference between inside and outside of the paint edges
-	float adjusted_w = clamp(w + w - grime_edge, 0.0, 1.0);
-	float normal_factor = 1.0; // Outside of grime it should be 100% base normal
-	if (w < grime_edge)
-	 {
-		// Reduce the wear/blend on the inside of the grime edge
-		// for a stronger edge wear look.
-		float stability_divsor = clamp(paint_stability, 0.35, 1.0);
-		adjusted_w = w * 0.25 / stability_divsor;
-		normal_factor = adjusted_w;
+	float adjusted_w = 1.0; // Force weight to 1.0 beyond grime edge
+	
+	// Limit stability factor to this range to avoid extreme results that
+	// can cause aliasing or complete blur.
+	const float min_stability = 0.25;
+	const float max_stability = 0.75;
+	float stability_factor = clamp(1.0 - paint_stability, min_stability, max_stability);
+	adjusted_w = mix(pm_weight * stability_factor, 1.0, smooth_pm_weight);
 
-		// Moisture and uv/heat should reduce gloss, surface roughness
-		// and add yellowing to the paint surface.
-		float mus = (moisture+uv_and_heat) * 0.25 / stability_divsor;
-		const vec3 yellowing = vec3(0.95, 0.95, 0.5);
-		outs.albedo = mix(outs.albedo, yellowing, mus*w);
-		outs.roughness = mix(outs.roughness, 1.0, mus*w);
-		outs.normal = mix(outs.normal, base_normal, mus*w);
-	}
-
+	// Moisture and uv/heat should reduce gloss and add yellowing to the paint surface.
+	const float m_stength = 1.25; // Intensify a bit to be noticable at all params
+	float m = (moisture+uv_and_heat) * m_stength * stability_factor;
+	
+	vec3 yellowed_albedo = mix(outs.albedo, paint_yellowing, m*pm_weight);
+	vec3 adjusted_normal = mix(outs.normal, base_normal, m*pm_weight);
+	
+	outs.albedo = mix(yellowed_albedo, outs.albedo, smooth_pm_weight);
+	outs.normal = mix(adjusted_normal, outs.normal, smooth_pm_weight);
+	
 
 	vec3 extra_grime = mix(outs.albedo, grime_color, pollution * adjusted_w);
 	outs.albedo = mix(extra_grime, base_col, smoothstep(0.0, 1.0, adjusted_w*adjusted_w*4.0));
 
 	outs.roughness = mix(outs.roughness, base_roughness, adjusted_w);
 	outs.metallic = mix(outs.metallic, base_metallic_adj, adjusted_w);
-	outs.normal = mix(outs.normal, base_normal, normal_factor);
-
-	// Order is important here. This step needs to happen after the others uniform
-	// the parameters no longer make sense. Use the non adjusted weight here.
-	blend_grime(outs, w, grime_edge);
+	outs.normal = mix(outs.normal, base_normal, adjusted_w);
 }
 
 void blend_rust_mask(inout outputs outs, float w, maskset mask_set)
@@ -233,7 +227,11 @@ void fragment()
 		pm_weight = paint_mask(pos, strength, mask_set, seed_f);
 	}
 	
+	// Use an offset based on the edge sharpness to smoothstep the weight around the edge
 	float grime_edge = offset_grime_edge();
+	float offset = (1.0 - paint_edge_sharpness);
+	float smooth_pm_weight = smoothstep(grime_edge - offset, grime_edge + offset, pm_weight);
+	
 	if (pm_weight > grime_edge) // Rust only needs to be calculated where it can actually be visible
 	{
 		float rust_w = rust_mask(strength, mask_set);
@@ -241,9 +239,9 @@ void fragment()
 		blend_rust_mask(outs, rust_w, mask_set);
 	}
 	
-	blend_paint_mask(outs, UV, pm_weight, grime_edge);
+	blend_paint_mask(outs, UV, pm_weight, smooth_pm_weight);
+	blend_grime(outs, pm_weight, smooth_pm_weight);
 	
-
 	ALBEDO = mode_albedo_adjustment(outs.albedo, compat_mode);
 	METALLIC = outs.metallic;
 	ROUGHNESS = outs.roughness;

@@ -53,6 +53,7 @@ shader_parameter/roughness_paint = ExtResource("8_oj73j")
 shader_parameter/grime_intensity = 4.0
 shader_parameter/grime_falloff = 0.9
 shader_parameter/grime_color = Color(0.75, 0.45, 0.2, 1)
+shader_parameter/rust_growth_factor = 200.0
 shader_parameter/rust_color_1 = Color(0.6, 0.42, 0.19, 1)
 shader_parameter/rust_color_2 = Color(0.63, 0.38, 0.2, 1)
 shader_parameter/rust_color_3 = Color(0.55, 0.33, 0.2, 1)
