@@ -92,7 +92,7 @@ shader_parameter/snoise_fbm_iterations = 4
 shader_parameter/use_vertex_weight = false
 shader_parameter/vertex_weight_scale = 1.0
 shader_parameter/vertex_weight_channel = 0
-shader_parameter/age = 46.065
+shader_parameter/age = 44.06
 shader_parameter/paint_stability = 0.5
 shader_parameter/uv_and_heat = 0.5
 shader_parameter/pollution = 0.5
@@ -168,7 +168,7 @@ shader_parameter/normal_paint = ExtResource("14_7ejpg")
 shader_parameter/roughness_paint = ExtResource("15_griky")
 shader_parameter/grime_intensity = 4.0
 shader_parameter/grime_falloff = 0.9
-shader_parameter/grime_color = Color(0.75, 0.45, 0.2, 1)
+shader_parameter/grime_color = Color(0.64, 0.55072, 0.4416, 1)
 shader_parameter/rust_growth_factor = 200.0
 shader_parameter/rust_color_1 = Color(0.6, 0.42, 0.19, 1)
 shader_parameter/rust_color_2 = Color(0.63, 0.38, 0.2, 1)
@@ -510,7 +510,7 @@ shader_parameter/normal_paint = ExtResource("9_ujtkt")
 shader_parameter/roughness_paint = ExtResource("11_kijjg")
 shader_parameter/grime_intensity = 4.0
 shader_parameter/grime_falloff = 0.9
-shader_parameter/grime_color = Color(0.75, 0.45, 0.2, 1)
+shader_parameter/grime_color = Color(0.76, 0.48640004, 0.07600002, 1)
 shader_parameter/rust_growth_factor = 200.0
 shader_parameter/rust_color_1 = Color(0.6, 0.42, 0.19, 1)
 shader_parameter/rust_color_2 = Color(0.63, 0.38, 0.2, 1)
@@ -676,7 +676,6 @@ mesh = SubResource("SphereMesh_3xn8w")
 surface_material_override/0 = SubResource("ShaderMaterial_7ejpg")
 
 [node name="Alt-mat TestMesh" type="Node3D" parent="."]
-visible = false
 
 [node name="TestMesh2" parent="Alt-mat TestMesh" instance=ExtResource("3_a7gid")]
 transform = Transform3D(1.005247, 0, 0, 0, 1.0052474, 0, 0, 0, 1.0052488, 0, 0, 1.7055945)

@@ -39,12 +39,14 @@ void vertex()
 // Returns a level of detail factor based on pixel_size relative to
 // object position.
 // The value rises exponentially with larger pixel size.
+// The growth is tuned for the lod usage in the detail mask. All other
+// uses of lod need to scale accordingly.
 float get_lod()
 {
 	vec3 dx = dFdx(obj_pos * uv_scale);
 	vec3 dy = dFdy(obj_pos * uv_scale);
 	float pixel_size = max(length(dx), length(dy));
-	return clamp(exp(pixel_size*100.0) - 1.0, 0.0, 1.0);
+	return exp(pixel_size*50.0) - 1.0;
 }
 
 // Adjusts contrast and reduces brightness based on the selected rendering mode.
@@ -175,7 +177,7 @@ void blend_paint_mask(inout outputs outs, vec2 uv, float pm_weight, float smooth
 // Unlike the paint blending function, this blend also uses the maskset
 // to add additional color detail to the rust mask.  
 void blend_rust_mask(inout outputs outs, float rust_w, maskset mask_set)
-{
+{	
 	// These values were heuristically chosen to roughly match patterns in
 	// rust images. They are kept constant to avoid too many parameters and
 	// dependencies.
@@ -260,11 +262,21 @@ void fragment()
 	
 	// Use an offset based on the edge sharpness to smoothstep the weight around the edge
 	float grime_edge = offset_grime_edge();
-	float offset = (1.0 - paint_edge_sharpness);
+	const float paint_blur_factor = 0.05;
+	const float maximum_paint_blur = 0.15; // Anything stronger looks like the paint disappears
+	float lod_blur = clamp(lod*paint_blur_factor, 0.0, maximum_paint_blur);
+	float offset = (1.0 - paint_edge_sharpness) + lod_blur;
 	float smooth_pm_weight = smoothstep(grime_edge - offset, grime_edge + offset, pm_weight);
 	
 	if (pm_weight > grime_edge) // Rust only needs to be calculated where it can actually be visible
 	{
+		// Blur the pit mask based on lod to reduce aliasing at small pixel sizes.
+		// Only do this AFTER the paint mask has used the non-blurred pit mask as the paint mask
+		// uses a different lod technique.
+		const float blur_center = 0.5; // Seemless for masks between 0.0 and 1.0 when lod is 0.0
+		float pit_blur = (blur_center + lod);
+		mask_set.pit_mask = smoothstep(blur_center - pit_blur, blur_center + pit_blur, mask_set.pit_mask);
+		
 		float rust_w = rust_mask(strength, mask_set);
 		rust_w *= rust_growth_factor * (pm_weight - grime_edge); // Rust grows more strongly where paint has worn away
 		blend_rust_mask(outs, rust_w, mask_set);
