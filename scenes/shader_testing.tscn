@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://c4hvqyphiayku"]
+[gd_scene load_steps=69 format=3 uid="uid://c4hvqyphiayku"]
 
 [ext_resource type="Script" uid="uid://cng38wbkc6o1l" path="res://scripts/scene/fly_cam.gd" id="1_g8tjy"]
 [ext_resource type="Script" uid="uid://qsohuxakiknk" path="res://scripts/scene/scene_manager.gd" id="2_rcnun"]
@@ -13,8 +13,33 @@
 [ext_resource type="Texture2D" uid="uid://c0wg2kmpentsv" path="res://assets/single_textures/green_metal_rust_2k.blend/textures/green_metal_rust_nor_gl_2k.png" id="9_ujtkt"]
 [ext_resource type="Texture2D" uid="uid://bb75x6l3ec5wc" path="res://assets/single_textures/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_rough_2k.png" id="10_bpg18"]
 [ext_resource type="Texture2D" uid="uid://t0xk1rw1uk3x" path="res://assets/single_textures/green_metal_rust_2k.blend/textures/green_metal_rust_rough_2k.jpg" id="11_kijjg"]
+[ext_resource type="Texture2D" uid="uid://qrc7vqj5is8j" path="res://assets/single_textures/blue_metal_plate_2k.blend/textures/gray_metal_plate_diff_2k.jpg" id="12_bpg18"]
 [ext_resource type="Script" uid="uid://b6j66gryxhyvq" path="res://scripts/mask_rect.gd" id="13_3xn8w"]
+[ext_resource type="Texture2D" uid="uid://cjmh74p6cu4qc" path="res://assets/single_textures/blue_metal_plate_2k.blend/textures/blue_metal_plate_diff_2k.jpg" id="13_kijjg"]
+[ext_resource type="Texture2D" uid="uid://3voc01dgrmmt" path="res://assets/single_textures/blue_metal_plate_2k.blend/textures/blue_metal_plate_nor_gl_2k.png" id="14_7ejpg"]
 [ext_resource type="Shader" uid="uid://f6um1kb1jaa2" path="res://shaders/mask_rect.gdshader" id="14_p5hah"]
+[ext_resource type="Texture2D" uid="uid://bd1ur6jjs7wm4" path="res://assets/single_textures/blue_metal_plate_2k.blend/textures/blue_metal_plate_rough_2k.png" id="15_griky"]
+[ext_resource type="Texture2D" uid="uid://dqt4sdpcxm643" path="res://assets/single_textures/metal_plate_2k.blend/textures/metal_plate_diff_2k.jpg" id="16_4jush"]
+[ext_resource type="Texture2D" uid="uid://cdr3frh30xxvx" path="res://assets/single_textures/factory_wall_2k.blend/textures/factory_wall_diff_2k.jpg" id="16_6yyx0"]
+[ext_resource type="Texture2D" uid="uid://cdlv2sbldv3dp" path="res://assets/single_textures/box_profile_metal_sheet_2k.blend/textures/box_profile_metal_sheet_diff_2k.jpg" id="16_griky"]
+[ext_resource type="Texture2D" uid="uid://b0wp7u63w580u" path="res://assets/single_textures/corrugated_iron_02_2k.blend/textures/corrugated_iron_02_diff_2k.jpg" id="16_rd6s2"]
+[ext_resource type="Texture2D" uid="uid://byajqoms11lgd" path="res://assets/single_textures/corrugated_iron_02_2k.blend/textures/corrugated_iron_02_nor_gl_2k.png" id="17_1axoh"]
+[ext_resource type="Texture2D" uid="uid://bvbs6wvakfcmx" path="res://assets/single_textures/factory_wall_2k.blend/textures/factory_wall_nor_gl_2k.png" id="17_8kwn3"]
+[ext_resource type="Texture2D" uid="uid://b3y4vfolduenn" path="res://assets/single_textures/metal_plate_2k.blend/textures/metal_plate_nor_gl_2k.png" id="17_lsgdq"]
+[ext_resource type="Texture2D" uid="uid://d157o811i6esk" path="res://assets/single_textures/box_profile_metal_sheet_2k.blend/textures/box_profile_metal_sheet_nor_gl_2k.png" id="17_nudq1"]
+[ext_resource type="Texture2D" uid="uid://cqotjh63g3hha" path="res://assets/single_textures/box_profile_metal_sheet_2k.blend/textures/box_profile_metal_sheet_rough_2k.png" id="18_04jaa"]
+[ext_resource type="Texture2D" uid="uid://drhvgwfljmn4r" path="res://assets/single_textures/metal_plate_2k.blend/textures/metal_plate_rough_2k.png" id="18_mcqkx"]
+[ext_resource type="Texture2D" uid="uid://b6ju3foebxewn" path="res://assets/single_textures/corrugated_iron_02_2k.blend/textures/corrugated_iron_02_rough_2k.png" id="18_nohbc"]
+[ext_resource type="Texture2D" uid="uid://dnu1wmknewice" path="res://assets/single_textures/factory_wall_2k.blend/textures/factory_wall_rough_2k.jpg" id="18_otxul"]
+[ext_resource type="Texture2D" uid="uid://yxxarc65njbo" path="res://assets/single_textures/metal_57/metal_0009_color_2k.jpg" id="28_6ir5i"]
+[ext_resource type="Texture2D" uid="uid://bumrw7wynxr0v" path="res://assets/single_textures/metal_67/metal_0010_color_2k.jpg" id="28_car10"]
+[ext_resource type="Texture2D" uid="uid://wmrxw530ryyk" path="res://assets/single_textures/metal_122/metal_0015_color_2k.jpg" id="28_ux7xw"]
+[ext_resource type="Texture2D" uid="uid://dsns8etw45slw" path="res://assets/single_textures/metal_67/metal_0010_normal_opengl_2k.png" id="29_bjoa8"]
+[ext_resource type="Texture2D" uid="uid://dvw73he82lb3r" path="res://assets/single_textures/metal_57/metal_0009_normal_opengl_2k.png" id="29_lb8kl"]
+[ext_resource type="Texture2D" uid="uid://dy766kw4d8m4" path="res://assets/single_textures/metal_122/metal_0015_normal_directx_2k.png" id="29_ux7xw"]
+[ext_resource type="Texture2D" uid="uid://26v18vsd7fuy" path="res://assets/single_textures/metal_57/metal_0009_roughness_2k.jpg" id="30_6suic"]
+[ext_resource type="Texture2D" uid="uid://6mbipokn40gy" path="res://assets/single_textures/metal_122/metal_0015_roughness_2k.jpg" id="30_dhsfx"]
+[ext_resource type="Texture2D" uid="uid://tvpa2gifbjnh" path="res://assets/single_textures/metal_67/metal_0010_roughness_2k.jpg" id="30_xcnjf"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_160ns"]
 sky_top_color = Color(0.139497, 0.140391, 0.354607, 1)
@@ -51,10 +76,11 @@ shader_parameter/wear_scale = 2.0
 shader_parameter/pit_scale = 8.0
 shader_parameter/detail_scale = 100.0
 shader_parameter/time_scale = 0.01
-shader_parameter/uniform_corrosion_speed = 0.001
+shader_parameter/uniform_corrosion_speed = 0.005
 shader_parameter/forward_saturate = 1.0
 shader_parameter/forward_darken = 0.3
 shader_parameter/forward_contrast = 1.25
+shader_parameter/forward_rust_saturate = 0.75
 shader_parameter/compat_mode = false
 shader_parameter/compat_saturate = 0.8
 shader_parameter/compat_darken = 0.75
@@ -66,7 +92,7 @@ shader_parameter/snoise_fbm_iterations = 4
 shader_parameter/use_vertex_weight = false
 shader_parameter/vertex_weight_scale = 1.0
 shader_parameter/vertex_weight_channel = 0
-shader_parameter/age = 42.945
+shader_parameter/age = 46.065
 shader_parameter/paint_stability = 0.5
 shader_parameter/uv_and_heat = 0.5
 shader_parameter/pollution = 0.5
@@ -79,6 +105,121 @@ shader_parameter/use_paint_layer = true
 shader_parameter/paint_metallic = 0.2
 shader_parameter/paint_edge_sharpness = 0.98
 shader_parameter/paint_yellowing = Color(0.85, 0.85, 0.5, 1)
+shader_parameter/paint_yellowing_intensity = 3.0
+shader_parameter/albedo_paint = ExtResource("7_iqdmv")
+shader_parameter/normal_paint = ExtResource("9_ujtkt")
+shader_parameter/roughness_paint = ExtResource("11_kijjg")
+shader_parameter/grime_intensity = 4.0
+shader_parameter/grime_falloff = 0.9
+shader_parameter/grime_color = Color(0.75, 0.45, 0.2, 1)
+shader_parameter/rust_growth_factor = 200.0
+shader_parameter/rust_color_1 = Color(0.65, 0.5, 0.1, 1)
+shader_parameter/rust_color_2 = Color(0.63, 0.38, 0.2, 1)
+shader_parameter/rust_color_3 = Color(0.55, 0.33, 0.2, 1)
+shader_parameter/rust_color_4 = Color(0.41, 0.3, 0.28, 1)
+shader_parameter/rust_red_shift = 0.5
+shader_parameter/rust_green_shift = 0.1
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ux7xw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nudq1"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("4_160ns")
+shader_parameter/seed = 0
+shader_parameter/uv_scale = 1.425
+shader_parameter/patch_scale = 2.0
+shader_parameter/wear_scale = 2.0
+shader_parameter/pit_scale = 8.0
+shader_parameter/detail_scale = 100.0
+shader_parameter/time_scale = 0.01
+shader_parameter/uniform_corrosion_speed = 0.001
+shader_parameter/forward_saturate = 1.0
+shader_parameter/forward_darken = 0.3
+shader_parameter/forward_contrast = 1.25
+shader_parameter/forward_rust_saturate = 0.75
+shader_parameter/compat_mode = false
+shader_parameter/compat_saturate = 0.8
+shader_parameter/compat_darken = 0.75
+shader_parameter/compat_contrast = 1.2
+shader_parameter/compat_grime_intensity = 0.5
+shader_parameter/compat_rust_darken = 0.65
+shader_parameter/voronoi_fbm_iterations = 5
+shader_parameter/snoise_fbm_iterations = 4
+shader_parameter/use_vertex_weight = false
+shader_parameter/vertex_weight_scale = 1.0
+shader_parameter/vertex_weight_channel = 0
+shader_parameter/age = 46.84
+shader_parameter/paint_stability = 0.5
+shader_parameter/uv_and_heat = 0.5
+shader_parameter/pollution = 0.5
+shader_parameter/moisture = 0.5
+shader_parameter/base_metallic = 0.6
+shader_parameter/albedo_base = ExtResource("12_bpg18")
+shader_parameter/normal_base = ExtResource("14_7ejpg")
+shader_parameter/roughness_base = ExtResource("15_griky")
+shader_parameter/use_paint_layer = true
+shader_parameter/paint_metallic = 0.4
+shader_parameter/paint_edge_sharpness = 0.98
+shader_parameter/paint_yellowing = Color(0.85, 0.85, 0.5, 1)
+shader_parameter/paint_yellowing_intensity = 3.0
+shader_parameter/albedo_paint = ExtResource("13_kijjg")
+shader_parameter/normal_paint = ExtResource("14_7ejpg")
+shader_parameter/roughness_paint = ExtResource("15_griky")
+shader_parameter/grime_intensity = 4.0
+shader_parameter/grime_falloff = 0.9
+shader_parameter/grime_color = Color(0.75, 0.45, 0.2, 1)
+shader_parameter/rust_growth_factor = 200.0
+shader_parameter/rust_color_1 = Color(0.6, 0.42, 0.19, 1)
+shader_parameter/rust_color_2 = Color(0.63, 0.38, 0.2, 1)
+shader_parameter/rust_color_3 = Color(0.55, 0.33, 0.2, 1)
+shader_parameter/rust_color_4 = Color(0.41, 0.3, 0.28, 1)
+shader_parameter/rust_red_shift = 0.5
+shader_parameter/rust_green_shift = 0.1
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_y6ry5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_car10"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("4_160ns")
+shader_parameter/seed = 3
+shader_parameter/uv_scale = 1.0
+shader_parameter/patch_scale = 2.0
+shader_parameter/wear_scale = 2.0
+shader_parameter/pit_scale = 8.0
+shader_parameter/detail_scale = 100.0
+shader_parameter/time_scale = 0.01
+shader_parameter/uniform_corrosion_speed = 0.001
+shader_parameter/forward_saturate = 1.0
+shader_parameter/forward_darken = 0.3
+shader_parameter/forward_contrast = 1.25
+shader_parameter/forward_rust_saturate = 0.75
+shader_parameter/compat_mode = false
+shader_parameter/compat_saturate = 0.8
+shader_parameter/compat_darken = 0.75
+shader_parameter/compat_contrast = 1.2
+shader_parameter/compat_grime_intensity = 0.5
+shader_parameter/compat_rust_darken = 0.65
+shader_parameter/voronoi_fbm_iterations = 5
+shader_parameter/snoise_fbm_iterations = 4
+shader_parameter/use_vertex_weight = false
+shader_parameter/vertex_weight_scale = 1.0
+shader_parameter/vertex_weight_channel = 0
+shader_parameter/age = 41.375
+shader_parameter/paint_stability = 0.5
+shader_parameter/uv_and_heat = 0.5
+shader_parameter/pollution = 0.5
+shader_parameter/moisture = 0.5
+shader_parameter/base_metallic = 0.6
+shader_parameter/albedo_base = ExtResource("16_rd6s2")
+shader_parameter/normal_base = ExtResource("17_1axoh")
+shader_parameter/roughness_base = ExtResource("18_nohbc")
+shader_parameter/use_paint_layer = true
+shader_parameter/paint_metallic = 0.2
+shader_parameter/paint_edge_sharpness = 0.98
+shader_parameter/paint_yellowing = Color(0.85, 0.85, 0.5, 1)
+shader_parameter/paint_yellowing_intensity = 3.0
 shader_parameter/albedo_paint = ExtResource("7_iqdmv")
 shader_parameter/normal_paint = ExtResource("9_ujtkt")
 shader_parameter/roughness_paint = ExtResource("11_kijjg")
@@ -93,112 +234,14 @@ shader_parameter/rust_color_4 = Color(0.41, 0.3, 0.28, 1)
 shader_parameter/rust_red_shift = 0.5
 shader_parameter/rust_green_shift = 0.1
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_ux7xw"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_nudq1"]
-resource_local_to_scene = true
-render_priority = 0
-shader = ExtResource("4_160ns")
-shader_parameter/seed = 0
-shader_parameter/uv_scale = 1.0
-shader_parameter/patch_scale = 2.0
-shader_parameter/wear_scale = 2.0
-shader_parameter/pit_scale = 8.0
-shader_parameter/detail_scale = 100.0
-shader_parameter/time_scale = 0.01
-shader_parameter/uniform_corrosion_speed = 0.001
-shader_parameter/forward_saturate = 1.0
-shader_parameter/forward_darken = 0.3
-shader_parameter/forward_contrast = 1.25
-shader_parameter/compat_mode = false
-shader_parameter/compat_saturate = 0.8
-shader_parameter/compat_darken = 0.75
-shader_parameter/compat_contrast = 1.2
-shader_parameter/compat_grime_intensity = 0.5
-shader_parameter/compat_rust_darken = 0.65
-shader_parameter/voronoi_fbm_iterations = 5
-shader_parameter/snoise_fbm_iterations = 4
-shader_parameter/use_vertex_weight = false
-shader_parameter/vertex_weight_scale = 1.0
-shader_parameter/vertex_weight_channel = 0
-shader_parameter/age = 0.0
-shader_parameter/paint_stability = 0.5
-shader_parameter/uv_and_heat = 0.5
-shader_parameter/pollution = 0.5
-shader_parameter/moisture = 0.5
-shader_parameter/base_metallic = 0.6
-shader_parameter/use_paint_layer = true
-shader_parameter/paint_metallic = 0.4
-shader_parameter/paint_edge_sharpness = 0.98
-shader_parameter/paint_yellowing = Color(0.75, 0.75, 0.3, 1)
-shader_parameter/grime_intensity = 4.0
-shader_parameter/grime_falloff = 0.9
-shader_parameter/grime_color = Color(0.75, 0.45, 0.2, 1)
-shader_parameter/rust_growth_factor = 200.0
-shader_parameter/rust_color_1 = Color(0.6, 0.42, 0.19, 1)
-shader_parameter/rust_color_2 = Color(0.63, 0.38, 0.2, 1)
-shader_parameter/rust_color_3 = Color(0.55, 0.33, 0.2, 1)
-shader_parameter/rust_color_4 = Color(0.41, 0.3, 0.28, 1)
-shader_parameter/rust_red_shift = 0.5
-shader_parameter/rust_green_shift = 0.1
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_y6ry5"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6yyx0"]
-resource_local_to_scene = true
-render_priority = 0
-shader = ExtResource("4_160ns")
-shader_parameter/seed = 0
-shader_parameter/uv_scale = 1.0
-shader_parameter/patch_scale = 2.0
-shader_parameter/wear_scale = 2.0
-shader_parameter/pit_scale = 8.0
-shader_parameter/detail_scale = 100.0
-shader_parameter/time_scale = 0.01
-shader_parameter/uniform_corrosion_speed = 0.001
-shader_parameter/forward_saturate = 1.0
-shader_parameter/forward_darken = 0.3
-shader_parameter/forward_contrast = 1.25
-shader_parameter/compat_mode = false
-shader_parameter/compat_saturate = 0.8
-shader_parameter/compat_darken = 0.75
-shader_parameter/compat_contrast = 1.2
-shader_parameter/compat_grime_intensity = 0.5
-shader_parameter/compat_rust_darken = 0.65
-shader_parameter/voronoi_fbm_iterations = 5
-shader_parameter/snoise_fbm_iterations = 4
-shader_parameter/use_vertex_weight = false
-shader_parameter/vertex_weight_scale = 1.0
-shader_parameter/vertex_weight_channel = 0
-shader_parameter/age = 0.0
-shader_parameter/paint_stability = 0.5
-shader_parameter/uv_and_heat = 0.5
-shader_parameter/pollution = 0.5
-shader_parameter/moisture = 0.5
-shader_parameter/base_metallic = 0.6
-shader_parameter/use_paint_layer = true
-shader_parameter/paint_metallic = 0.4
-shader_parameter/paint_edge_sharpness = 0.98
-shader_parameter/paint_yellowing = Color(0.75, 0.75, 0.3, 1)
-shader_parameter/grime_intensity = 4.0
-shader_parameter/grime_falloff = 0.9
-shader_parameter/grime_color = Color(0.75, 0.45, 0.2, 1)
-shader_parameter/rust_growth_factor = 200.0
-shader_parameter/rust_color_1 = Color(0.6, 0.42, 0.19, 1)
-shader_parameter/rust_color_2 = Color(0.63, 0.38, 0.2, 1)
-shader_parameter/rust_color_3 = Color(0.55, 0.33, 0.2, 1)
-shader_parameter/rust_color_4 = Color(0.41, 0.3, 0.28, 1)
-shader_parameter/rust_red_shift = 0.5
-shader_parameter/rust_green_shift = 0.1
-
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_dhsfx"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_lsgdq"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rd6s2"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("4_160ns")
-shader_parameter/seed = 0
-shader_parameter/uv_scale = 1.0
+shader_parameter/seed = 2
+shader_parameter/uv_scale = 1.44
 shader_parameter/patch_scale = 2.0
 shader_parameter/wear_scale = 2.0
 shader_parameter/pit_scale = 8.0
@@ -208,6 +251,7 @@ shader_parameter/uniform_corrosion_speed = 0.001
 shader_parameter/forward_saturate = 1.0
 shader_parameter/forward_darken = 0.3
 shader_parameter/forward_contrast = 1.25
+shader_parameter/forward_rust_saturate = 0.75
 shader_parameter/compat_mode = false
 shader_parameter/compat_saturate = 0.8
 shader_parameter/compat_darken = 0.75
@@ -219,16 +263,23 @@ shader_parameter/snoise_fbm_iterations = 4
 shader_parameter/use_vertex_weight = false
 shader_parameter/vertex_weight_scale = 1.0
 shader_parameter/vertex_weight_channel = 0
-shader_parameter/age = 0.0
+shader_parameter/age = 48.555
 shader_parameter/paint_stability = 0.5
 shader_parameter/uv_and_heat = 0.5
 shader_parameter/pollution = 0.5
 shader_parameter/moisture = 0.5
 shader_parameter/base_metallic = 0.6
+shader_parameter/albedo_base = ExtResource("16_4jush")
+shader_parameter/normal_base = ExtResource("17_lsgdq")
+shader_parameter/roughness_base = ExtResource("18_mcqkx")
 shader_parameter/use_paint_layer = true
-shader_parameter/paint_metallic = 0.4
+shader_parameter/paint_metallic = 0.2
 shader_parameter/paint_edge_sharpness = 0.98
-shader_parameter/paint_yellowing = Color(0.75, 0.75, 0.3, 1)
+shader_parameter/paint_yellowing = Color(0.85, 0.85, 0.5, 1)
+shader_parameter/paint_yellowing_intensity = 3.0
+shader_parameter/albedo_paint = ExtResource("7_iqdmv")
+shader_parameter/normal_paint = ExtResource("9_ujtkt")
+shader_parameter/roughness_paint = ExtResource("11_kijjg")
 shader_parameter/grime_intensity = 4.0
 shader_parameter/grime_falloff = 0.9
 shader_parameter/grime_color = Color(0.75, 0.45, 0.2, 1)
@@ -242,11 +293,11 @@ shader_parameter/rust_green_shift = 0.1
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ytkqt"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_rd6s2"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4jush"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("4_160ns")
-shader_parameter/seed = 0
+shader_parameter/seed = 3
 shader_parameter/uv_scale = 1.0
 shader_parameter/patch_scale = 2.0
 shader_parameter/wear_scale = 2.0
@@ -257,6 +308,7 @@ shader_parameter/uniform_corrosion_speed = 0.001
 shader_parameter/forward_saturate = 1.0
 shader_parameter/forward_darken = 0.3
 shader_parameter/forward_contrast = 1.25
+shader_parameter/forward_rust_saturate = 0.75
 shader_parameter/compat_mode = false
 shader_parameter/compat_saturate = 0.8
 shader_parameter/compat_darken = 0.75
@@ -268,16 +320,23 @@ shader_parameter/snoise_fbm_iterations = 4
 shader_parameter/use_vertex_weight = false
 shader_parameter/vertex_weight_scale = 1.0
 shader_parameter/vertex_weight_channel = 0
-shader_parameter/age = 0.0
+shader_parameter/age = 47.49
 shader_parameter/paint_stability = 0.5
 shader_parameter/uv_and_heat = 0.5
 shader_parameter/pollution = 0.5
 shader_parameter/moisture = 0.5
 shader_parameter/base_metallic = 0.6
+shader_parameter/albedo_base = ExtResource("6_3xn8w")
+shader_parameter/normal_base = ExtResource("8_887s3")
+shader_parameter/roughness_base = ExtResource("10_bpg18")
 shader_parameter/use_paint_layer = true
-shader_parameter/paint_metallic = 0.4
+shader_parameter/paint_metallic = 0.2
 shader_parameter/paint_edge_sharpness = 0.98
-shader_parameter/paint_yellowing = Color(0.75, 0.75, 0.3, 1)
+shader_parameter/paint_yellowing = Color(0.85, 0.85, 0.5, 1)
+shader_parameter/paint_yellowing_intensity = 3.0
+shader_parameter/albedo_paint = ExtResource("16_6yyx0")
+shader_parameter/normal_paint = ExtResource("17_8kwn3")
+shader_parameter/roughness_paint = ExtResource("18_otxul")
 shader_parameter/grime_intensity = 4.0
 shader_parameter/grime_falloff = 0.9
 shader_parameter/grime_color = Color(0.75, 0.45, 0.2, 1)
@@ -291,12 +350,12 @@ shader_parameter/rust_green_shift = 0.1
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_gb77c"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_car10"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8kwn3"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("4_160ns")
-shader_parameter/seed = 0
-shader_parameter/uv_scale = 1.0
+shader_parameter/seed = 3
+shader_parameter/uv_scale = 1.765
 shader_parameter/patch_scale = 2.0
 shader_parameter/wear_scale = 2.0
 shader_parameter/pit_scale = 8.0
@@ -306,6 +365,7 @@ shader_parameter/uniform_corrosion_speed = 0.001
 shader_parameter/forward_saturate = 1.0
 shader_parameter/forward_darken = 0.3
 shader_parameter/forward_contrast = 1.25
+shader_parameter/forward_rust_saturate = 0.75
 shader_parameter/compat_mode = false
 shader_parameter/compat_saturate = 0.8
 shader_parameter/compat_darken = 0.75
@@ -317,16 +377,23 @@ shader_parameter/snoise_fbm_iterations = 4
 shader_parameter/use_vertex_weight = false
 shader_parameter/vertex_weight_scale = 1.0
 shader_parameter/vertex_weight_channel = 0
-shader_parameter/age = 0.0
+shader_parameter/age = 54.115
 shader_parameter/paint_stability = 0.5
 shader_parameter/uv_and_heat = 0.5
 shader_parameter/pollution = 0.5
 shader_parameter/moisture = 0.5
 shader_parameter/base_metallic = 0.6
+shader_parameter/albedo_base = ExtResource("6_3xn8w")
+shader_parameter/normal_base = ExtResource("8_887s3")
+shader_parameter/roughness_base = ExtResource("10_bpg18")
 shader_parameter/use_paint_layer = true
-shader_parameter/paint_metallic = 0.4
+shader_parameter/paint_metallic = 0.2
 shader_parameter/paint_edge_sharpness = 0.98
-shader_parameter/paint_yellowing = Color(0.75, 0.75, 0.3, 1)
+shader_parameter/paint_yellowing = Color(0.85, 0.85, 0.5, 1)
+shader_parameter/paint_yellowing_intensity = 3.0
+shader_parameter/albedo_paint = ExtResource("16_griky")
+shader_parameter/normal_paint = ExtResource("17_nudq1")
+shader_parameter/roughness_paint = ExtResource("18_04jaa")
 shader_parameter/grime_intensity = 4.0
 shader_parameter/grime_falloff = 0.9
 shader_parameter/grime_color = Color(0.75, 0.45, 0.2, 1)
@@ -340,12 +407,12 @@ shader_parameter/rust_green_shift = 0.1
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ie0bw"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6ir5i"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ux7xw"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("4_160ns")
-shader_parameter/seed = 0
-shader_parameter/uv_scale = 1.0
+shader_parameter/seed = 3
+shader_parameter/uv_scale = 1.875
 shader_parameter/patch_scale = 2.0
 shader_parameter/wear_scale = 2.0
 shader_parameter/pit_scale = 8.0
@@ -355,6 +422,7 @@ shader_parameter/uniform_corrosion_speed = 0.001
 shader_parameter/forward_saturate = 1.0
 shader_parameter/forward_darken = 0.3
 shader_parameter/forward_contrast = 1.25
+shader_parameter/forward_rust_saturate = 0.75
 shader_parameter/compat_mode = false
 shader_parameter/compat_saturate = 0.8
 shader_parameter/compat_darken = 0.75
@@ -366,16 +434,23 @@ shader_parameter/snoise_fbm_iterations = 4
 shader_parameter/use_vertex_weight = false
 shader_parameter/vertex_weight_scale = 1.0
 shader_parameter/vertex_weight_channel = 0
-shader_parameter/age = 0.0
+shader_parameter/age = 41.375
 shader_parameter/paint_stability = 0.5
 shader_parameter/uv_and_heat = 0.5
 shader_parameter/pollution = 0.5
 shader_parameter/moisture = 0.5
 shader_parameter/base_metallic = 0.6
+shader_parameter/albedo_base = ExtResource("6_3xn8w")
+shader_parameter/normal_base = ExtResource("8_887s3")
+shader_parameter/roughness_base = ExtResource("10_bpg18")
 shader_parameter/use_paint_layer = true
-shader_parameter/paint_metallic = 0.4
+shader_parameter/paint_metallic = 0.2
 shader_parameter/paint_edge_sharpness = 0.98
-shader_parameter/paint_yellowing = Color(0.75, 0.75, 0.3, 1)
+shader_parameter/paint_yellowing = Color(0.85, 0.85, 0.5, 1)
+shader_parameter/paint_yellowing_intensity = 3.0
+shader_parameter/albedo_paint = ExtResource("28_ux7xw")
+shader_parameter/normal_paint = ExtResource("29_ux7xw")
+shader_parameter/roughness_paint = ExtResource("30_dhsfx")
 shader_parameter/grime_intensity = 4.0
 shader_parameter/grime_falloff = 0.9
 shader_parameter/grime_color = Color(0.75, 0.45, 0.2, 1)
@@ -389,11 +464,11 @@ shader_parameter/rust_green_shift = 0.1
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_6er7s"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ux7xw"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y6ry5"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("4_160ns")
-shader_parameter/seed = 0
+shader_parameter/seed = 3
 shader_parameter/uv_scale = 1.0
 shader_parameter/patch_scale = 2.0
 shader_parameter/wear_scale = 2.0
@@ -404,6 +479,7 @@ shader_parameter/uniform_corrosion_speed = 0.001
 shader_parameter/forward_saturate = 1.0
 shader_parameter/forward_darken = 0.3
 shader_parameter/forward_contrast = 1.25
+shader_parameter/forward_rust_saturate = 0.75
 shader_parameter/compat_mode = false
 shader_parameter/compat_saturate = 0.8
 shader_parameter/compat_darken = 0.75
@@ -415,16 +491,23 @@ shader_parameter/snoise_fbm_iterations = 4
 shader_parameter/use_vertex_weight = false
 shader_parameter/vertex_weight_scale = 1.0
 shader_parameter/vertex_weight_channel = 0
-shader_parameter/age = 0.0
+shader_parameter/age = 54.69
 shader_parameter/paint_stability = 0.5
 shader_parameter/uv_and_heat = 0.5
 shader_parameter/pollution = 0.5
 shader_parameter/moisture = 0.5
 shader_parameter/base_metallic = 0.6
+shader_parameter/albedo_base = ExtResource("28_6ir5i")
+shader_parameter/normal_base = ExtResource("29_lb8kl")
+shader_parameter/roughness_base = ExtResource("30_6suic")
 shader_parameter/use_paint_layer = true
-shader_parameter/paint_metallic = 0.4
+shader_parameter/paint_metallic = 0.2
 shader_parameter/paint_edge_sharpness = 0.98
-shader_parameter/paint_yellowing = Color(0.75, 0.75, 0.3, 1)
+shader_parameter/paint_yellowing = Color(0.85, 0.85, 0.5, 1)
+shader_parameter/paint_yellowing_intensity = 3.0
+shader_parameter/albedo_paint = ExtResource("7_iqdmv")
+shader_parameter/normal_paint = ExtResource("9_ujtkt")
+shader_parameter/roughness_paint = ExtResource("11_kijjg")
 shader_parameter/grime_intensity = 4.0
 shader_parameter/grime_falloff = 0.9
 shader_parameter/grime_color = Color(0.75, 0.45, 0.2, 1)
@@ -438,12 +521,12 @@ shader_parameter/rust_green_shift = 0.1
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ba6i0"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ytkqt"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lb8kl"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("4_160ns")
-shader_parameter/seed = 0
-shader_parameter/uv_scale = 1.0
+shader_parameter/seed = 3
+shader_parameter/uv_scale = 1.34
 shader_parameter/patch_scale = 2.0
 shader_parameter/wear_scale = 2.0
 shader_parameter/pit_scale = 8.0
@@ -453,6 +536,7 @@ shader_parameter/uniform_corrosion_speed = 0.001
 shader_parameter/forward_saturate = 1.0
 shader_parameter/forward_darken = 0.3
 shader_parameter/forward_contrast = 1.25
+shader_parameter/forward_rust_saturate = 0.75
 shader_parameter/compat_mode = false
 shader_parameter/compat_saturate = 0.8
 shader_parameter/compat_darken = 0.75
@@ -464,16 +548,23 @@ shader_parameter/snoise_fbm_iterations = 4
 shader_parameter/use_vertex_weight = false
 shader_parameter/vertex_weight_scale = 1.0
 shader_parameter/vertex_weight_channel = 0
-shader_parameter/age = 0.0
+shader_parameter/age = 41.375
 shader_parameter/paint_stability = 0.5
 shader_parameter/uv_and_heat = 0.5
 shader_parameter/pollution = 0.5
 shader_parameter/moisture = 0.5
 shader_parameter/base_metallic = 0.6
+shader_parameter/albedo_base = ExtResource("28_car10")
+shader_parameter/normal_base = ExtResource("29_bjoa8")
+shader_parameter/roughness_base = ExtResource("30_xcnjf")
 shader_parameter/use_paint_layer = true
-shader_parameter/paint_metallic = 0.4
+shader_parameter/paint_metallic = 0.2
 shader_parameter/paint_edge_sharpness = 0.98
-shader_parameter/paint_yellowing = Color(0.75, 0.75, 0.3, 1)
+shader_parameter/paint_yellowing = Color(0.85, 0.85, 0.5, 1)
+shader_parameter/paint_yellowing_intensity = 3.0
+shader_parameter/albedo_paint = ExtResource("7_iqdmv")
+shader_parameter/normal_paint = ExtResource("9_ujtkt")
+shader_parameter/roughness_paint = ExtResource("11_kijjg")
 shader_parameter/grime_intensity = 4.0
 shader_parameter/grime_falloff = 0.9
 shader_parameter/grime_color = Color(0.75, 0.45, 0.2, 1)
@@ -503,6 +594,7 @@ shader_parameter/uniform_corrosion_speed = 0.001
 shader_parameter/forward_saturate = 1.0
 shader_parameter/forward_darken = 0.3
 shader_parameter/forward_contrast = 1.25
+shader_parameter/forward_rust_saturate = 0.75
 shader_parameter/compat_mode = false
 shader_parameter/compat_saturate = 0.8
 shader_parameter/compat_darken = 0.75
@@ -524,6 +616,7 @@ shader_parameter/use_paint_layer = true
 shader_parameter/paint_metallic = 0.4
 shader_parameter/paint_edge_sharpness = 0.98
 shader_parameter/paint_yellowing = Color(0.75, 0.75, 0.3, 1)
+shader_parameter/paint_yellowing_intensity = 3.0
 shader_parameter/grime_intensity = 4.0
 shader_parameter/grime_falloff = 0.9
 shader_parameter/grime_color = Color(0.75, 0.45, 0.2, 1)
@@ -578,7 +671,7 @@ shadow_enabled = true
 shadow_opacity = 0.5
 
 [node name="TestMesh" parent="." instance=ExtResource("3_a7gid")]
-transform = Transform3D(1.0052469, 0.00029682057, -0.00017909083, -0.00029665424, 1.0052468, 0.00090057706, 0.00017936561, -0.0009005211, 1.0052484, -2.8759241e-05, 0.0011914372, -0.000618279)
+transform = Transform3D(1.0052469, 0.00029682057, -0.00017909083, -0.00029665424, 1.0052468, 0.00090057706, 0.00017936561, -0.0009005211, 1.0052484, -0.0005094111, 0.001191467, 0.00026136637)
 mesh = SubResource("SphereMesh_3xn8w")
 surface_material_override/0 = SubResource("ShaderMaterial_7ejpg")
 
@@ -595,43 +688,43 @@ surface_material_override/0 = SubResource("ShaderMaterial_nudq1")
 transform = Transform3D(1.005247, 0, 0, 0, 1.0052474, 0, 0, 0, 1.0052488, 0, 0, 3.2558546)
 mesh = SubResource("CapsuleMesh_y6ry5")
 skeleton = NodePath("../../..")
-surface_material_override/0 = SubResource("ShaderMaterial_6yyx0")
+surface_material_override/0 = SubResource("ShaderMaterial_car10")
 
 [node name="TestMesh4" parent="Alt-mat TestMesh" instance=ExtResource("3_a7gid")]
 transform = Transform3D(1.005247, 0, 0, 0, 1.0052474, 0, 0, 0, 1.0052488, -1.4615365, 0, 3.2558546)
 mesh = SubResource("CapsuleMesh_dhsfx")
 skeleton = NodePath("../../..")
-surface_material_override/0 = SubResource("ShaderMaterial_lsgdq")
+surface_material_override/0 = SubResource("ShaderMaterial_rd6s2")
 
 [node name="TestMesh5" parent="Alt-mat TestMesh" instance=ExtResource("3_a7gid")]
 transform = Transform3D(1.005247, 0, 0, 0, 1.0052474, 0, 0, 0, 1.0052488, -1.5221206, 0, 1.7176298)
 mesh = SubResource("CapsuleMesh_ytkqt")
 skeleton = NodePath("../../..")
-surface_material_override/0 = SubResource("ShaderMaterial_rd6s2")
+surface_material_override/0 = SubResource("ShaderMaterial_4jush")
 
 [node name="TestMesh6" parent="Alt-mat TestMesh" instance=ExtResource("3_a7gid")]
 transform = Transform3D(1.005247, 0, 0, 0, 1.0052474, 0, 0, 0, 1.0052488, -1.4914904, 0, 0)
 mesh = SubResource("CapsuleMesh_gb77c")
 skeleton = NodePath("../../..")
-surface_material_override/0 = SubResource("ShaderMaterial_car10")
+surface_material_override/0 = SubResource("ShaderMaterial_8kwn3")
 
 [node name="TestMesh7" parent="Alt-mat TestMesh" instance=ExtResource("3_a7gid")]
 transform = Transform3D(1.005247, 0, 0, 0, 1.0052474, 0, 0, 0, 1.0052488, 1.5116067, 0, 0)
 mesh = SubResource("CapsuleMesh_ie0bw")
 skeleton = NodePath("../../..")
-surface_material_override/0 = SubResource("ShaderMaterial_6ir5i")
+surface_material_override/0 = SubResource("ShaderMaterial_ux7xw")
 
 [node name="TestMesh8" parent="Alt-mat TestMesh" instance=ExtResource("3_a7gid")]
 transform = Transform3D(1.005247, 0, 0, 0, 1.0052474, 0, 0, 0, 1.0052488, 1.5141734, 0, 1.7063576)
 mesh = SubResource("CapsuleMesh_6er7s")
 skeleton = NodePath("../../..")
-surface_material_override/0 = SubResource("ShaderMaterial_ux7xw")
+surface_material_override/0 = SubResource("ShaderMaterial_y6ry5")
 
 [node name="TestMesh9" parent="Alt-mat TestMesh" instance=ExtResource("3_a7gid")]
 transform = Transform3D(1.005247, 0, 0, 0, 1.0052474, 0, 0, 0, 1.0052488, 1.5012178, 0, 3.2673552)
 mesh = SubResource("CapsuleMesh_ba6i0")
 skeleton = NodePath("../../..")
-surface_material_override/0 = SubResource("ShaderMaterial_ytkqt")
+surface_material_override/0 = SubResource("ShaderMaterial_lb8kl")
 
 [node name="MaskRect" type="ColorRect" parent="." node_paths=PackedStringArray("target_obj")]
 visible = false

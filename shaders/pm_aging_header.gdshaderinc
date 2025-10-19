@@ -13,13 +13,14 @@ uniform float wear_scale = 2.0; // Scaling of the wear masks that affects the st
 uniform float pit_scale = 8.0; // Scaling of the pit mask that is used for pitting corrosion and paint wear.
 uniform float detail_scale = 100.0; // Scaling of the mask that adds detail to the other masks
 uniform float time_scale = 0.01; // Scales the affect of the age uniform
-uniform float uniform_corrosion_speed = 0.001; // Speed of uniform corrosion vs local corrosion
+uniform float uniform_corrosion_speed = 0.005; // Speed of uniform corrosion vs local corrosion
 
 /// Parameters relating to albedo rendering differences between godot render modes
 group_uniforms albedo_mode;
 uniform float forward_saturate = 1.0;
 uniform float forward_darken = 0.3;
 uniform float forward_contrast = 1.25;
+uniform float forward_rust_saturate = 0.75;
 uniform bool compat_mode = false; // Whether the shader should adjust to compatibility rendering
 uniform float compat_saturate = 0.8;
 uniform float compat_darken = 0.75;
@@ -62,6 +63,7 @@ uniform bool use_paint_layer = true;
 uniform float paint_metallic = 0.4;
 uniform float paint_edge_sharpness: hint_range(0.0, 1.0) = 0.98;
 uniform vec3 paint_yellowing: source_color = vec3(0.85, 0.85, 0.5); // Yellowing added during aging
+uniform float paint_yellowing_intensity = 3.0; // Intensity by which obj/env factors should affect paint yellowing
 uniform sampler2D albedo_paint;
 uniform sampler2D normal_paint : hint_normal;
 uniform sampler2D roughness_paint;
@@ -75,8 +77,8 @@ uniform vec3 grime_color : source_color = vec3(0.75, 0.45, 0.2);
 /// The rust that is growing on the metallic base layer
 group_uniforms rust;
 uniform float rust_growth_factor = 200.0; // The factor with which rust grows in relation to other effects
-uniform vec3 rust_color_1: source_color = vec3(0.6,0.42,0.19);
-uniform vec3 rust_color_2: source_color = vec3(0.63,0.38,0.2);
+uniform vec3 rust_color_1: source_color = vec3(0.65, 0.5, 0.1);
+uniform vec3 rust_color_2: source_color = vec3(0.63, 0.38, 0.2);
 uniform vec3 rust_color_3: source_color = vec3(0.55, 0.33, 0.2);
 uniform vec3 rust_color_4: source_color = vec3(0.41, 0.3, 0.28);
 uniform float rust_red_shift = 0.5; // Scales the mask texture based shift of the rust's red channel

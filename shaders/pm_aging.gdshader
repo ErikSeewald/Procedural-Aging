@@ -13,8 +13,6 @@ struct outputs
 	float specular;
 };
 
-const float grime_edge_default = 0.4; // The default edge (paint mask value) of grime deposition
-
 varying vec3 obj_pos; // Interpolated fragment position in object space
 varying float vertex_weight; // Interpolated vertex paint weight at the current fragment 
 
@@ -84,6 +82,8 @@ float get_aged_strength()
 	return env * weight * age * time_scale;
 }
 
+const float grime_edge_default = 0.4; // The default edge (paint mask value) of grime deposition
+
 // Returns the grime accumulation edge offset by the corresponding env/object parameters.
 float offset_grime_edge()
 {
@@ -120,11 +120,15 @@ void blend_grime(inout outputs outs, float pm_weight, float smooth_pm_weight)
 	outs.albedo = mix(outs.albedo, grime_color, grime_factor);
 	outs.roughness = mix(outs.roughness, grime_roughness, grime_factor);
 	outs.specular = mix(outs.specular, grime_specular, grime_factor);
+	
+	// Stronger pollution should add some extra grime beyond just the edges
+	vec3 extra_grime = mix(outs.albedo, grime_color, pollution * pm_weight);
+	outs.albedo = mix(extra_grime, outs.albedo, smooth_pm_weight);
 }
 
 // Blends the paint layer on top of the base layer in the given inout outputs
-// based on the given paint mask weight.
-// Factors in the grime edge to apply certain effects only on either side of it.
+// based on the given paint mask weight and the version of it that has
+// been smoothed around the grime edge.
 void blend_paint_mask(inout outputs outs, vec2 uv, float pm_weight, float smooth_pm_weight)
 {
 	vec3 base_col = outs.albedo;
@@ -146,49 +150,76 @@ void blend_paint_mask(inout outputs outs, vec2 uv, float pm_weight, float smooth
 	const float min_stability = 0.25;
 	const float max_stability = 0.75;
 	float stability_factor = clamp(1.0 - paint_stability, min_stability, max_stability);
-	adjusted_w = mix(pm_weight * stability_factor, 1.0, smooth_pm_weight);
+	adjusted_w = mix(pm_weight * stability_factor, adjusted_w, smooth_pm_weight);
 
-	// Moisture and uv/heat should reduce gloss and add yellowing to the paint surface.
-	const float m_stength = 1.25; // Intensify a bit to be noticable at all params
-	float m = (moisture+uv_and_heat) * m_stength * stability_factor;
+	// Moisture and uv/heat should further wear the normal and add yellowing to the paint surface.
+	float m = (moisture+uv_and_heat) * stability_factor;
 	
-	vec3 yellowed_albedo = mix(outs.albedo, paint_yellowing, m*pm_weight);
-	vec3 adjusted_normal = mix(outs.normal, base_normal, m*pm_weight);
-	
+ 	// pm_weight is squared in the factor for stronger edges
+	float yellowing_factor = m * pm_weight * pm_weight * paint_yellowing_intensity;
+	vec3 yellowed_albedo = mix(outs.albedo, paint_yellowing, yellowing_factor);
 	outs.albedo = mix(yellowed_albedo, outs.albedo, smooth_pm_weight);
+	
+	vec3 adjusted_normal = mix(outs.normal, base_normal, m*pm_weight);
 	outs.normal = mix(adjusted_normal, outs.normal, smooth_pm_weight);
 	
-
-	vec3 extra_grime = mix(outs.albedo, grime_color, pollution * adjusted_w);
-	outs.albedo = mix(extra_grime, base_col, smoothstep(0.0, 1.0, adjusted_w*adjusted_w*4.0));
-
+	// Now expose the base layer below the paint again
+	outs.albedo = mix(outs.albedo, base_col, adjusted_w);
 	outs.roughness = mix(outs.roughness, base_roughness, adjusted_w);
 	outs.metallic = mix(outs.metallic, base_metallic_adj, adjusted_w);
 	outs.normal = mix(outs.normal, base_normal, adjusted_w);
 }
 
-void blend_rust_mask(inout outputs outs, float w, maskset mask_set)
+// Blends rust onto the base layer in the given inout outputs
+// based on the given rust mask weight.
+// Unlike the paint blending function, this blend also uses the maskset
+// to add additional color detail to the rust mask.  
+void blend_rust_mask(inout outputs outs, float rust_w, maskset mask_set)
 {
-	vec3 col = mix(outs.albedo, rust_color_1, smoothstep(0.0, 0.1, w));
-	col = mix(col, rust_color_2, smoothstep(1.0, 2.0, w));
-	col = mix(col, rust_color_3, smoothstep(2.0, 3.0, w));
-	col = mix(col, rust_color_4, smoothstep(5.0, 10.0, w));
+	// These values were heuristically chosen to roughly match patterns in
+	// rust images. They are kept constant to avoid too many parameters and
+	// dependencies.
+	const float ceil_1 = 0.5;
+	const float ceil_2 = 2.0;
+	const float ceil_3 = 2.5;
+	const float ceil_4 = 10.0;
+	
+	// Initialize the rust color by smoothstepping the rust intensity colors based on weight
+	vec3 rust_col = mix(outs.albedo, rust_color_1, smoothstep(0.0, ceil_1, rust_w));
+	rust_col = mix(rust_col, rust_color_2, smoothstep(0.0, ceil_2, rust_w));
+	rust_col = mix(rust_col, rust_color_3, smoothstep(0.0, ceil_3, rust_w));
+	rust_col = mix(rust_col, rust_color_4, smoothstep(0.0, ceil_4, rust_w));
 
-	col.r += mask_set.detail_mask * rust_red_shift;
-	col.g += mask_set.detail_mask * rust_green_shift;
+	// Using the detail mask to shift red and green adds color detail missing from the rust mask
+	// and thereby a more nuanced "growth" look
+	rust_col.r += mask_set.detail_mask * rust_red_shift;
+	rust_col.g += mask_set.detail_mask * rust_green_shift;
+	
+	// Stronger rust intensity should desaturate more strongly.
+	// The reason this is not simply done by desaturating the rust colors is to add
+	// further detail to the saturation with the maskset and to scale it based on pollution.
+	// The lack of clamping of the desaturation weight also allows for some spots to receive
+	// extra saturation because of negative values in the pit mask. This adds further detail.
+	float pollution_factor = (0.5 + pollution); // Anything lower than 0.5 looks too flat
+	float desat_w = 1.0 - mask_set.pit_mask * mask_set.detail_mask * pollution_factor;
+	rust_col = desaturate(rust_col, desat_w);
+	
+	// Since a lot of color is being added here it needs its own rendering mode color adjustments
+	if (!compat_mode) { rust_col = desaturate(rust_col, forward_rust_saturate); }
+	else { rust_col *= compat_rust_darken; }
 
-	float pollution_factor = (0.5+pollution);
-	col = desaturate(col, clamp(1.0 - mask_set.pit_mask*mask_set.detail_mask* pollution_factor, 0.0, 1.0));
-	if (!compat_mode) { col = desaturate(col, 0.75); }
-	else { col *= compat_rust_darken; }
+	// The intensities beyond the clamp range were only useful for adding detail to 
+	// the rust color but are not needed in blending.
+	rust_w = clamp(rust_w, 0.0, 1.0);
+	outs.albedo = mix(outs.albedo, rust_col, rust_w);
 
-	w = smoothstep(0.0, 1.0, clamp(w, 0.0, 1.0));
-	outs.albedo = mix(outs.albedo, col, w);
-
-	float scaled_w = w * 0.15;
-	outs.roughness = clamp(outs.roughness + scaled_w * pollution_factor, 0.0, 0.9);
-	outs.metallic = clamp(outs.metallic - scaled_w, 0.2, 1.0);
-	outs.specular = clamp(outs.specular - scaled_w * pollution_factor, 0.2, 1.0);
+	// To not deviate too drastically from the "physiochemical" look of the material,
+	// the other outputs are blended with a much smaller weight.
+	const float scale_factor = 0.25;
+	float scaled_w = rust_w * scale_factor;
+	outs.roughness = clamp(outs.roughness + scaled_w * pollution_factor, 0.0, 1.0);
+	outs.metallic = clamp(outs.metallic - scaled_w, 0.0, 1.0);
+	outs.specular = clamp(outs.specular - scaled_w * pollution_factor, 0.0, 1.0);
 }
 
 void fragment()

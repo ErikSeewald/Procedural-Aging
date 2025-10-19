@@ -47,6 +47,7 @@ shader_parameter/roughness_base = ExtResource("7_bog6t")
 shader_parameter/use_paint_layer = true
 shader_parameter/paint_metallic = 0.4
 shader_parameter/paint_edge_sharpness = 0.98
+shader_parameter/paint_yellowing = Color(0.85, 0.85, 0.5, 1)
 shader_parameter/albedo_paint = ExtResource("4_36a7w")
 shader_parameter/normal_paint = ExtResource("6_s6jiq")
 shader_parameter/roughness_paint = ExtResource("8_oj73j")
