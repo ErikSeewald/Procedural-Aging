@@ -7,8 +7,8 @@ uniform bool green = true;
 uniform bool blue = true;
 uniform bool overwrite_all = false;
 
-#include "pm_aging_header.gdshaderinc"
-#include "masks.gdshaderinc"
+#include "../pm_aging_header.gdshaderinc"
+#include "../masks.gdshaderinc"
 
 void fragment()
 {

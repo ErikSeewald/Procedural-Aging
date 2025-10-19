@@ -26,7 +26,7 @@ window/stretch/aspect="expand"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/boujie_water_shader/plugin.cfg")
+enabled=PackedStringArray("res://addons/boujie_water_shader/plugin.cfg", "res://addons/context_probe/plugin.cfg")
 
 [importer_defaults]
 

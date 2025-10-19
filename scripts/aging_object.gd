@@ -9,7 +9,6 @@ var age = 0.0
 
 func _ready():
 	add_to_group("age_nodes")
-	age = 0.0
 	
 	# Maybe stop creating it via script and let it be set by users eventually
 	# so they can edit the probe mask.
