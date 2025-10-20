@@ -22,15 +22,14 @@ func get_param_names() -> Array:
 	return get_property_list().filter(
 		func(p): return p.usage == 4102).map(func(p): return p.name)
 
-## Returns an interpolation of itself and the target
+## Writes an interpolation of itself and the target
 ## parameters based on the given weight (0.0 to 1.0)
-func interpolate(target: ContextParams, weight: float) -> ContextParams:
-	var interpolated = ContextParams.new()
+## into the given "out" object
+func interpolate(target: ContextParams, weight: float, out: ContextParams) -> void:
 	for param_name in get_param_names():
 		var a = get(param_name)
 		var b = target.get(param_name)
-		interpolated.set(param_name, lerp(a, b, weight))
-	return interpolated
+		out.set(param_name, lerp(a, b, weight))
 
 ## Returns the new value after optionally calling emit_changed()
 ## if the new value is different from the old value.

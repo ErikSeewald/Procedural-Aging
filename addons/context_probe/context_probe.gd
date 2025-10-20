@@ -18,8 +18,6 @@ func _ready() -> void:
 	add_to_group("context_probes")
 	monitoring = true
 	monitorable = true
-	if animated_params.size() > 0 and animated_params[0]:
-		params = animated_params[0].params
 	
 func _process(delta: float) -> void:
 	time += delta
@@ -27,13 +25,32 @@ func _process(delta: float) -> void:
 	if animated_params.size() > _cur_key_params_idx + 1:
 		var cur = animated_params[_cur_key_params_idx]
 		var next = animated_params[_cur_key_params_idx+1]
+		test()
 		
 		if cur and next:
 			if next.key <= time:
 				_cur_key_params_idx += 1
 
-			var weight = 1.0 - (next.key - time) / (next.key - cur.key)
+			var weight = (time - cur.key) / (next.key - cur.key)
 			var next_params = next.params
-			params = cur.params.interpolate(next_params, weight)
-			print(params.moisture)
-			# Not showing yet
+			cur.params.interpolate(next_params, weight, params)
+
+func test() -> void:
+	var intervals = [0, 	10, 	20, 	30, 	40, 	45]
+	var targets = 	[0.5, 	1.0, 	0.5, 	0.5, 	1.0, 	1.0]
+	var expected = 	[0.0, 	5.0, 	15.0, 	20.0, 	25.0, 	30.0]
+	
+	var t = 44.0
+	var v = 0.0
+
+	
+	var last_i = 0
+	for i in len(intervals):
+		var interv = intervals[i]
+		if t > intervals[i] and i >= 1:
+			v += (intervals[i]-intervals[i-1]) * targets[i-1]
+			last_i = i
+	v += (t - intervals[last_i]) * targets[last_i]
+	
+	
+	print(v)
