@@ -1,4 +1,4 @@
-[gd_scene load_steps=78 format=3 uid="uid://c4hvqyphiayku"]
+[gd_scene load_steps=69 format=3 uid="uid://c4hvqyphiayku"]
 
 [ext_resource type="Script" uid="uid://cng38wbkc6o1l" path="res://scripts/scene/fly_cam.gd" id="1_g8tjy"]
 [ext_resource type="Script" uid="uid://qsohuxakiknk" path="res://scripts/scene/scene_manager.gd" id="2_rcnun"]
@@ -14,7 +14,6 @@
 [ext_resource type="Texture2D" uid="uid://bb75x6l3ec5wc" path="res://assets/single_textures/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_rough_2k.png" id="10_bpg18"]
 [ext_resource type="Texture2D" uid="uid://t0xk1rw1uk3x" path="res://assets/single_textures/green_metal_rust_2k.blend/textures/green_metal_rust_rough_2k.jpg" id="11_kijjg"]
 [ext_resource type="Texture2D" uid="uid://qrc7vqj5is8j" path="res://assets/single_textures/blue_metal_plate_2k.blend/textures/gray_metal_plate_diff_2k.jpg" id="12_bpg18"]
-[ext_resource type="Shader" uid="uid://b3dpkh630ryuq" path="res://shaders/debug/dynamic_context_test.gdshader" id="12_y6ry5"]
 [ext_resource type="Script" uid="uid://b6j66gryxhyvq" path="res://scripts/mask_rect.gd" id="13_3xn8w"]
 [ext_resource type="Texture2D" uid="uid://cjmh74p6cu4qc" path="res://assets/single_textures/blue_metal_plate_2k.blend/textures/blue_metal_plate_diff_2k.jpg" id="13_kijjg"]
 [ext_resource type="Texture2D" uid="uid://3voc01dgrmmt" path="res://assets/single_textures/blue_metal_plate_2k.blend/textures/blue_metal_plate_nor_gl_2k.png" id="14_7ejpg"]
@@ -41,7 +40,6 @@
 [ext_resource type="Texture2D" uid="uid://26v18vsd7fuy" path="res://assets/single_textures/metal_57/metal_0009_roughness_2k.jpg" id="30_6suic"]
 [ext_resource type="Texture2D" uid="uid://6mbipokn40gy" path="res://assets/single_textures/metal_122/metal_0015_roughness_2k.jpg" id="30_dhsfx"]
 [ext_resource type="Texture2D" uid="uid://tvpa2gifbjnh" path="res://assets/single_textures/metal_67/metal_0010_roughness_2k.jpg" id="30_xcnjf"]
-[ext_resource type="Script" uid="uid://ctryd4iifvpob" path="res://addons/context_probe/key_params.gd" id="42_dhsfx"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_160ns"]
 sky_top_color = Color(0.139497, 0.140391, 0.354607, 1)
@@ -94,10 +92,10 @@ shader_parameter/snoise_fbm_iterations = 4
 shader_parameter/use_vertex_weight = false
 shader_parameter/vertex_weight_scale = 1.0
 shader_parameter/vertex_weight_channel = 0
-shader_parameter/age = 44.06
+shader_parameter/age = 51.595
 shader_parameter/paint_stability = 0.5
 shader_parameter/uv_and_heat = 0.5
-shader_parameter/pollution = 0.5
+shader_parameter/pollution = 0.0
 shader_parameter/moisture = 0.5
 shader_parameter/base_metallic = 0.6
 shader_parameter/albedo_base = ExtResource("6_3xn8w")
@@ -121,86 +119,6 @@ shader_parameter/rust_color_3 = Color(0.55, 0.33, 0.2, 1)
 shader_parameter/rust_color_4 = Color(0.41, 0.3, 0.28, 1)
 shader_parameter/rust_red_shift = 0.5
 shader_parameter/rust_green_shift = 0.1
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_dhsfx"]
-render_priority = 0
-shader = ExtResource("12_y6ry5")
-shader_parameter/seed = 20
-shader_parameter/uv_scale = 1.0
-shader_parameter/patch_scale = 2.0
-shader_parameter/wear_scale = 2.0
-shader_parameter/pit_scale = 8.0
-shader_parameter/detail_scale = 100.0
-shader_parameter/time_scale = 0.01
-shader_parameter/uniform_corrosion_speed = 0.005
-shader_parameter/forward_saturate = 1.0
-shader_parameter/forward_darken = 0.3
-shader_parameter/forward_contrast = 1.25
-shader_parameter/forward_rust_saturate = 0.75
-shader_parameter/compat_mode = false
-shader_parameter/compat_saturate = 0.8
-shader_parameter/compat_darken = 0.75
-shader_parameter/compat_contrast = 1.2
-shader_parameter/compat_grime_intensity = 0.5
-shader_parameter/compat_rust_darken = 0.65
-shader_parameter/voronoi_fbm_iterations = 1
-shader_parameter/snoise_fbm_iterations = 1
-shader_parameter/use_vertex_weight = false
-shader_parameter/vertex_weight_scale = 1.0
-shader_parameter/vertex_weight_channel = 0
-shader_parameter/age = 108.68
-shader_parameter/paint_stability = 0.5
-shader_parameter/uv_and_heat = 0.598000028405
-shader_parameter/pollution = 0.470000022325
-shader_parameter/moisture = 0.43200002052
-shader_parameter/base_metallic = 0.6
-shader_parameter/use_paint_layer = true
-shader_parameter/paint_metallic = 0.4
-shader_parameter/paint_edge_sharpness = 0.98
-shader_parameter/paint_yellowing = Color(0.85, 0.85, 0.5, 1)
-shader_parameter/paint_yellowing_intensity = 3.0
-shader_parameter/grime_intensity = 4.0
-shader_parameter/grime_falloff = 0.9
-shader_parameter/grime_color = Color(0.75, 0.45, 0.2, 1)
-shader_parameter/rust_growth_factor = 200.0
-shader_parameter/rust_color_1 = Color(0.65, 0.5, 0.1, 1)
-shader_parameter/rust_color_2 = Color(0.63, 0.38, 0.2, 1)
-shader_parameter/rust_color_3 = Color(0.55, 0.33, 0.2, 1)
-shader_parameter/rust_color_4 = Color(0.41, 0.3, 0.28, 1)
-shader_parameter/rust_red_shift = 0.5
-shader_parameter/rust_green_shift = 0.1
-
-[sub_resource type="Resource" id="Resource_ba6i0"]
-script = ExtResource("8_o4opr")
-metadata/_custom_type_script = "uid://cht8i58wawxmi"
-
-[sub_resource type="Resource" id="Resource_gb77c"]
-script = ExtResource("8_o4opr")
-uv_and_heat = 0.0
-pollution = 0.0
-moisture = 0.0
-metadata/_custom_type_script = "uid://cht8i58wawxmi"
-
-[sub_resource type="Resource" id="Resource_ytkqt"]
-script = ExtResource("42_dhsfx")
-params = SubResource("Resource_gb77c")
-metadata/_custom_type_script = "uid://ctryd4iifvpob"
-
-[sub_resource type="Resource" id="Resource_ie0bw"]
-script = ExtResource("8_o4opr")
-uv_and_heat = 1.0
-pollution = 1.0
-moisture = 1.0
-metadata/_custom_type_script = "uid://cht8i58wawxmi"
-
-[sub_resource type="Resource" id="Resource_6er7s"]
-script = ExtResource("42_dhsfx")
-params = SubResource("Resource_ie0bw")
-key = 10.0
-metadata/_custom_type_script = "uid://ctryd4iifvpob"
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_dhsfx"]
-radius = 2.701
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ux7xw"]
 
@@ -755,29 +673,8 @@ shadow_opacity = 0.5
 
 [node name="TestMesh" parent="." instance=ExtResource("3_a7gid")]
 transform = Transform3D(1.0052469, 0.00029682057, -0.00017909083, -0.00029665424, 1.0052468, 0.00090057706, 0.00017936561, -0.0009005211, 1.0052484, -0.0005094111, 0.001191467, 0.00026136637)
-visible = false
 mesh = SubResource("SphereMesh_3xn8w")
 surface_material_override/0 = SubResource("ShaderMaterial_7ejpg")
-
-[node name="Dynamic Context Test" type="Node3D" parent="."]
-transform = Transform3D(1.0052469, 0.00029682057, -0.00017909083, -0.00029665424, 1.0052468, 0.00090057706, 0.00017936561, -0.0009005211, 1.0052484, -0.0005094111, 0.001191467, 0.00026136637)
-
-[node name="DynamicContextMesh" parent="Dynamic Context Test" instance=ExtResource("3_a7gid")]
-transform = Transform3D(1, 5.755396e-12, 0, -2.728484e-12, 0.9999999, 0, 1.4551915e-11, 0, 1, 5.820766e-11, -2.3283062e-10, 2.8403478)
-mesh = SubResource("SphereMesh_3xn8w")
-skeleton = NodePath("../../..")
-surface_material_override/0 = SubResource("ShaderMaterial_dhsfx")
-
-[node name="ContextProbe" type="Area3D" parent="Dynamic Context Test"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.3894548)
-script = ExtResource("7_mb3xt")
-params = SubResource("Resource_ba6i0")
-animated_params = Array[ExtResource("42_dhsfx")]([SubResource("Resource_ytkqt"), SubResource("Resource_6er7s")])
-metadata/_custom_type_script = "uid://bg5e1ysrvtvw8"
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Dynamic Context Test/ContextProbe"]
-transform = Transform3D(1.0044327, 0, 0, 0, 1.0044327, 0, 0, 0, 1.0044327, 0, 0, 0)
-shape = SubResource("SphereShape3D_dhsfx")
 
 [node name="Alt-mat TestMesh" type="Node3D" parent="."]
 visible = false
@@ -846,20 +743,18 @@ mesh = SubResource("PlaneMesh_5140r")
 surface_material_override/0 = SubResource("StandardMaterial3D_1oqqo")
 
 [node name="ContextProbe" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.865, -0.41, -10.233)
-visible = false
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.865, -0.41, -13.596899)
 collision_mask = 0
 script = ExtResource("7_mb3xt")
 params = SubResource("Resource_y6ry5")
 metadata/_custom_type_script = "uid://bg5e1ysrvtvw8"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ContextProbe"]
-transform = Transform3D(1.0044327, 0, 0, 0, 1.0044327, 0, 0, 0, 1.0044327, 0, 0, 6.89)
+transform = Transform3D(1.0044327, 0, 0, 0, 1.0044327, 0, 0, 0, 1.0044327, 0, 0, 0)
 shape = SubResource("SphereShape3D_o4opr")
 
 [node name="ContextProbe2" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.135, 0.05, -2.866)
-visible = false
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.135, 0.05, -5.067509)
 script = ExtResource("7_mb3xt")
 params = SubResource("Resource_dhsfx")
 metadata/_custom_type_script = "uid://bg5e1ysrvtvw8"
