@@ -15,6 +15,11 @@ var spawned_objects := []
 var showing_probes := false
 var probe_meshes: Dictionary[ContextProbe, Dictionary] = {} # probe -> {shape -> mesh_inst}
 
+func _ready() -> void:
+	if RenderingServer.get_current_rendering_method() == "gl_compatibility":
+		push_warning("This project is not designed for gl_compatibility rendering!
+		You may see incorrect color values.")
+
 ## Resets the ages of all nodes in the 'age_nodes' group
 func reset_ages(_args: Dictionary) -> void:
 	for node in get_tree().get_nodes_in_group("age_nodes"):

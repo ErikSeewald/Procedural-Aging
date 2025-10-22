@@ -10,6 +10,8 @@
 	uniform float detail_scale;
 	uniform float uniform_corrosion_speed;
 	uniform float uv_and_heat;
+	uniform uint voronoi_fbm_iterations;
+	uniform uint snoise_fbm_iterations;
 #endif
 
 // Struct for compact value passing of the wear, pit and detail masks.
@@ -27,7 +29,10 @@ struct maskset
 // The value is between 0.0 and 1.0
 float get_detail_mask(vec3 pos, float lod)
 {
-	float mask = snoise_fbm(pos*detail_scale);
+	const float iteration_lod_factor = 10.0; // Balanced with later lod flattening
+	int iterations = int(snoise_fbm_iterations) -int(lod*iteration_lod_factor);
+	float mask = snoise_fbm(pos*detail_scale, iterations);
+
 
 	mask = (mask * 0.5) + 0.5; // Remap to 0.0-1.0
 	float w = clamp(0.5 + lod, 0.0, 1.0); // Stronger flattening when far away
@@ -41,7 +46,8 @@ float get_detail_mask(vec3 pos, float lod)
 // The value is between -0.25 and 1.0
 float get_pit_mask(vec3 pos, float seed_f)
 {
-	float mask = 1.0 - voronoi_fbm(pos*pit_scale, seed_f);
+	// Not using lod to scale iterations here because it is way too obvious, even from far away
+	float mask = 1.0 - voronoi_fbm(pos*pit_scale, seed_f, int(voronoi_fbm_iterations));
 
 	// Clamped between -0.25 and 1.0 to allow for some wear "slowing"
 	// at negative positions without being strong enough to allow for spots

@@ -1,10 +1,5 @@
 #include "snoise3d.gdshaderinc"
 
-#ifndef INCLUDE_PARAMS_DEFINED
-	uniform int voronoi_fbm_iterations = 5;
-	uniform int snoise_fbm_iterations = 4;
-#endif
-
 const float hurst = exp2(-0.5); // fbm hurst exponent
 
 // Voronoi3d neighbors
@@ -105,12 +100,12 @@ float dist_from_voronoi3d_border(vec3 pos, float seed_f)
 
 // Returns fbm of the given position with voronoi3d_sq as the noise function.
 // Uses the given float seed for rng.
-float voronoi_fbm(vec3 pos, float seed_f)
+float voronoi_fbm(vec3 pos, float seed_f, int iterations)
 {
 	float value = 0.0;
 	float amplitude = 1.0;
 	float frequency = 1.0;
-	for(int i = 0; i < voronoi_fbm_iterations; ++i)
+	for(int i = 0; i < iterations; ++i)
 	{
 		value += amplitude * voronoi3d_sq(frequency * pos, seed_f);
 		amplitude *= hurst;
@@ -123,12 +118,12 @@ float voronoi_fbm(vec3 pos, float seed_f)
 // Returns fbm of the given position with snoise3d as the noise function.
 // Uses no seed because snoise fbm is only ever used at small enough scales
 // for seed differences not to be noticable.
-float snoise_fbm(vec3 pos)
+float snoise_fbm(vec3 pos, int iterations)
 {
 	float value = 0.0;
 	float amplitude = 1.0;
 	float frequency = 1.0;
-	for(int i = 0; i < snoise_fbm_iterations; ++i)
+	for(int i = 0; i < iterations; ++i)
 	{
 		value += amplitude * snoise(frequency * pos);
 		amplitude *= hurst;

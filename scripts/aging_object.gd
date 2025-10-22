@@ -16,9 +16,6 @@ func _ready():
 	context_sampler.context_changed.connect(_update_context)
 	add_child(context_sampler)
 
-	var is_compat: bool = ProjectSettings.get_setting(
-	"rendering/renderer/rendering_method") == "gl_compatibility"
-	mat.set_shader_parameter("compat_mode", is_compat)
 	mat.set_shader_parameter("seed", get_instance_id())
 
 func _process(delta: float) -> void:
