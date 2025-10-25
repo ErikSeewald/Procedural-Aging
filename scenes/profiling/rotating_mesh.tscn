@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://b55211ene33i2"]
+[gd_scene load_steps=20 format=3 uid="uid://b55211ene33i2"]
 
 [ext_resource type="Script" uid="uid://dvkhivskmb0h4" path="res://scripts/profiling/rotating_mesh_scene.gd" id="1_e8mu0"]
 [ext_resource type="Shader" uid="uid://l5wqy7i72fxe" path="res://shaders/pm_aging.gdshader" id="1_vekcp"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bb75x6l3ec5wc" path="res://assets/single_textures/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_rough_2k.png" id="6_2mv1l"]
 [ext_resource type="Texture2D" uid="uid://t0xk1rw1uk3x" path="res://assets/single_textures/green_metal_rust_2k.blend/textures/green_metal_rust_rough_2k.jpg" id="7_u810j"]
 [ext_resource type="Script" uid="uid://dl6hgal776chs" path="res://scripts/profiling/rotating_aging_object.gd" id="8_c65ds"]
+[ext_resource type="Theme" uid="uid://b8bdf4l66bp3o" path="res://assets/ui_theme.tres" id="10_e8mu0"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_06b4c"]
 
@@ -109,13 +110,20 @@ shadow_enabled = true
 shadow_opacity = 0.5
 
 [node name="UI" type="Panel" parent="."]
-offset_right = 125.0
-offset_bottom = 136.0
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -62.0
+offset_right = 130.0
+grow_vertical = 0
+theme = ExtResource("10_e8mu0")
 
 [node name="MarginContainer" type="MarginContainer" parent="UI"]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 10.0
+offset_top = 8.0
+offset_right = 120.0
+offset_bottom = 56.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/MarginContainer"]
 layout_mode = 2

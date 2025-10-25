@@ -81,5 +81,4 @@ func _build_checkboxes() -> void:
 func _build_entry(entry: Dictionary, obj_base) -> void:
 	var label := str(entry["label"])
 	obj_base.text = label
-	obj_base.add_theme_font_size_override("font_size", 12)
 	_list.add_child(obj_base)

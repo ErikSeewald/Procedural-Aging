@@ -102,15 +102,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_7eiin")
-
-[node name="UI" type="Panel" parent="."]
-offset_right = 125.0
-offset_bottom = 136.0
-
-[node name="MarginContainer" type="MarginContainer" parent="UI"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/MarginContainer"]
-layout_mode = 2
