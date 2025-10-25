@@ -1,0 +1,116 @@
+[gd_scene load_steps=18 format=3 uid="uid://caokqup8h84fv"]
+
+[ext_resource type="Shader" uid="uid://l5wqy7i72fxe" path="res://shaders/pm_aging.gdshader" id="1_n8vbm"]
+[ext_resource type="Texture2D" uid="uid://cvoom7qu4404c" path="res://assets/single_textures/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_diff_2k.jpg" id="2_pts74"]
+[ext_resource type="Texture2D" uid="uid://brs1husbmdekd" path="res://assets/single_textures/green_metal_rust_2k.blend/textures/green_metal_rust_diff_2k.jpg" id="3_66w2j"]
+[ext_resource type="Texture2D" uid="uid://cse8uuw55uf3n" path="res://assets/single_textures/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_nor_gl_2k.png" id="4_rxjet"]
+[ext_resource type="Texture2D" uid="uid://c0wg2kmpentsv" path="res://assets/single_textures/green_metal_rust_2k.blend/textures/green_metal_rust_nor_gl_2k.png" id="5_aiwnf"]
+[ext_resource type="Texture2D" uid="uid://bb75x6l3ec5wc" path="res://assets/single_textures/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_rough_2k.png" id="6_nmufr"]
+[ext_resource type="Texture2D" uid="uid://t0xk1rw1uk3x" path="res://assets/single_textures/green_metal_rust_2k.blend/textures/green_metal_rust_rough_2k.jpg" id="7_sp21h"]
+
+[sub_resource type="Gradient" id="Gradient_jh38f"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.6, 0.6, 0.6, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ux7xw"]
+gradient = SubResource("Gradient_jh38f")
+width = 1
+
+[sub_resource type="Gradient" id="Gradient_gchre"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.4, 0.4, 0.4, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ytkqt"]
+gradient = SubResource("Gradient_gchre")
+width = 1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_25tce"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_n8vbm")
+shader_parameter/seed = 0
+shader_parameter/uv_scale = 1.0
+shader_parameter/patch_scale = 2.0
+shader_parameter/wear_scale = 2.0
+shader_parameter/pit_scale = 8.0
+shader_parameter/detail_scale = 100.0
+shader_parameter/time_scale = 0.01
+shader_parameter/uniform_corrosion_speed = 0.005
+shader_parameter/exposure = 1.0
+shader_parameter/voronoi_fbm_iterations = 5
+shader_parameter/snoise_fbm_iterations = 4
+shader_parameter/use_vertex_weight = false
+shader_parameter/vertex_weight_scale = 1.0
+shader_parameter/vertex_weight_channel = 0
+shader_parameter/age = 42.415
+shader_parameter/paint_stability = 0.5
+shader_parameter/uv_and_heat = 0.5
+shader_parameter/pollution = 0.5
+shader_parameter/moisture = 0.5
+shader_parameter/albedo_base = ExtResource("2_pts74")
+shader_parameter/metallic_base = SubResource("GradientTexture1D_ux7xw")
+shader_parameter/roughness_base = ExtResource("6_nmufr")
+shader_parameter/normal_base = ExtResource("4_rxjet")
+shader_parameter/use_paint_layer = true
+shader_parameter/paint_edge_sharpness = 0.98
+shader_parameter/paint_yellowing = Color(0.85, 0.85, 0.5, 1)
+shader_parameter/paint_yellowing_intensity = 2.5
+shader_parameter/albedo_paint = ExtResource("3_66w2j")
+shader_parameter/metallic_paint = SubResource("GradientTexture1D_ytkqt")
+shader_parameter/roughness_paint = ExtResource("7_sp21h")
+shader_parameter/normal_paint = ExtResource("5_aiwnf")
+shader_parameter/grime_intensity = 4.0
+shader_parameter/grime_falloff = 0.9
+shader_parameter/grime_color = Color(0.5, 0.25, 0, 1)
+shader_parameter/rust_growth_factor = 200.0
+shader_parameter/rust_color_1 = Color(0.5, 0.35, 0, 1)
+shader_parameter/rust_color_2 = Color(0.33, 0.22, 0, 1)
+shader_parameter/rust_color_3 = Color(0.2, 0.01, 0.02, 1)
+shader_parameter/rust_color_4 = Color(0.125, 0.035, 0.075, 1)
+shader_parameter/rust_red_shift = 0.25
+shader_parameter/rust_green_shift = 0.06
+
+[sub_resource type="SphereMesh" id="SphereMesh_n8vbm"]
+
+[sub_resource type="MultiMesh" id="MultiMesh_pts74"]
+transform_format = 1
+mesh = SubResource("SphereMesh_n8vbm")
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3644y"]
+sky_top_color = Color(0.55, 0.55, 0.55, 1)
+energy_multiplier = 5.0
+
+[sub_resource type="Sky" id="Sky_160ns"]
+sky_material = SubResource("ProceduralSkyMaterial_3644y")
+
+[sub_resource type="Environment" id="Environment_7eiin"]
+background_mode = 1
+background_color = Color(0.08, 0.08, 0.08, 1)
+sky = SubResource("Sky_160ns")
+ambient_light_source = 3
+reflected_light_source = 2
+
+[node name="MultipleObjects" type="Node3D"]
+
+[node name="MultiMeshInstance3D" type="MultiMeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.53764546, 0, 0)
+material_override = SubResource("ShaderMaterial_25tce")
+multimesh = SubResource("MultiMesh_pts74")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_7eiin")
+
+[node name="UI" type="Panel" parent="."]
+offset_right = 125.0
+offset_bottom = 136.0
+
+[node name="MarginContainer" type="MarginContainer" parent="UI"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/MarginContainer"]
+layout_mode = 2

@@ -65,20 +65,20 @@ ambient_light_energy = 3.82
 
 [sub_resource type="SphereMesh" id="SphereMesh_3xn8w"]
 
-[sub_resource type="Gradient" id="Gradient_y6ry5"]
+[sub_resource type="Gradient" id="Gradient_jh38f"]
 offsets = PackedFloat32Array(0)
 colors = PackedColorArray(0.6, 0.6, 0.6, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_ux7xw"]
-gradient = SubResource("Gradient_y6ry5")
+gradient = SubResource("Gradient_jh38f")
 width = 1
 
-[sub_resource type="Gradient" id="Gradient_ux7xw"]
+[sub_resource type="Gradient" id="Gradient_gchre"]
 offsets = PackedFloat32Array(0)
 colors = PackedColorArray(0.4, 0.4, 0.4, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_ytkqt"]
-gradient = SubResource("Gradient_ux7xw")
+gradient = SubResource("Gradient_gchre")
 width = 1
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7ejpg"]
@@ -99,7 +99,7 @@ shader_parameter/snoise_fbm_iterations = 4
 shader_parameter/use_vertex_weight = false
 shader_parameter/vertex_weight_scale = 1.0
 shader_parameter/vertex_weight_channel = 0
-shader_parameter/age = 35.76
+shader_parameter/age = 42.55
 shader_parameter/paint_stability = 0.5
 shader_parameter/uv_and_heat = 0.5
 shader_parameter/pollution = 0.5
