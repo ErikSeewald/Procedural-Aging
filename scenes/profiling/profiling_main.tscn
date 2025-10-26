@@ -92,7 +92,7 @@ script = ExtResource("9_m2au4")
 
 [node name="UI" type="Panel" parent="."]
 offset_right = 130.0
-offset_bottom = 65.0
+offset_bottom = 90.0
 theme = ExtResource("11_r70nd")
 
 [node name="MarginContainer" type="MarginContainer" parent="UI"]
@@ -105,14 +105,30 @@ offset_bottom = 74.0
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/MarginContainer"]
 layout_mode = 2
 
-[node name="Switch scene" type="Button" parent="UI/MarginContainer/VBoxContainer"]
+[node name="Select scene" type="OptionButton" parent="UI/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Switch scene"
+selected = 0
+item_count = 2
+popup/item_0/text = "rotating_object"
+popup/item_0/id = 0
+popup/item_1/text = "multiple_objects"
+popup/item_1/id = 1
 
-[node name="Switch shader" type="Button" parent="UI/MarginContainer/VBoxContainer"]
+[node name="Select shader" type="OptionButton" parent="UI/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Switch shader
-"
+selected = 0
+item_count = 3
+popup/item_0/text = "pm_aging"
+popup/item_0/id = 0
+popup/item_1/text = "baseline"
+popup/item_1/id = 1
+popup/item_2/text = "baseline_textured"
+popup/item_2/id = 2
 
-[connection signal="pressed" from="UI/MarginContainer/VBoxContainer/Switch scene" to="." method="switch_scene"]
-[connection signal="pressed" from="UI/MarginContainer/VBoxContainer/Switch shader" to="." method="switch_shader"]
+[node name="Reset scene" type="Button" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Reset scene"
+
+[connection signal="item_selected" from="UI/MarginContainer/VBoxContainer/Select scene" to="." method="set_scene"]
+[connection signal="item_selected" from="UI/MarginContainer/VBoxContainer/Select shader" to="." method="set_shader"]
+[connection signal="pressed" from="UI/MarginContainer/VBoxContainer/Reset scene" to="." method="reset_scene"]

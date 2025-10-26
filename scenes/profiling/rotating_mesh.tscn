@@ -47,7 +47,7 @@ shader_parameter/snoise_fbm_iterations = 4
 shader_parameter/use_vertex_weight = false
 shader_parameter/vertex_weight_scale = 1.0
 shader_parameter/vertex_weight_channel = 0
-shader_parameter/age = 42.55
+shader_parameter/age = 0.0
 shader_parameter/paint_stability = 0.5
 shader_parameter/uv_and_heat = 0.5
 shader_parameter/pollution = 0.5
@@ -128,14 +128,20 @@ offset_bottom = 56.0
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/MarginContainer"]
 layout_mode = 2
 
-[node name="Switch mesh" type="Button" parent="UI/MarginContainer/VBoxContainer"]
+[node name="Select mesh" type="OptionButton" parent="UI/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Switch mesh"
+selected = 0
+item_count = 2
+popup/item_0/text = "sphere"
+popup/item_0/id = 0
+popup/item_1/text = "quad"
+popup/item_1/id = 1
 
-[node name="Edit triangles" type="SpinBox" parent="UI/MarginContainer/VBoxContainer"]
+[node name="Complexity" type="SpinBox" parent="UI/MarginContainer/VBoxContainer"]
 layout_mode = 2
 step = 0.01
 value = 1.0
+prefix = "Complexity:"
 
-[connection signal="pressed" from="UI/MarginContainer/VBoxContainer/Switch mesh" to="." method="switch_instance_mesh"]
-[connection signal="value_changed" from="UI/MarginContainer/VBoxContainer/Edit triangles" to="." method="change_triangles"]
+[connection signal="item_selected" from="UI/MarginContainer/VBoxContainer/Select mesh" to="." method="set_instance_mesh"]
+[connection signal="value_changed" from="UI/MarginContainer/VBoxContainer/Complexity" to="." method="change_triangles"]
