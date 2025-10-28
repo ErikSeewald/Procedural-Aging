@@ -16,7 +16,7 @@ const paint_textures = [
 ]
 
 const shaders: Array = [
-	preload("res://shaders/pm_aging.gdshader"),
+	preload("res://shaders/instanced_pm_aging.gdshader"),
 	preload("res://shaders/debug/baseline.gdshader"),
 	preload("res://shaders/debug/baseline_textured.gdshader")
 ]

@@ -4,9 +4,18 @@
 * like a canvas shader for displaying masks on their own can simply include this file.
 */
 
+// If this is uncommented, object and environment parameters (and seed) will be instance uniforms
+// That means they will not be easily editable from the godot editor for quick visualization
+// but in return objects can reuse the same material and only modify these uniform parameters.
+//#define INSTANCE_UNIFORMS
+
 /// Parameters relating to mask scaling, time and rng
 group_uniforms general_parameters;
+#ifdef INSTANCE_UNIFORMS
+	instance 
+#endif 
 uniform uint seed = 0; // Seed used by all pseudo-rng functions
+
 uniform float uv_scale = 1.0; // Scale of the UV(W) coordinates used to sample procedural (3D) textures
 uniform float patch_scale = 2.0; // Scaling of the paint wear and rust patches
 uniform float wear_scale = 2.0; // Scaling of the wear masks that affects the strength of the other masks
@@ -29,13 +38,31 @@ uniform uint vertex_weight_channel = 0; // Color channel used as the weight fact
 
 /// Wear scaling parameters that are local to the object (details on the effects are in the docs)
 group_uniforms object_parameters;
+#ifdef INSTANCE_UNIFORMS
+	instance 
+#endif 
 uniform float age = 0.0;
+
+#ifdef INSTANCE_UNIFORMS
+	instance 
+#endif 
 uniform float paint_stability: hint_range(0.0, 1.0) = 0.5; // Affects residue, grime, roughness and yellowing
 
 /// Wear scaling parameters of the environment context (details on the effects are in the docs)
 group_uniforms context_parameters;
+#ifdef INSTANCE_UNIFORMS
+	instance 
+#endif 
 uniform float uv_and_heat: hint_range(0.0, 1.0) = 0.5; // UV and temperature intensity
+
+#ifdef INSTANCE_UNIFORMS
+	instance 
+#endif 
 uniform float pollution: hint_range(0.0, 1.0) = 0.5; // Acidity, toxicity, salinity, etc.
+
+#ifdef INSTANCE_UNIFORMS
+	instance 
+#endif 
 uniform float moisture: hint_range(0.0, 1.0) = 0.5; // Moisture, precipitation
 
 /// The metallic base layer below the paint coating.
