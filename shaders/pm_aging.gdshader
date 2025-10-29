@@ -225,11 +225,12 @@ void fragment()
 	outs.normal = texture(normal_base, UV).rgb;
 	outs.specular = SPECULAR;
 
-	// The scaling for the seed was heuristically chosen to look good for both
-	// very high and very low uint seeds. A low scaling means no big difference
-	// between neighbor seeds while a high scaling can cause maxing out the float range
-	// for large seeds.
-	float seed_f = float(seed) / float(0xffffffffu) * 1.0e7;
+	// The uint seed needs to be wrapped in a lower range because high values eventually
+	// mean floats cannot represent differences of 1 in the seed.
+	// Even below the point where step sizes of 1 are no longer representable,
+	// high seeds start to look strange so the cutoff is even lower.
+	const uint wrap = 0x10000u;
+	float seed_f = float(seed % wrap);
 
 	// The interpolated object space position scaled by uv_scale is used by all
 	// procedural sampling functions.

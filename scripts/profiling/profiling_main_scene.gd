@@ -1,8 +1,5 @@
 extends Node
 
-@export var base_mat: ShaderMaterial
-@export var tex_mat: ShaderMaterial
-
 const base_textures = [
 	preload("res://assets/single_textures/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_diff_2k.jpg"),
 	preload("res://assets/single_textures/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_rough_2k.png"),

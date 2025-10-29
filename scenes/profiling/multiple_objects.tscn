@@ -29,7 +29,7 @@ environment = SubResource("Environment_7eiin")
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -116.0
+offset_top = -88.0
 offset_right = 130.0
 grow_vertical = 0
 theme = ExtResource("2_u6os2")
@@ -53,22 +53,16 @@ popup/item_0/id = 0
 popup/item_1/text = "cube"
 popup/item_1/id = 1
 
-[node name="Amount" type="SpinBox" parent="UI/MarginContainer/VBoxContainer"]
+[node name="Size" type="SpinBox" parent="UI/MarginContainer/VBoxContainer"]
 layout_mode = 2
 value = 10.0
 allow_greater = true
-allow_lesser = true
 
 [node name="Instanced" type="CheckButton" parent="UI/MarginContainer/VBoxContainer"]
 layout_mode = 2
 button_pressed = true
 text = "Instanced"
 
-[node name="Rotating" type="CheckButton" parent="UI/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Rotating"
-
 [connection signal="item_selected" from="UI/MarginContainer/VBoxContainer/Select layout" to="." method="set_layout"]
-[connection signal="value_changed" from="UI/MarginContainer/VBoxContainer/Amount" to="." method="set_objects"]
+[connection signal="value_changed" from="UI/MarginContainer/VBoxContainer/Size" to="." method="set_size"]
 [connection signal="toggled" from="UI/MarginContainer/VBoxContainer/Instanced" to="." method="set_instanced_mode"]
-[connection signal="toggled" from="UI/MarginContainer/VBoxContainer/Rotating" to="." method="set_rotating"]

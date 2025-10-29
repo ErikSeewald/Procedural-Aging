@@ -63,7 +63,7 @@ ambient_light_color = Color(0.482749, 0.47207, 0.541328, 1)
 ambient_light_sky_contribution = 0.55
 ambient_light_energy = 3.82
 
-[sub_resource type="SphereMesh" id="SphereMesh_3xn8w"]
+[sub_resource type="SphereMesh" id="SphereMesh_ux7xw"]
 
 [sub_resource type="Gradient" id="Gradient_jh38f"]
 offsets = PackedFloat32Array(0)
@@ -99,7 +99,7 @@ shader_parameter/snoise_fbm_iterations = 4
 shader_parameter/use_vertex_weight = false
 shader_parameter/vertex_weight_scale = 1.0
 shader_parameter/vertex_weight_channel = 0
-shader_parameter/age = 42.55
+shader_parameter/age = 52.385
 shader_parameter/paint_stability = 0.5
 shader_parameter/uv_and_heat = 0.5
 shader_parameter/pollution = 0.5
@@ -613,7 +613,7 @@ shadow_opacity = 0.5
 
 [node name="TestMesh" parent="." instance=ExtResource("3_a7gid")]
 transform = Transform3D(1.0052469, 0.00029682057, -0.00017909083, -0.00029665424, 1.0052468, 0.00090057706, 0.00017936561, -0.0009005211, 1.0052484, -0.0005094111, 0.001191467, 0.00026136637)
-mesh = SubResource("SphereMesh_3xn8w")
+mesh = SubResource("SphereMesh_ux7xw")
 surface_material_override/0 = SubResource("ShaderMaterial_7ejpg")
 
 [node name="Alt-mat TestMesh" type="Node3D" parent="."]
