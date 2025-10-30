@@ -18,7 +18,7 @@ var spawned_objects = []
 var _multi_mesh_instance: MultiMeshInstance3D
 
 # LAYOUT
-enum MeshLayout { SQUARE, CUBE }
+enum MeshLayout { SQUARE, CUBE, OVERDRAW}
 var _cur_layout: MeshLayout = MeshLayout.SQUARE
  
 func _ready() -> void:
@@ -76,6 +76,8 @@ func set_objects(layout: MeshLayout, size: int) -> void:
 			camera.position = Vector3(size*0.5, size*0.5, 1.0 + size*0.75)
 		MeshLayout.CUBE:
 			camera.position = Vector3(size*0.5, size*0.5, 1.0 + size*1.75)
+		MeshLayout.OVERDRAW:
+			camera.position = Vector3(0.0, 0.0, 1.0)
 			
 	switch_to_shader(_cur_mat) # Shaders need to be reinitialized too
 
@@ -108,7 +110,6 @@ func set_non_instanced(positions: Array[Vector3]) -> void:
 		add_child(inst)
 		spawned_objects.append(inst)
 
-## Clears and frees all spawned non instanced objects
 func _clear_non_instanced() -> void:
 	for o in spawned_objects:
 		o.queue_free()
@@ -118,6 +119,11 @@ func _clear_non_instanced() -> void:
 ## in the given layout.
 func _get_positions(layout: MeshLayout, size: int) -> Array[Vector3]:
 	var positions: Array[Vector3] = []
+	if layout == MeshLayout.OVERDRAW:
+		for i in range(size):
+			positions.append(Vector3(0.0, 0.0, -i * 0.5))
+		return positions
+	
 	var size_z: int = size if layout == MeshLayout.CUBE else 1
 	for x in range(size):
 		for y in range(size):

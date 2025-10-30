@@ -22,7 +22,9 @@ var _shader_index = 0
 
 const scenes: Array = [
 	preload("res://scenes/profiling/rotating_mesh.tscn"),
-	preload("res://scenes/profiling/multiple_objects.tscn")
+	preload("res://scenes/profiling/multiple_objects.tscn"),
+	preload("res://scenes/profiling/pixel_count.tscn"),
+		preload("res://scenes/profiling/env_and_lights.tscn")
 ]
 var _scene_index = 0
 var _cur_scene_child: Node
@@ -31,11 +33,9 @@ var _cur_scene_child: Node
 
 func _ready() -> void:
 	ui.visible = false
-	_cur_scene_child = scenes[0].instantiate()
-	add_child(_cur_scene_child)
-	
 	_initialize_shaders()
-
+	set_scene(0)
+	
 func _initialize_shaders() -> void:
 	for shader in shaders:
 		var mat = ShaderMaterial.new()
@@ -64,11 +64,20 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_toggle"):
 		toggle_ui(!ui.visible)
 
+## Toggles ui and propagates the setting down to child UIs
 func toggle_ui(toggled: bool) -> void:
 	ui.visible = toggled
 	if _cur_scene_child.has_method("toggle_ui"):
 		_cur_scene_child.toggle_ui(ui.visible)
 
+## Sets the currently displayed shader by index and
+## propagates the setting down to child scenes
+func set_shader(index: int) -> void:
+	_shader_index = index % len(shaders)
+	if _cur_scene_child.has_method("switch_to_shader"):
+		_cur_scene_child.switch_to_shader(shader_materials[_shader_index])
+
+## Sets the current profiling scene and frees the old one
 func set_scene(index: int) -> void:
 	if _cur_scene_child:
 		_cur_scene_child.queue_free()
@@ -80,11 +89,6 @@ func set_scene(index: int) -> void:
 	# Copy current parameters over
 	set_shader(_shader_index)
 	toggle_ui(ui.visible)
-	
-func set_shader(index: int) -> void:
-	_shader_index = index % len(shaders)
-	if _cur_scene_child.has_method("switch_to_shader"):
-		_cur_scene_child.switch_to_shader(shader_materials[_shader_index])
 		
 func reset_scene() -> void:
 	set_scene(_scene_index)
