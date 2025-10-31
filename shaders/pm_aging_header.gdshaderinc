@@ -30,6 +30,10 @@ group_uniforms performance;
 uniform uint voronoi_fbm_iterations = 5;
 uniform uint snoise_fbm_iterations = 4;
 
+#ifdef BAKE_MODE
+instance uniform int bake_target = 0;
+#endif
+
 /// Configuration parameters for the use of vertex colors as wear weights
 group_uniforms vertex_colors;
 uniform bool use_vertex_weight = false; // Higher vertex color values make their surroundings age faster

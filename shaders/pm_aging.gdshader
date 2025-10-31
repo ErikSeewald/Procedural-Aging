@@ -1,4 +1,12 @@
 shader_type spatial;
+
+// If BAKE_MODE is defined, the shader will render it's output
+// (based on bake_target uniform) to flat UV space so the texture can be saved.
+#define BAKE_MODE
+#ifdef BAKE_MODE
+render_mode unshaded, cull_disabled, depth_test_disabled;
+#endif
+
 #include "pm_aging_header.gdshaderinc"
 #include "masks.gdshaderinc"
 
@@ -38,6 +46,12 @@ void vertex()
 		}
 		vertex_weight *= vertex_weight_scale;
 	}
+
+#ifdef BAKE_MODE
+	// Project to render uv map. Since obj_pos is set prior, it will
+	// correctly map the 3D noise matching object position to the flat UV.
+	POSITION = vec4(UV*2.0 - 1.0,  1.0, 1.0);
+#endif
 }
 
 // Returns a level of detail factor based on pixel_size relative to
@@ -276,9 +290,22 @@ void fragment()
 	blend_paint_mask(outs, UV, pm_weight, smooth_pm_weight);
 	blend_grime(outs, pm_weight, smooth_pm_weight);
 
-	ALBEDO = outs.albedo * exposure;
+	outs.albedo *= exposure;
+
+#ifdef BAKE_MODE
+	vec3 out_color = vec3(0.0);
+	switch (bake_target)
+	{
+		case 0: out_color = outs.albedo; break;
+		case 1: out_color = vec3(outs.metallic, outs.roughness, outs.specular); break;
+		case 2: out_color = outs.normal; break;
+	}
+	ALBEDO = out_color;
+#else
+	ALBEDO = outs.albedo;
 	METALLIC = outs.metallic;
 	ROUGHNESS = outs.roughness;
 	NORMAL_MAP = outs.normal;
 	SPECULAR = outs.specular;
+#endif
 }
