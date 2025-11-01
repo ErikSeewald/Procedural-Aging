@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://30x2ljg1j1dh" path="res://scripts/profiling/pixel_count_scene.gd" id="1_7xg7h"]
 [ext_resource type="Theme" uid="uid://b8bdf4l66bp3o" path="res://assets/ui_theme.tres" id="1_rspj0"]
-[ext_resource type="Shader" uid="uid://dr8p7qswmtovl" path="res://shaders/pm_aging.gdshader" id="1_xrq73"]
+[ext_resource type="Shader" uid="uid://dr8p7qswmtovl" path="res://shaders/non_instanced_pma.gdshader" id="1_xrq73"]
 [ext_resource type="Texture2D" uid="uid://cvoom7qu4404c" path="res://assets/single_textures/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_diff_2k.jpg" id="2_7xg7h"]
 [ext_resource type="Texture2D" uid="uid://brs1husbmdekd" path="res://assets/single_textures/green_metal_rust_2k.blend/textures/green_metal_rust_diff_2k.jpg" id="3_ucq8g"]
 [ext_resource type="Texture2D" uid="uid://cse8uuw55uf3n" path="res://assets/single_textures/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_nor_gl_2k.png" id="4_35fc1"]

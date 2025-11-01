@@ -13,23 +13,28 @@ const paint_textures = [
 ]
 
 const shaders: Array = [
-	preload("res://shaders/instanced_pm_aging.gdshader"),
+	preload("res://shaders/instanced_pma.gdshader"),
 	preload("res://shaders/debug/baseline.gdshader"),
-	preload("res://shaders/debug/baseline_textured.gdshader")
+	preload("res://shaders/baking/baked.gdshader")
 ]
-var shader_materials: Array
+var _shader_materials: Array
 var _shader_index = 0
+
+const bake_shader = preload("res://shaders/baking/baked_pma.gdshader")
+var _bake_mat: ShaderMaterial
 
 const scenes: Array = [
 	preload("res://scenes/profiling/rotating_mesh.tscn"),
 	preload("res://scenes/profiling/multiple_objects.tscn"),
 	preload("res://scenes/profiling/pixel_count.tscn"),
-		preload("res://scenes/profiling/env_and_lights.tscn")
+	preload("res://scenes/profiling/env_and_lights.tscn")
 ]
 var _scene_index = 0
 var _cur_scene_child: Node
 
 @onready var ui: Panel = $UI
+@onready var pause_aging_btn: CheckButton = $"UI/MarginContainer/VBoxContainer/Pause aging"
+var _cur_bake_size := Vector2i(2048, 2048)
 
 func _ready() -> void:
 	ui.visible = false
@@ -40,25 +45,26 @@ func _initialize_shaders() -> void:
 	for shader in shaders:
 		var mat = ShaderMaterial.new()
 		mat.shader = shader
-		shader_materials.append(mat)
+		_shader_materials.append(mat)
 	
 	var metallic_base := TextureHelper.get_unit_texture(Color(0.6, 0.6, 0.6));
 	var metallic_paint := TextureHelper.get_unit_texture(Color(0.4, 0.4, 0.4));
 	
-	shader_materials[0].set_shader_parameter("albedo_base", base_textures[0])
-	shader_materials[0].set_shader_parameter("metallic_base", metallic_base)
-	shader_materials[0].set_shader_parameter("roughness_base", base_textures[1])
-	shader_materials[0].set_shader_parameter("normal_base", base_textures[2])
+	_shader_materials[0].set_shader_parameter("albedo_base", base_textures[0])
+	_shader_materials[0].set_shader_parameter("metallic_base", metallic_base)
+	_shader_materials[0].set_shader_parameter("roughness_base", base_textures[1])
+	_shader_materials[0].set_shader_parameter("normal_base", base_textures[2])
 	
-	shader_materials[0].set_shader_parameter("albedo_paint", paint_textures[0])
-	shader_materials[0].set_shader_parameter("metallic_paint", metallic_paint)
-	shader_materials[0].set_shader_parameter("roughness_paint", paint_textures[1])
-	shader_materials[0].set_shader_parameter("normal_paint", paint_textures[2])
+	_shader_materials[0].set_shader_parameter("albedo_paint", paint_textures[0])
+	_shader_materials[0].set_shader_parameter("metallic_paint", metallic_paint)
+	_shader_materials[0].set_shader_parameter("roughness_paint", paint_textures[1])
+	_shader_materials[0].set_shader_parameter("normal_paint", paint_textures[2])
 	
-	shader_materials[2].set_shader_parameter("albedo", paint_textures[0])
-	shader_materials[2].set_shader_parameter("metallic", metallic_paint)
-	shader_materials[2].set_shader_parameter("roughness", paint_textures[1])
-	shader_materials[2].set_shader_parameter("normal", paint_textures[2])
+	_bake_mat = ShaderMaterial.new()
+	_bake_mat.shader = bake_shader
+	for u in _shader_materials[0].shader.get_shader_uniform_list():
+		var value = _shader_materials[0].get_shader_parameter(u.name)
+		_bake_mat.set_shader_parameter(u.name, value)
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_toggle"):
@@ -70,12 +76,28 @@ func toggle_ui(toggled: bool) -> void:
 	if _cur_scene_child.has_method("toggle_ui"):
 		_cur_scene_child.toggle_ui(ui.visible)
 
+## Toggles pausing the aging in the child scene
+func pause_aging(toggled: bool) -> void:
+	if _cur_scene_child.has_method("pause_aging"):
+		_cur_scene_child.pause_aging(toggled)
+
 ## Sets the currently displayed shader by index and
 ## propagates the setting down to child scenes
 func set_shader(index: int) -> void:
 	_shader_index = index % len(shaders)
-	if _cur_scene_child.has_method("switch_to_shader"):
-		_cur_scene_child.switch_to_shader(shader_materials[_shader_index])
+	if _shader_index == 2:
+		pause_aging_btn.button_pressed = true
+		if _cur_scene_child.has_method("bake_shader"):
+			_cur_scene_child.bake_shader(_bake_mat.duplicate(), _cur_bake_size)
+	else:
+		if _cur_scene_child.has_method("switch_to_shader"):
+			_cur_scene_child.switch_to_shader(_shader_materials[_shader_index])
+
+## Sets the resolution that will be used for the baked shader textures
+## and resets the current bake (if it is active).
+func set_bake_res(size: int) -> void:
+	_cur_bake_size = Vector2i(size, size)
+	set_shader(_shader_index)
 
 ## Sets the current profiling scene and frees the old one
 func set_scene(index: int) -> void:
@@ -89,6 +111,6 @@ func set_scene(index: int) -> void:
 	# Copy current parameters over
 	set_shader(_shader_index)
 	toggle_ui(ui.visible)
-		
+
 func reset_scene() -> void:
 	set_scene(_scene_index)

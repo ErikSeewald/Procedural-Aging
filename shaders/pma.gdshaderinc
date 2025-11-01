@@ -1,19 +1,18 @@
-shader_type spatial;
-
-// If BAKE_MODE is defined, the shader will render it's output
-// (based on bake_target uniform) to flat UV space so the texture can be saved.
-#define BAKE_MODE
-#ifdef BAKE_MODE
-render_mode unshaded, cull_disabled, depth_test_disabled;
-#endif
+/*
+* IMPORTANT:
+* 1. This shader is built for forward+ and mobile rendering (Godot v4.5).
+* 	Running it with the compatibility renderer causes color issues.
+* 2. Any source shader than includes this file NEEDS to define "SHADER_TYPE_DEFINED"
+*/
 
 #include "pm_aging_header.gdshaderinc"
 #include "masks.gdshaderinc"
 
-/*
-* NOTE: This shader is built for forward+ and mobile rendering (Godot v4.5).
-* Running it with the compatibility renderer causes color issues.
-*/
+// If BAKE_MODE is defined, the shader will render it's output
+// (based on bake_target uniform) to flat UV space so the texture can be saved.
+#ifdef BAKE_MODE
+render_mode unshaded, cull_disabled, depth_test_disabled;
+#endif
 
 // Struct for compact inout passing of this shader's output values.
 struct outputs
@@ -50,7 +49,7 @@ void vertex()
 #ifdef BAKE_MODE
 	// Project to render uv map. Since obj_pos is set prior, it will
 	// correctly map the 3D noise matching object position to the flat UV.
-	POSITION = vec4(UV*2.0 - 1.0,  1.0, 1.0);
+	POSITION = vec4(UV*2.0 - 1.0, 0.0, 1.0);
 #endif
 }
 
@@ -61,10 +60,14 @@ void vertex()
 // uses of lod need to scale accordingly.
 float get_lod()
 {
+#ifdef SHADER_TYPE_DEFINED
 	vec3 dx = dFdx(obj_pos * uv_scale);
 	vec3 dy = dFdy(obj_pos * uv_scale);
 	float pixel_size = max(length(dx), length(dy));
 	return exp(pixel_size*50.0) - 1.0;
+#else
+	return 0.0;
+#endif
 }
 
 // Desaturates the given color based on the given factor using
@@ -229,6 +232,10 @@ void blend_rust_mask(inout outputs outs, float rust_w, maskset mask_set)
 
 void fragment()
 {
+#ifndef SHADER_TYPE_DEFINED
+	return; // Make it obvious when SHADER_TYPE_DEFINED is missing
+#endif
+
 	// Default the outputs to the base layer, age it, and then
 	// put the paint layer on top based on the paint mask.
 	outputs outs;

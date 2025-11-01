@@ -11,8 +11,8 @@ script = ExtResource("1_ef27e")
 script = ExtResource("9_m2au4")
 
 [node name="UI" type="Panel" parent="."]
-offset_right = 130.0
-offset_bottom = 90.0
+offset_right = 139.0
+offset_bottom = 143.0
 theme = ExtResource("11_r70nd")
 
 [node name="MarginContainer" type="MarginContainer" parent="UI"]
@@ -46,8 +46,20 @@ popup/item_0/text = "pm_aging"
 popup/item_0/id = 0
 popup/item_1/text = "baseline"
 popup/item_1/id = 1
-popup/item_2/text = "baseline_textured"
+popup/item_2/text = "baked"
 popup/item_2/id = 2
+
+[node name="Bake Resolution" type="SpinBox" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+min_value = 1.0
+max_value = 10000.0
+value = 2048.0
+rounded = true
+prefix = "bake_res:"
+
+[node name="Pause aging" type="CheckButton" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Pause aging"
 
 [node name="Reset scene" type="Button" parent="UI/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -55,4 +67,6 @@ text = "Reset scene"
 
 [connection signal="item_selected" from="UI/MarginContainer/VBoxContainer/Select scene" to="." method="set_scene"]
 [connection signal="item_selected" from="UI/MarginContainer/VBoxContainer/Select shader" to="." method="set_shader"]
+[connection signal="value_changed" from="UI/MarginContainer/VBoxContainer/Bake Resolution" to="." method="set_bake_res"]
+[connection signal="toggled" from="UI/MarginContainer/VBoxContainer/Pause aging" to="." method="pause_aging"]
 [connection signal="pressed" from="UI/MarginContainer/VBoxContainer/Reset scene" to="." method="reset_scene"]

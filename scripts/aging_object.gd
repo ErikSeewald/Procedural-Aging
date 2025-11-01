@@ -4,7 +4,9 @@ class_name AgingObject
 @onready var debug_label: Label3D = $DebugLabel
 @onready var context_sampler: ContextSampler
 @onready var cur_context := ContextParams.new()
-@onready var mat: ShaderMaterial = get_active_material(0)
+
+@export var material_slot := 0
+@onready var mat: ShaderMaterial = get_active_material(material_slot)
 var age = 0.0
 
 func _ready():

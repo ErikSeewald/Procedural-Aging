@@ -67,4 +67,4 @@ text = "Instanced"
 
 [connection signal="item_selected" from="UI/MarginContainer/VBoxContainer/Select layout" to="." method="set_layout"]
 [connection signal="value_changed" from="UI/MarginContainer/VBoxContainer/Size" to="." method="set_size"]
-[connection signal="toggled" from="UI/MarginContainer/VBoxContainer/Instanced" to="." method="set_instanced_mode"]
+[connection signal="toggled" from="UI/MarginContainer/VBoxContainer/Instanced" to="." method="set_instance_mode"]
