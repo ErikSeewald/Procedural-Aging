@@ -1,7 +1,7 @@
 extends Node
 class_name Profiler
 
-@export var warmup_seconds := 3
+@export var warmup_seconds := 1
 @export var measure_interval := 0.1
 @export var export_path := "user://"
 
@@ -13,8 +13,6 @@ var _frame_data := []
 var _measure_timer := 0.0
 
 var _cur_profiling_id: String
-
-signal saved_data
 
 func _process(delta):
 	if _profiling:
@@ -31,8 +29,6 @@ func _process(delta):
 				"drawcalls": Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME),
 				"primitives": Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME)
 			})
-			if len(_frame_data) > 20:
-				save_and_reset()
 				
 	elif _warmup_started:
 		_warmup += delta
@@ -90,7 +86,6 @@ func save_profile_data() -> void:
 		
 	file.close()
 	print("Profile data saved to " + path)
-	saved_data.emit()
 
 # Returns the average value for the given key in the current frame data
 func _get_average(key: String) -> float:

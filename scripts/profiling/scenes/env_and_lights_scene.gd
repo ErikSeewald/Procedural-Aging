@@ -1,15 +1,23 @@
 extends ProfilingScene
 
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
+@onready var env: Environment = $WorldEnvironment.environment
 
 const max_lights := 8 # Forward+ directional light limit for a single mesh
 const light_radius := 5.0
 var _cur_lights := []
+var _light_count := 0
+
+var _enable_env_effects := false
 
 var _rotating := true
 
+const profiling_length := 1.0
+var _cur_profiling_length = 0.0
+
 const profiling_ids: Array[String] = [
-	"env_and_lights_1"
+	"lights_0", "lights_1", "lights_8",
+	"env_effects_on"
 ]
 
 func get_profiling_ids() -> Array[String]:
@@ -17,13 +25,31 @@ func get_profiling_ids() -> Array[String]:
 
 func _setup_existing_id(profiling_id: String) -> void:
 	print("SETUP " + profiling_id)
+	if profiling_id.contains("lights"):
+		_light_count = int(profiling_id.split("_")[-1])
+	if profiling_id == "env_effects_on":
+		_enable_env_effects = true
+
+func _ready() -> void:
+	super()
+	set_random_light_count(_light_count)
+	
+	if _enable_env_effects:
+		env.ssr_enabled = true
+		env.ssao_enabled = true
+		env.ssil_enabled = true
+		env.fog_enabled = true
 
 func _process(delta: float) -> void:
-	if not _aging_paused:
-		_cur_age += delta
-		mesh_instance.set_instance_shader_parameter("age", _cur_age)
+	super(delta)
+	mesh_instance.set_instance_shader_parameter("age", _cur_age)
+	
 	if _rotating:
 		mesh_instance.rotate_y(delta * 0.25)
+		
+	_cur_profiling_length += delta
+	if _cur_profiling_length >= profiling_length:
+		profiling_sequence_finished.emit()
 	
 func switch_to_shader(mat: ShaderMaterial) -> void:
 	super(mat)

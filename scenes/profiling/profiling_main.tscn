@@ -74,7 +74,6 @@ text = "Reset scene"
 layout_mode = 2
 text = "Run suite"
 
-[connection signal="saved_data" from="Profiler" to="." method="on_profiler_saved"]
 [connection signal="item_selected" from="UI/MarginContainer/VBoxContainer/Select scene" to="." method="set_scene"]
 [connection signal="item_selected" from="UI/MarginContainer/VBoxContainer/Select shader" to="." method="set_shader"]
 [connection signal="value_changed" from="UI/MarginContainer/VBoxContainer/Bake Resolution" to="." method="set_bake_res"]

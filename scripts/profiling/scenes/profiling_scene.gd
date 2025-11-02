@@ -2,6 +2,11 @@
 extends Node3D
 class_name ProfilingScene
 
+## Called when a profiling sequence defined by a profiling id has finished.
+## Can be ignored if there is currently no profiling going on.
+@warning_ignore("unused_signal")
+signal profiling_sequence_finished
+
 ## Used to throw an error if _ready() is called without calling setup().
 ## (i.e. if the node was added to a tree before setup())
 @warning_ignore("unused_private_class_variable")
@@ -15,6 +20,7 @@ var _is_setup: bool = false
 ## All ProfilingScenes have a global age that is shared between the different
 ## geometry instances.
 var _cur_age := 0.0
+var _aging_factor := 1.0
 var _aging_paused = false
 
 ## All ProfilingScenes handle material switching and baking in some way.
@@ -54,6 +60,10 @@ func toggle_ui(toggled: bool) -> void:
 func pause_aging(toggled: bool) -> void:
 	_aging_paused = toggled
 
+## Sets the factor by which delta time is scaled in the aging update process.
+func set_aging_factor(factor: float) -> void:
+	_aging_factor = factor
+
 ## Switches to the given shader material. Intended to be used with super()
 ## before the scene specific implementation.
 func switch_to_shader(mat: ShaderMaterial) -> void:
@@ -79,4 +89,4 @@ func _ready() -> void:
 ## Intended to be used with super() before the scene specific implementation.
 func _process(delta: float) -> void:
 	if not _aging_paused:
-		_cur_age += delta
+		_cur_age += delta * _aging_factor

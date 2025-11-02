@@ -8,8 +8,14 @@ var _mesh_index = 0
 
 const _default_segments := 64
 const _default_rings := 32
+var _complexity_factor := 1.0
+
+const profiling_length := 1.0
+var _cur_profiling_length = 0.0
+
 const profiling_ids: Array[String] = [
-	"rotating_mesh_1", "rotating_mesh_2"
+	"rotating_sphere_complexity_1", "rotating_sphere_complexity_5",
+	"rotating_quad"
 ]
 
 func get_profiling_ids() -> Array[String]:
@@ -17,6 +23,13 @@ func get_profiling_ids() -> Array[String]:
 
 func _setup_existing_id(profiling_id: String) -> void:
 	print("SETUP " + profiling_id)
+	
+	if profiling_id == "rotating_sphere_complexity_1":
+		pass
+	elif profiling_id == "rotating_sphere_complexity_5":
+		_complexity_factor = 5.0
+	elif profiling_id == "rotating_quad":
+		_mesh_index = 1
 
 func switch_to_shader(mat: ShaderMaterial) -> void:
 	super(mat)
@@ -27,6 +40,11 @@ func bake_shader(mat: ShaderMaterial, size: Vector2i) -> void:
 	AgeBaker.register(mesh_instance, _cur_mat, _cur_bake_size, material_slot)
 	AgeBaker.bake()
 	
+func _ready() -> void:
+	super()
+	set_instance_mesh(_mesh_index)
+	set_complexity(_complexity_factor)
+	
 func _process(delta: float) -> void:
 	super(delta)
 	mesh_instance.set_instance_shader_parameter("age", _cur_age)
@@ -35,6 +53,10 @@ func _process(delta: float) -> void:
 		mesh_instance.rotate_z(delta * 0.25)
 	else:
 		mesh_instance.rotate_y(delta * 0.25)
+		
+	_cur_profiling_length += delta
+	if _cur_profiling_length >= profiling_length:
+		profiling_sequence_finished.emit()
 
 ## Sets the mesh of the MeshInstance3D to the mesh at the given index
 ## and resets its transform

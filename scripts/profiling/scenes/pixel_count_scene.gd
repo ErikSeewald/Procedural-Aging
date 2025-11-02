@@ -3,19 +3,33 @@ extends ProfilingScene
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
 @onready var camera: Camera3D = $Camera3D
 
+var _cur_distance := 1.0
+
+const profiling_length := 2.0
+var _cur_profiling_length = 0.0
+
 const profiling_ids: Array[String] = [
-	"pixel_count_1"
+	"dist_0.25", "dist_1", "dist_10", "dist_100"
 ]
 
 func get_profiling_ids() -> Array[String]:
 	return profiling_ids
 
 func _setup_existing_id(profiling_id: String) -> void:
-	print("SETUP " + profiling_id)
+	print("SETUP " + profiling_id)	
+	_cur_distance = float(profiling_id.split("_")[-1])
+
+func _ready() -> void:
+	super()
+	set_distance(_cur_distance)
 
 func _process(delta: float) -> void:
 	super(delta)
 	mesh_instance.set_instance_shader_parameter("age", _cur_age)
+	
+	_cur_profiling_length += delta
+	if _cur_profiling_length >= profiling_length:
+		profiling_sequence_finished.emit()
 	
 func switch_to_shader(mat: ShaderMaterial) -> void:
 	super(mat)

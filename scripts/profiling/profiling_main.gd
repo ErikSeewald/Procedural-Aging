@@ -3,6 +3,7 @@ extends Node
 @onready var profiler: Profiler = $Profiler
 @onready var ui: Panel = $UI
 @onready var pause_aging_btn: CheckButton = $"UI/MarginContainer/VBoxContainer/Pause aging"
+@onready var scene_picker: OptionButton = $"UI/MarginContainer/VBoxContainer/Select scene"
 
 const scenes: Array = [
 	preload("res://scenes/profiling/rotating_mesh.tscn"),
@@ -10,16 +11,19 @@ const scenes: Array = [
 	preload("res://scenes/profiling/pixel_count.tscn"),
 	preload("res://scenes/profiling/env_and_lights.tscn")
 ]
-var _scene_index = 0
+var _scene_index := 0
 var _cur_scene: ProfilingScene
 var _cur_scene_profiling_idx := 0
 
-var _aging_paused = false
-var _ui_enabled = true
+var _aging_paused := false
+var _aging_factor := 1.0
+var _ui_enabled := true
 var _cur_bake_size := Vector2i(2048, 2048)
 
 var _profiling_shaders: ProfilingShaders
-var _shader_index = 0
+var _shader_index := 0
+
+var _currently_profiling := false
 
 func _ready() -> void:
 	ui.visible = false
@@ -71,12 +75,14 @@ func set_scene(index: int) -> void:
 	_scene_index = new_index
 	_cur_scene = scenes[_scene_index].instantiate()
 	_cur_scene.setup(_cur_scene.profiling_ids[_cur_scene_profiling_idx])
+	_cur_scene.profiling_sequence_finished.connect(on_profiling_sequence_finished)
 	add_child(_cur_scene)
 	
 	# Copy current parameters over
 	set_shader(_shader_index)
 	toggle_ui(ui.visible)
 	pause_aging(_aging_paused)
+	_cur_scene.set_aging_factor(_aging_factor)
 
 func toggle_vsync(toggled: bool) -> void:
 	if toggled:
@@ -87,31 +93,43 @@ func toggle_vsync(toggled: bool) -> void:
 func reset_scene() -> void:
 	set_scene(_scene_index)
 	
-## Connects to the saved_data signal of the profiler
-func on_profiler_saved() -> void:
-	_cur_scene_profiling_idx += 1
+func on_profiling_sequence_finished() -> void:
+	if not _currently_profiling:
+		return
 	
-	var ids = _cur_scene.profiling_ids
+	var ids = _cur_scene.get_profiling_ids()
+	_cur_scene_profiling_idx += 1
 	if _cur_scene_profiling_idx >= len(ids):
+		_cur_scene_profiling_idx = 0
 		if _scene_index + 1 >= len(scenes):
-			get_tree().quit()
+			finish_profiling()
 			return
 		else:
-			_cur_scene_profiling_idx = 0
 			_scene_index += 1
 	
 	reset_scene()
+	ids = _cur_scene.get_profiling_ids()
 	profiler.warmup_and_run(ids[_cur_scene_profiling_idx])
-	
+
+func finish_profiling() -> void:
+	_currently_profiling = false
+	_ui_enabled = true
+	toggle_vsync(true)
+	DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_RESIZE_DISABLED, false)
+	_aging_factor = 1.0
+	set_scene(scene_picker.selected)
+
 ## Runs the profiling suite, takes away control from the user and sets up
 ## the profiler.
 func run_suite() -> void:
+	_currently_profiling = true
 	_ui_enabled = false
 	toggle_ui(false)
-	toggle_vsync(false)
-	reset_scene()
+	#toggle_vsync(false)
 	get_window().size = Vector2i(1920, 1080)
 	DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_RESIZE_DISABLED, true)
+	_aging_factor = 10.0
 	
+	reset_scene()
 	var profiling_id = _cur_scene.profiling_ids[0]
 	profiler.warmup_and_run(profiling_id)

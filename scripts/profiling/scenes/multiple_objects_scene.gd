@@ -13,8 +13,14 @@ var _multi_mesh_instance: MultiMeshInstance3D
 enum MeshLayout { SQUARE, CUBE, OVERDRAW}
 var _cur_layout: MeshLayout = MeshLayout.SQUARE
 
+const profiling_length := 1.0
+var _cur_profiling_length = 0.0
+
 const profiling_ids: Array[String] = [
-	"multiple_objects_1"
+	"instanced_square_10", "instanced_square_50",
+	"non_instanced_square_10", "non_instanced_square_50",
+	"instanced_overdraw_10", "instanced_overdraw_50",
+	"non_instanced_overdraw_10", "non_instanced_overdraw_50"
 ]
 
 func get_profiling_ids() -> Array[String]:
@@ -22,14 +28,26 @@ func get_profiling_ids() -> Array[String]:
 
 func _setup_existing_id(profiling_id: String) -> void:
 	print("SETUP " + profiling_id)
+	
+	_instance_mode = not profiling_id.begins_with("non_instanced")
+	_cur_size = int(profiling_id.split("_")[-1])
+	
+	if profiling_id.contains("square"):
+		_cur_layout = MeshLayout.SQUARE
+	elif profiling_id.contains("overdraw"):
+		_cur_layout = MeshLayout.OVERDRAW
 
 func _ready() -> void:
 	super()
-	set_size(int(size_input.value))
+	set_size(_cur_size)
 
 func _process(delta: float) -> void:
 	super(delta)
 	_update_shader_age()
+	
+	_cur_profiling_length += delta
+	if _cur_profiling_length >= profiling_length:
+		profiling_sequence_finished.emit()
 
 func _update_shader_age() -> void:
 	_cur_mat.set_shader_parameter("age", _cur_age)
