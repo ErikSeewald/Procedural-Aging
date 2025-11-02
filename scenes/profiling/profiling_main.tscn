@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://c0mn3gc85qyld"]
 
-[ext_resource type="Script" uid="uid://c25mpqh84eqnv" path="res://scripts/profiling/profiling_main_scene.gd" id="1_ef27e"]
+[ext_resource type="Script" uid="uid://c25mpqh84eqnv" path="res://scripts/profiling/profiling_main.gd" id="1_ef27e"]
 [ext_resource type="Script" uid="uid://c3qn487o50poe" path="res://scripts/profiling/profiler.gd" id="9_m2au4"]
 [ext_resource type="Theme" uid="uid://b8bdf4l66bp3o" path="res://assets/ui_theme.tres" id="11_r70nd"]
 
@@ -11,8 +11,8 @@ script = ExtResource("1_ef27e")
 script = ExtResource("9_m2au4")
 
 [node name="UI" type="Panel" parent="."]
-offset_right = 139.0
-offset_bottom = 143.0
+offset_right = 132.0
+offset_bottom = 199.0
 theme = ExtResource("11_r70nd")
 
 [node name="MarginContainer" type="MarginContainer" parent="UI"]
@@ -61,12 +61,24 @@ prefix = "bake_res:"
 layout_mode = 2
 text = "Pause aging"
 
+[node name="Vsync" type="CheckButton" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+button_pressed = true
+text = "Vsync"
+
 [node name="Reset scene" type="Button" parent="UI/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Reset scene"
 
+[node name="Run suite" type="Button" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Run suite"
+
+[connection signal="saved_data" from="Profiler" to="." method="on_profiler_saved"]
 [connection signal="item_selected" from="UI/MarginContainer/VBoxContainer/Select scene" to="." method="set_scene"]
 [connection signal="item_selected" from="UI/MarginContainer/VBoxContainer/Select shader" to="." method="set_shader"]
 [connection signal="value_changed" from="UI/MarginContainer/VBoxContainer/Bake Resolution" to="." method="set_bake_res"]
 [connection signal="toggled" from="UI/MarginContainer/VBoxContainer/Pause aging" to="." method="pause_aging"]
+[connection signal="toggled" from="UI/MarginContainer/VBoxContainer/Vsync" to="." method="toggle_vsync"]
 [connection signal="pressed" from="UI/MarginContainer/VBoxContainer/Reset scene" to="." method="reset_scene"]
+[connection signal="pressed" from="UI/MarginContainer/VBoxContainer/Run suite" to="." method="run_suite"]

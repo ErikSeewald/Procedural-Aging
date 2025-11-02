@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://caokqup8h84fv"]
 
-[ext_resource type="Script" uid="uid://dq061o2r5h5lb" path="res://scripts/profiling/multiple_objects_scene.gd" id="1_pts74"]
+[ext_resource type="Script" uid="uid://dq061o2r5h5lb" path="res://scripts/profiling/scenes/multiple_objects_scene.gd" id="1_pts74"]
 [ext_resource type="Theme" uid="uid://b8bdf4l66bp3o" path="res://assets/ui_theme.tres" id="2_u6os2"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3644y"]

@@ -1,30 +1,35 @@
-extends Node3D
+extends ProfilingScene
 
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
-@onready var ui: Panel = $UI
 @onready var complexity_edit: SpinBox = $UI/MarginContainer/VBoxContainer/Complexity
 
 @onready var meshes = [SphereMesh.new(), QuadMesh.new()]
 var _mesh_index = 0
 
-const material_slot := 0
 const _default_segments := 64
 const _default_rings := 32
+const profiling_ids: Array[String] = [
+	"rotating_mesh_1", "rotating_mesh_2"
+]
 
-var _cur_mat: ShaderMaterial
-var _baked_mode = false
-var _cur_bake_size: Vector2i
+func get_profiling_ids() -> Array[String]:
+	return profiling_ids
 
-var _cur_age := 0.0
-var _aging_paused = false
+func _setup_existing_id(profiling_id: String) -> void:
+	print("SETUP " + profiling_id)
 
-func _ready() -> void:
-	ui.visible = false
+func switch_to_shader(mat: ShaderMaterial) -> void:
+	super(mat)
+	mesh_instance.set_surface_override_material(material_slot, _cur_mat)
+	
+func bake_shader(mat: ShaderMaterial, size: Vector2i) -> void:
+	super(mat, size)
+	AgeBaker.register(mesh_instance, _cur_mat, _cur_bake_size, material_slot)
+	AgeBaker.bake()
 	
 func _process(delta: float) -> void:
-	if not _aging_paused:
-		_cur_age += delta
-		mesh_instance.set_instance_shader_parameter("age", _cur_age)
+	super(delta)
+	mesh_instance.set_instance_shader_parameter("age", _cur_age)
 		
 	if mesh_instance.mesh is QuadMesh:
 		mesh_instance.rotate_z(delta * 0.25)
@@ -39,7 +44,6 @@ func set_instance_mesh(index: int) -> void:
 	mesh_instance.transform = Transform3D()
 	
 	complexity_edit.visible = mesh_instance.mesh is SphereMesh	
-	
 	if _baked_mode: # Unlike the real-time shader the texture needs to be rebaked for a new mesh
 		bake_shader(_cur_mat, _cur_bake_size)
 
@@ -50,22 +54,3 @@ func set_complexity(factor: float) -> void:
 	if mesh is SphereMesh:
 		mesh.radial_segments = max(1, _default_segments * factor)
 		mesh.rings = max(1, _default_rings * factor)
-
-func toggle_ui(toggled: bool) -> void:
-	ui.visible = toggled
-
-func pause_aging(toggled: bool) -> void:
-	_aging_paused = toggled
-
-func switch_to_shader(mat: ShaderMaterial) -> void:
-	_baked_mode = false
-	_cur_mat = mat
-	mesh_instance.set_surface_override_material(material_slot, mat)
-	
-func bake_shader(mat: ShaderMaterial, size: Vector2i) -> void:
-	_baked_mode = true
-	_cur_mat = mat
-	_cur_bake_size = size
-	mat.set_shader_parameter("age", _cur_age)
-	AgeBaker.register(mesh_instance, mat, size, material_slot)
-	AgeBaker.bake()

@@ -1,62 +1,48 @@
-extends Node3D
+extends ProfilingScene
 
 @onready var camera: Camera3D = $Camera3D
-@onready var ui: Panel = $UI
 @onready var size_input: SpinBox = $UI/MarginContainer/VBoxContainer/Size
 
-const material_slot := 0
-
-var _cur_age = 0.0 # One shared age for all instances
-var _aging_paused = false
-var _cur_mat: ShaderMaterial
 var _cur_size: int # Edge length/size of square/cube of instances
 
 var _instance_mode: bool = true
-var _baked_mode = false
-var _bake_size: Vector2i
-
-# NON INSTANCED
 @onready var non_instanced_template: PackedScene = preload("res://scenes/profiling/base_sphere.tscn")
 var spawned_objects = []
-
-# INSTANCED
 var _multi_mesh_instance: MultiMeshInstance3D
 
-# LAYOUT
 enum MeshLayout { SQUARE, CUBE, OVERDRAW}
 var _cur_layout: MeshLayout = MeshLayout.SQUARE
- 
+
+const profiling_ids: Array[String] = [
+	"multiple_objects_1"
+]
+
+func get_profiling_ids() -> Array[String]:
+	return profiling_ids
+
+func _setup_existing_id(profiling_id: String) -> void:
+	print("SETUP " + profiling_id)
+
 func _ready() -> void:
+	super()
 	set_size(int(size_input.value))
 
 func _process(delta: float) -> void:
-	if not _aging_paused:
-		_cur_age += delta
-		_update_shader_age()
+	super(delta)
+	_update_shader_age()
 
 func _update_shader_age() -> void:
-		_cur_mat.set_shader_parameter("age", _cur_age)
-		if _instance_mode:
-			_multi_mesh_instance.set_instance_shader_parameter("age", _cur_age)
-		else:
-			for o in spawned_objects:
-				o.set_instance_shader_parameter("age", _cur_age)
+	_cur_mat.set_shader_parameter("age", _cur_age)
+	if _instance_mode:
+		_multi_mesh_instance.set_instance_shader_parameter("age", _cur_age)
+	else:
+		for o in spawned_objects:
+			o.set_instance_shader_parameter("age", _cur_age)
 
-## Called by profiling_main_scene
-func pause_aging(toggled: bool) -> void:
-	_aging_paused = toggled
-
-## Called by profiling_main_scene
-func toggle_ui(toggled: bool) -> void:
-	ui.visible = toggled
-
-## Called by profiling_main_scene and for reinitializing shaders.
 func switch_to_shader(mat: ShaderMaterial) -> void:	
-	_baked_mode = false # This function is never called for the baked shader
 	if not mat:
 		return # Can happen if it is called during ready() tree
-	
-	_cur_mat = mat
+	super(mat)
 	_update_shader_age()
 	
 	if _instance_mode:
@@ -66,11 +52,8 @@ func switch_to_shader(mat: ShaderMaterial) -> void:
 			o.set_surface_override_material(0, _cur_mat)
 			o.set_instance_shader_parameter("seed", o.get_instance_id())
 
-## Called by profiling_main_scene and for reinitializing shaders.
 func bake_shader(mat: ShaderMaterial, size: Vector2i) -> void:
-	_cur_mat = mat
-	_bake_size = size
-	_baked_mode = true
+	super(mat, size)
 	_update_shader_age()
 	
 	if _instance_mode:
@@ -116,7 +99,7 @@ func set_objects(layout: MeshLayout, size: int) -> void:
 	
  	# Shaders need to be reinitialized too
 	if _baked_mode:
-		bake_shader(_cur_mat, _bake_size)
+		bake_shader(_cur_mat, _cur_bake_size)
 	else:
 		switch_to_shader(_cur_mat)
 

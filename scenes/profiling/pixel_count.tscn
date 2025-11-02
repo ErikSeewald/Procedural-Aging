@@ -1,6 +1,6 @@
 [gd_scene load_steps=19 format=3 uid="uid://d0te4ggwdyl3"]
 
-[ext_resource type="Script" uid="uid://30x2ljg1j1dh" path="res://scripts/profiling/pixel_count_scene.gd" id="1_7xg7h"]
+[ext_resource type="Script" uid="uid://30x2ljg1j1dh" path="res://scripts/profiling/scenes/pixel_count_scene.gd" id="1_7xg7h"]
 [ext_resource type="Theme" uid="uid://b8bdf4l66bp3o" path="res://assets/ui_theme.tres" id="1_rspj0"]
 [ext_resource type="Shader" uid="uid://dr8p7qswmtovl" path="res://shaders/non_instanced_pma.gdshader" id="1_xrq73"]
 [ext_resource type="Texture2D" uid="uid://cvoom7qu4404c" path="res://assets/single_textures/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_diff_2k.jpg" id="2_7xg7h"]
