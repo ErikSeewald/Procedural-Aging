@@ -7,6 +7,7 @@ var yaw := 0.0
 var pitch := 0.0
 
 @onready var camera: Camera3D = $Camera3D
+var _mouse_captured := true
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -14,7 +15,7 @@ func _ready() -> void:
 	yaw = rotation.y
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion:
+	if event is InputEventMouseMotion and _mouse_captured:
 		yaw -= event.relative.x * mouse_sensitivity
 		pitch = clamp(pitch - event.relative.y * mouse_sensitivity, -PI * 0.5, PI * 0.5)
 
@@ -22,7 +23,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		camera.rotation.x = pitch
 
 	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		_mouse_captured = !_mouse_captured
+		if _mouse_captured:
+			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+		else:
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 func _physics_process(_delta: float) -> void:
 	var input_vec = Vector3.ZERO
