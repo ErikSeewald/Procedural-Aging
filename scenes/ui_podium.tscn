@@ -1,14 +1,16 @@
-[gd_scene load_steps=10 format=3 uid="uid://crh4q66aofh52"]
+[gd_scene load_steps=12 format=3 uid="uid://crh4q66aofh52"]
 
 [ext_resource type="PackedScene" uid="uid://bn0fhkw4cyd3o" path="res://assets/podium.blend" id="1_v46le"]
 [ext_resource type="Texture2D" uid="uid://bmxd0vply0vau" path="res://assets/single_textures/oak_veneer_01_2k.blend/textures/oak_veneer_01_diff_2k.jpg" id="2_iytmk"]
 [ext_resource type="Script" uid="uid://c8jpl2p3hcfyw" path="res://scripts/docks/podium.gd" id="2_jwgvg"]
 [ext_resource type="Texture2D" uid="uid://cik72f7mwkkeg" path="res://assets/single_textures/oak_veneer_01_2k.blend/textures/oak_veneer_01_ao_2k.jpg" id="3_885er"]
+[ext_resource type="Texture2D" uid="uid://b3maen57ic1s" path="res://assets/single_textures/oak_veneer_01_2k.blend/textures/active_oak_veneer_01_diff_2k.jpg" id="3_ipnly"]
 [ext_resource type="Texture2D" uid="uid://e0smndoliort" path="res://assets/single_textures/oak_veneer_01_2k.blend/textures/oak_veneer_01_nor_gl_2k.png" id="3_ny7fw"]
 [ext_resource type="Texture2D" uid="uid://ckease0fvgp1c" path="res://assets/single_textures/oak_veneer_01_2k.blend/textures/oak_veneer_01_rough_2k.png" id="4_lqhyk"]
+[ext_resource type="AudioStream" uid="uid://c4jaghhjcl14j" path="res://assets/AUDIO/clickSound.mp3" id="5_rr3s7"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jwgvg"]
-albedo_texture = ExtResource("2_iytmk")
+resource_local_to_scene = true
 roughness_texture = ExtResource("4_lqhyk")
 normal_enabled = true
 normal_scale = 0.5
@@ -24,6 +26,9 @@ radius = 0.15055832
 
 [node name="podium" instance=ExtResource("1_v46le")]
 script = ExtResource("2_jwgvg")
+default_texture = ExtResource("2_iytmk")
+activated_texture = ExtResource("3_ipnly")
+click_sound = ExtResource("5_rr3s7")
 
 [node name="Podium" parent="." index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_jwgvg")

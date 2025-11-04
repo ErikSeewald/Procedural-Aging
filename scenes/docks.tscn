@@ -1,4 +1,4 @@
-[gd_scene load_steps=87 format=3 uid="uid://cugglih42gya2"]
+[gd_scene load_steps=86 format=3 uid="uid://cugglih42gya2"]
 
 [ext_resource type="Material" uid="uid://cu46b100244nd" path="res://addons/boujie_water_shader/prefabs/deep_ocean_material.tres" id="3_ahy8y"]
 [ext_resource type="Script" uid="uid://btlidwqud2yiw" path="res://scripts/scene/walk_cam.gd" id="3_qmedp"]
@@ -37,10 +37,10 @@
 [ext_resource type="PackedScene" uid="uid://1csvnv18ys6w" path="res://scenes/docks_subscenes/small_tanks.tscn" id="33_tihou"]
 [ext_resource type="PackedScene" uid="uid://bb0hcsjqt480m" path="res://scenes/docks_subscenes/old_rusty_car.tscn" id="35_7vls4"]
 [ext_resource type="PackedScene" uid="uid://bj5pkjogvc3jp" path="res://scenes/docks_subscenes/rusty_anchor.tscn" id="36_xwxqs"]
+[ext_resource type="Script" uid="uid://cnhsivhjpiuwe" path="res://scripts/docks/aging_demo.gd" id="38_1y5tm"]
 [ext_resource type="AudioStream" uid="uid://cvbftkf7mhijy" path="res://assets/AUDIO/halesite-marina-50580.mp3" id="38_svd3a"]
-[ext_resource type="Script" uid="uid://b5g6hc78r6u4m" path="res://scripts/docks/car_demo.gd" id="38_yv4wf"]
 [ext_resource type="PackedScene" uid="uid://crh4q66aofh52" path="res://scenes/ui_podium.tscn" id="39_1rsu6"]
-[ext_resource type="Theme" uid="uid://b8bdf4l66bp3o" path="res://assets/ui_theme.tres" id="41_1y5tm"]
+[ext_resource type="PackedScene" uid="uid://evqvq318x81p" path="res://scenes/docks_subscenes/demo_ui.tscn" id="41_sbu8j"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_xwxqs"]
 
@@ -207,13 +207,6 @@ size = Vector3(0.6807648, 0.86249304, 1.3653647)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_4krld"]
 size = Vector3(0.61076814, 0.86249304, 0.59706926)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sbu8j"]
-bg_color = Color(0.16, 0.16, 0.16, 0.9019608)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
 
 [node name="Docks" type="Node3D"]
 
@@ -591,9 +584,6 @@ transform = Transform3D(-0.21815939, 0, 0.39948538, 0, 0.45517257, 0, -0.3994853
 [node name="double_wood3" parent="Non-demo props/Other props" instance=ExtResource("9_beo8h")]
 transform = Transform3D(0.38839284, 0, 0.23734593, 0, 0.45517257, 0, -0.23734593, 0, 0.38839284, -33.10344, 8.298111, 1.8060203)
 
-[node name="three_barrels" parent="Non-demo props/Other props" instance=ExtResource("22_fclxg")]
-transform = Transform3D(0.044088136, 0, 0, 0, 0.044088136, 0, 0, 0, 0.044088136, 16.521091, 8.190816, -23.931791)
-
 [node name="three_barrels2" parent="Non-demo props/Other props" instance=ExtResource("22_fclxg")]
 transform = Transform3D(0.04358259, 0.002097588, -0.006318397, -0.0020758866, 0.04403821, 0.00030095215, 0.0063255606, 5.6599142e-11, 0.043631993, 39.68556, 8.157445, 5.3230543)
 
@@ -606,7 +596,10 @@ transform = Transform3D(-0.09916522, 0.014124439, -0.1805341, 0.010578561, 0.205
 [node name="Demos" type="Node3D" parent="."]
 
 [node name="Car Demo" type="Node3D" parent="Demos"]
-script = ExtResource("38_yv4wf")
+script = ExtResource("38_1y5tm")
+demo_name = "Old rusty car"
+mesh_path = NodePath("old_rusty_car/Sketchfab_model/oldcar_FBX/RootNode/Object007/Car")
+material_slot = 1
 
 [node name="old_rusty_car" parent="Demos/Car Demo" instance=ExtResource("35_7vls4")]
 transform = Transform3D(0.20814653, 0, 0.03652208, 0, 0.21132639, 0, -0.03652208, 0, 0.20814653, 26.234816, 8.135022, -22.873224)
@@ -614,29 +607,17 @@ transform = Transform3D(0.20814653, 0, 0.03652208, 0, 0.21132639, 0, -0.03652208
 [node name="podium" parent="Demos/Car Demo" instance=ExtResource("39_1rsu6")]
 transform = Transform3D(-0.75458354, 0, 0.656204, 0, 1, 0, -0.656204, 0, -0.75458354, 29.142899, 8.134251, -18.75833)
 
-[node name="UI" type="Panel" parent="Demos/Car Demo"]
-offset_right = 473.0
-offset_bottom = 88.0
-theme = ExtResource("41_1y5tm")
-theme_override_styles/panel = SubResource("StyleBoxFlat_sbu8j")
+[node name="DemoUI" parent="Demos/Car Demo" instance=ExtResource("41_sbu8j")]
 
-[node name="MarginContainer" type="MarginContainer" parent="Demos/Car Demo/UI"]
-layout_mode = 0
-offset_left = 10.0
-offset_top = 8.0
-offset_right = 465.0
-offset_bottom = 56.0
+[node name="Blue barrels demo" type="Node3D" parent="Demos"]
+script = ExtResource("38_1y5tm")
+demo_name = "Blue barrels"
+mesh_path = NodePath("three_barrels/Sketchfab_model/Mainv2_obj_cleaner_materialmerger_gles/Object_4")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Demos/Car Demo/UI/MarginContainer"]
-layout_mode = 2
+[node name="three_barrels" parent="Demos/Blue barrels demo" instance=ExtResource("22_fclxg")]
+transform = Transform3D(0.044088136, 0, 0, 0, 0.044088136, 0, 0, 0, 0.044088136, 16.521091, 8.183561, -23.931791)
 
-[node name="AgeLabel" type="Label" parent="Demos/Car Demo/UI/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Age: 0.0"
+[node name="podium" parent="Demos/Blue barrels demo" instance=ExtResource("39_1rsu6")]
+transform = Transform3D(0.00031419197, 0, 0.99999994, 0, 1, 0, -0.99999994, 0, 0.00031419197, 16.03096, 8.158955, -21.776646)
 
-[node name="HSlider" type="HSlider" parent="Demos/Car Demo/UI/MarginContainer/VBoxContainer"]
-layout_mode = 2
-max_value = 250.0
-step = 0.1
-
-[connection signal="value_changed" from="Demos/Car Demo/UI/MarginContainer/VBoxContainer/HSlider" to="Demos/Car Demo" method="set_age"]
+[node name="DemoUI" parent="Demos/Blue barrels demo" instance=ExtResource("41_sbu8j")]

@@ -34,7 +34,7 @@ float get_detail_mask(vec3 pos, float lod)
 	float mask = snoise_fbm(pos*detail_scale, iterations);
 
 
-	mask = (mask * 0.5) + 0.5; // Remap to 0.0-1.0
+	mask = mask * 0.5 + 0.5; // Remap around 0.0-1.0
 	float w = clamp(0.5 + lod, 0.0, 1.0); // Stronger flattening when far away
 	return mix(mask, 0.5, w); // Flatten around 0.5
 }

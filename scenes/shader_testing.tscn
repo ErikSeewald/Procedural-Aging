@@ -1,4 +1,4 @@
-[gd_scene load_steps=82 format=3 uid="uid://c4hvqyphiayku"]
+[gd_scene load_steps=79 format=3 uid="uid://c4hvqyphiayku"]
 
 [ext_resource type="Script" uid="uid://cng38wbkc6o1l" path="res://scripts/scene/fly_cam.gd" id="1_g8tjy"]
 [ext_resource type="Script" uid="uid://qsohuxakiknk" path="res://scripts/scene/scene_manager.gd" id="2_rcnun"]
@@ -14,7 +14,6 @@
 [ext_resource type="Texture2D" uid="uid://bb75x6l3ec5wc" path="res://assets/single_textures/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_rough_2k.png" id="10_bpg18"]
 [ext_resource type="Texture2D" uid="uid://t0xk1rw1uk3x" path="res://assets/single_textures/green_metal_rust_2k.blend/textures/green_metal_rust_rough_2k.jpg" id="11_kijjg"]
 [ext_resource type="Texture2D" uid="uid://qrc7vqj5is8j" path="res://assets/single_textures/blue_metal_plate_2k.blend/textures/gray_metal_plate_diff_2k.jpg" id="12_bpg18"]
-[ext_resource type="Script" uid="uid://b6j66gryxhyvq" path="res://scripts/mask_rect.gd" id="13_3xn8w"]
 [ext_resource type="Texture2D" uid="uid://cjmh74p6cu4qc" path="res://assets/single_textures/blue_metal_plate_2k.blend/textures/blue_metal_plate_diff_2k.jpg" id="13_kijjg"]
 [ext_resource type="Texture2D" uid="uid://3voc01dgrmmt" path="res://assets/single_textures/blue_metal_plate_2k.blend/textures/blue_metal_plate_nor_gl_2k.png" id="14_7ejpg"]
 [ext_resource type="Texture2D" uid="uid://bd1ur6jjs7wm4" path="res://assets/single_textures/blue_metal_plate_2k.blend/textures/blue_metal_plate_rough_2k.png" id="15_griky"]
@@ -40,8 +39,8 @@
 [ext_resource type="Texture2D" uid="uid://6mbipokn40gy" path="res://assets/single_textures/metal_122/metal_0015_roughness_2k.jpg" id="30_dhsfx"]
 [ext_resource type="Texture2D" uid="uid://tvpa2gifbjnh" path="res://assets/single_textures/metal_67/metal_0010_roughness_2k.jpg" id="30_xcnjf"]
 [ext_resource type="Shader" uid="uid://dt2amutg36ald" path="res://shaders/baking/baked_pma.gdshader" id="41_ytkqt"]
-[ext_resource type="Script" uid="uid://bt02wgj2yc0pw" path="res://scripts/baked_aged_object.gd" id="43_gb77c"]
-[ext_resource type="Script" uid="uid://c2nm6d17m7hay" path="res://scripts/bakespawner.gd" id="44_gb77c"]
+[ext_resource type="Script" uid="uid://bt02wgj2yc0pw" path="res://scripts/baking/baked_aged_object.gd" id="43_gb77c"]
+[ext_resource type="Script" uid="uid://c2nm6d17m7hay" path="res://scripts/baking/bakespawner.gd" id="44_gb77c"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_160ns"]
 sky_top_color = Color(0.139497, 0.140391, 0.354607, 1)
@@ -529,31 +528,6 @@ shader_parameter/rust_color_4 = Color(0.125, 0.035, 0.075, 1)
 shader_parameter/rust_red_shift = 0.25
 shader_parameter/rust_green_shift = 0.06
 
-[sub_resource type="Shader" id="Shader_dhsfx"]
-code = "shader_type canvas_item;
-render_mode unshaded;
-
-uniform sampler2D albedo : source_color;
-uniform sampler2D mrs;
-uniform sampler2D normal : hint_normal;
-
-uniform int show: hint_range(0u, 2u )= 0u;
-
-void fragment()
-{
-
-	switch (show) 
-	{
-		case 0: COLOR = vec4(texture(albedo, UV).rgb, 1.0); break;
-		case 1: COLOR = vec4(texture(mrs, UV).rgb, 1.0); break;
-		case 2: COLOR = vec4(texture(normal, UV).rgb, 1.0); break;
-	}
-}"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_3xn8w"]
-shader = SubResource("Shader_dhsfx")
-shader_parameter/show = 2
-
 [sub_resource type="PlaneMesh" id="PlaneMesh_5140r"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1oqqo"]
@@ -698,16 +672,6 @@ transform = Transform3D(1.005247, 0, 0, 0, 1.0052474, 0, 0, 0, 1.0052488, 1.5012
 mesh = SubResource("CapsuleMesh_ba6i0")
 skeleton = NodePath("../../..")
 surface_material_override/0 = SubResource("ShaderMaterial_lb8kl")
-
-[node name="MaskRect" type="ColorRect" parent="." node_paths=PackedStringArray("target_obj")]
-visible = false
-material = SubResource("ShaderMaterial_3xn8w")
-offset_left = 5.0
-offset_top = 387.0
-offset_right = 261.0
-offset_bottom = 643.0
-script = ExtResource("13_3xn8w")
-target_obj = NodePath("../TestMesh")
 
 [node name="Plane" type="MeshInstance3D" parent="."]
 transform = Transform3D(4.17641, 0, 0, 0, 0.996555, 0, 0, 0, 6.55465, 0.18234219, -0.43412927, -0.20576021)
