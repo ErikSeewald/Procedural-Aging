@@ -22,8 +22,8 @@ uniform float exposure = 1.0; // Linearly scales the final albedo
 
 /// Parameters related to performance adjustments
 group_uniforms performance;
-uniform uint voronoi_fbm_iterations = 5;
-uniform uint snoise_fbm_iterations = 4;
+uniform uint pit_fbm_iterations = 5;
+uniform uint detail_fbm_iterations = 4;
 
 #ifdef BAKE_MODE
 instance uniform int bake_target = 0; // 0: albedo; 1: metallic,specular,roughness; 2: normal map

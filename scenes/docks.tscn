@@ -421,12 +421,6 @@ transform = Transform3D(0.99999976, 9.829506e-05, 0.0006537486, -9.825744e-05, 1
 
 [node name="Ships" type="Node3D" parent="Non-demo props"]
 
-[node name="boat_fishing" parent="Non-demo props/Ships" instance=ExtResource("4_3mqdi")]
-transform = Transform3D(2.1982057, 0, 0, 0, 2.1982057, 0, 0, 0, 2.1982057, 8.0590315, 2.5512023, 25.063416)
-script = ExtResource("4_5cbfq")
-bob_amplitude = 0.4
-tilt_speed = 1.0
-
 [node name="ropucha_class_landing_ship" parent="Non-demo props/Ships" instance=ExtResource("5_lah8o")]
 transform = Transform3D(9.190352, 0, 0, 0, 9.190352, 0, 0, 0, 9.190352, -82.50658, 3.9248476, 23.411484)
 script = ExtResource("4_5cbfq")
@@ -494,17 +488,11 @@ transform = Transform3D(1.2303437, -7.679541e-09, -0.41463023, 7.4440996e-09, 1.
 
 [node name="Other props" type="Node3D" parent="Non-demo props"]
 
-[node name="pipe_stuff" parent="Non-demo props/Other props" instance=ExtResource("24_gt5me")]
-transform = Transform3D(0.004539184, 0, -0.41149464, 0, 0.41151968, 0, 0.41149464, 0, 0.004539184, 38.259415, 8.154812, -2.4624405)
-
 [node name="forklift" parent="Non-demo props/Other props" instance=ExtResource("17_dtxmr")]
 transform = Transform3D(1.5815012, -2.9524793e-08, -0.6754485, 2.9524793e-08, 1.7197026, -6.0409726e-09, 0.6754485, -6.0409726e-09, 1.5815012, -0.945857, 8.116752, -1.6300218)
 
 [node name="crane" parent="Non-demo props/Other props" instance=ExtResource("10_aqv0v")]
 transform = Transform3D(-1.2048086, 0, -0.0021868653, 0, 1.2048106, 0, 0.0021868653, 0, -1.2048086, -16.39234, 8.063292, -8.85328)
-
-[node name="metal_roof" parent="Non-demo props/Other props" instance=ExtResource("11_wvdex")]
-transform = Transform3D(0.8173611, 0, 0, 0, 0.8173611, 0, 0, 0, 0.8173611, 28.893064, 7.871422, -20.27777)
 
 [node name="little_tower" parent="Non-demo props/Other props" instance=ExtResource("13_cyyg7")]
 transform = Transform3D(-1.030475, 0, 0.004730105, 0, 1.0304859, 0, -0.004730105, 0, -1.030475, 40.62702, 9.727284, 39.317696)
@@ -587,9 +575,6 @@ transform = Transform3D(0.38839284, 0, 0.23734593, 0, 0.45517257, 0, -0.23734593
 [node name="three_barrels2" parent="Non-demo props/Other props" instance=ExtResource("22_fclxg")]
 transform = Transform3D(0.04358259, 0.002097588, -0.006318397, -0.0020758866, 0.04403821, 0.00030095215, 0.0063255606, 5.6599142e-11, 0.043631993, 39.68556, 8.157445, 5.3230543)
 
-[node name="rusty_anchor" parent="Non-demo props/Other props" instance=ExtResource("36_xwxqs")]
-transform = Transform3D(0.10270473, -0.0126931025, 0.1786517, 0.010846676, 0.20600386, 0.0084008295, -0.1787733, 0.005206681, 0.103144586, 20.442339, 8.427134, 34.65766)
-
 [node name="rusty_anchor2" parent="Non-demo props/Other props" instance=ExtResource("36_xwxqs")]
 transform = Transform3D(-0.09916522, 0.014124439, -0.1805341, 0.010578561, 0.2059315, 0.01030078, 0.18077652, -0.0043025757, -0.099635005, -30.137018, 8.421103, 24.81673)
 
@@ -609,6 +594,12 @@ transform = Transform3D(-0.75458354, 0, 0.656204, 0, 1, 0, -0.656204, 0, -0.7545
 
 [node name="DemoUI" parent="Demos/Car Demo" instance=ExtResource("41_sbu8j")]
 
+[node name="SpotLight3D" type="SpotLight3D" parent="Demos/Car Demo"]
+transform = Transform3D(0.6642916, -0.27659404, 0.69441515, -8.881786e-16, 0.9290164, 0.37003857, -0.7474736, -0.2458135, 0.6171378, 29.41989, 11.320585, -19.358463)
+visible = false
+light_color = Color(1, 0.66400003, 0.58000004, 1)
+light_energy = 5.0
+
 [node name="Blue barrels demo" type="Node3D" parent="Demos"]
 script = ExtResource("38_1y5tm")
 demo_name = "Blue barrels"
@@ -618,6 +609,93 @@ mesh_path = NodePath("three_barrels/Sketchfab_model/Mainv2_obj_cleaner_materialm
 transform = Transform3D(0.044088136, 0, 0, 0, 0.044088136, 0, 0, 0, 0.044088136, 16.521091, 8.183561, -23.931791)
 
 [node name="podium" parent="Demos/Blue barrels demo" instance=ExtResource("39_1rsu6")]
-transform = Transform3D(0.00031419197, 0, 0.99999994, 0, 1, 0, -0.99999994, 0, 0.00031419197, 16.03096, 8.158955, -21.776646)
+transform = Transform3D(0.08719048, 0, 0.9961917, 0, 1, 0, -0.9961917, 0, 0.08719048, 16.465826, 8.1354885, -21.607124)
 
 [node name="DemoUI" parent="Demos/Blue barrels demo" instance=ExtResource("41_sbu8j")]
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Demos/Blue barrels demo"]
+transform = Transform3D(0.28672516, 0.74680436, -0.6000599, -2.711639e-08, 0.6263589, 0.7795348, 0.9580128, -0.22351223, 0.1795929, 14.228273, 11.574783, -23.913082)
+visible = false
+light_color = Color(1, 0.66400003, 0.58000004, 1)
+light_energy = 5.0
+
+[node name="Pipe Demo" type="Node3D" parent="Demos"]
+script = ExtResource("38_1y5tm")
+demo_name = "Pipes"
+mesh_path = NodePath("pipe_stuff/Industrial_Smth_1/Object_55/Industrial_Smth_1_Industrial_Walls_FLR_1_0")
+material_slot = 1
+
+[node name="pipe_stuff" parent="Demos/Pipe Demo" instance=ExtResource("24_gt5me")]
+transform = Transform3D(0.004539184, 0, -0.41149464, 0, 0.41151968, 0, 0.41149464, 0, 0.004539184, 38.259415, 8.154812, -2.4624405)
+
+[node name="podium" parent="Demos/Pipe Demo" instance=ExtResource("39_1rsu6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.355576, 8.1354885, -1.8596973)
+
+[node name="DemoUI" parent="Demos/Pipe Demo" instance=ExtResource("41_sbu8j")]
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Demos/Pipe Demo"]
+transform = Transform3D(-0.48750916, 0.3710108, -0.79037064, -9.104982e-09, 0.90522796, 0.42492634, 0.87311786, 0.20715547, -0.4413069, 35.308903, 13.950184, -4.020359)
+visible = false
+light_color = Color(1, 0.66400003, 0.58000004, 1)
+light_energy = 5.0
+
+[node name="Anchor Demo" type="Node3D" parent="Demos"]
+script = ExtResource("38_1y5tm")
+demo_name = "Anchor"
+mesh_path = NodePath("rusty_anchor/Sketchfab_model/Collada visual scene group/Line001/defaultMaterial_002")
+
+[node name="rusty_anchor" parent="Demos/Anchor Demo" instance=ExtResource("36_xwxqs")]
+transform = Transform3D(0.10270473, -0.0126931025, 0.1786517, 0.010846676, 0.20600386, 0.0084008295, -0.1787733, 0.005206681, 0.103144586, 20.442339, 8.427134, 34.65766)
+
+[node name="podium" parent="Demos/Anchor Demo" instance=ExtResource("39_1rsu6")]
+transform = Transform3D(0.74510366, 0, -0.66694874, 0, 1, 0, 0.66694874, 0, 0.74510366, 18.572664, 8.1354885, 33.643337)
+
+[node name="DemoUI" parent="Demos/Anchor Demo" instance=ExtResource("41_sbu8j")]
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Demos/Anchor Demo"]
+transform = Transform3D(0.97693765, 0, -0.2135249, 0.1541473, 0.6919794, 0.7052681, 0.14775483, -0.7219172, 0.67602074, 18.964823, 11.486314, 37.91469)
+visible = false
+light_color = Color(1, 0.66400003, 0.58000004, 1)
+light_energy = 5.0
+
+[node name="Metal Beams Demo" type="Node3D" parent="Demos"]
+script = ExtResource("38_1y5tm")
+demo_name = "Metal beams"
+mesh_path = NodePath("metal_roof/Industrial_Railroad_Loadbay_Shed_1/Object_51/Industrial_Railroad_Loadbay_Shed_1_Industrial_Bridgemetal_1_0")
+
+[node name="metal_roof" parent="Demos/Metal Beams Demo" instance=ExtResource("11_wvdex")]
+transform = Transform3D(0.8173611, 0, 0, 0, 0.8173611, 0, 0, 0, 0.8173611, 28.893064, 7.871422, -20.27777)
+
+[node name="podium" parent="Demos/Metal Beams Demo" instance=ExtResource("39_1rsu6")]
+transform = Transform3D(0.57068497, 0, 0.82116914, 0, 1, 0, -0.82116914, 0, 0.57068497, 22.104342, 8.1354885, -9.023933)
+
+[node name="DemoUI" parent="Demos/Metal Beams Demo" instance=ExtResource("41_sbu8j")]
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Demos/Metal Beams Demo"]
+transform = Transform3D(0.6267301, 0.570785, -0.53048456, -0.34708768, 0.8139939, 0.46577266, 0.6976672, -0.10778904, 0.7082669, 21.074375, 12.282913, -6.9609222)
+visible = false
+light_color = Color(1, 0.66400003, 0.58000004, 1)
+light_energy = 5.0
+
+[node name="Fishing Boat Demo" type="Node3D" parent="Demos"]
+script = ExtResource("38_1y5tm")
+demo_name = "Fishing boat"
+mesh_path = NodePath("boat_fishing/Sketchfab_model/root/GLTF_SceneRootNode/Sketchfab_model_0/root_1/GLTF_SceneRootNode_2/3356e59f0f8c4b78a6de6b679e49b456_fbx_7_3/RootNode_6_4/Final_Boat_5_5/Final_Boat_Main_Boat_0_2_10/Object_11_11/Object_17")
+material_slot = 1
+
+[node name="boat_fishing" parent="Demos/Fishing Boat Demo" instance=ExtResource("4_3mqdi")]
+transform = Transform3D(2.1982057, 0, 0, 0, 2.1982057, 0, 0, 0, 2.1982057, 8.065616, 2.5648322, 25.061499)
+script = ExtResource("4_5cbfq")
+bob_amplitude = 0.4
+tilt_speed = 1.0
+
+[node name="podium" parent="Demos/Fishing Boat Demo" instance=ExtResource("39_1rsu6")]
+transform = Transform3D(0.9832772, 0, -0.18211544, 0, 1, 0, 0.18211544, 0, 0.9832772, 0.6275387, 8.1354885, 31.164196)
+
+[node name="DemoUI" parent="Demos/Fishing Boat Demo" instance=ExtResource("41_sbu8j")]
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Demos/Fishing Boat Demo"]
+transform = Transform3D(0.44887668, 0.18194751, -0.8748742, -0.038930032, 0.98210365, 0.18427399, 0.8927453, -0.048657402, 0.4479266, 2.1452894, 9.984182, 33.47475)
+visible = false
+light_color = Color(1, 0.66400003, 0.58000004, 1)
+light_energy = 5.0
