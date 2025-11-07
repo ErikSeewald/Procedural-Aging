@@ -10,6 +10,7 @@ extends Node
 @onready var age_label: Label = $DemoUI/MarginContainer/VBoxContainer/AgeLabel
 @onready var demo_name_label: Label = $DemoUI/MarginContainer/VBoxContainer/DemoName
 @onready var age_slider: HSlider = $DemoUI/MarginContainer/VBoxContainer/HSlider
+@onready var seed_input: SpinBox = $DemoUI/MarginContainer/VBoxContainer/SeedInput
 @onready var spotlight: SpotLight3D = $SpotLight3D
 
 var _mat: ShaderMaterial
@@ -21,6 +22,7 @@ func _ready() -> void:
 	ui.visible = false
 	demo_name_label.text = demo_name
 	age_slider.value_changed.connect(set_age)
+	seed_input.value_changed.connect(set_seed)
 	podium.button_pressed.connect(_on_podium_press)
 	_mat = mesh.get_surface_override_material(material_slot)
 	age_slider.set_value_no_signal(_mat.get_shader_parameter("age"))
@@ -41,3 +43,6 @@ func set_activation(active: bool) -> void:
 
 func set_age(age: float) -> void:
 	_mat.set_shader_parameter("age", age)
+	
+func set_seed(new_seed: int) -> void:
+	_mat.set_shader_parameter("seed", new_seed)

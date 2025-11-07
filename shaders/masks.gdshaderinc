@@ -70,7 +70,7 @@ float get_wear_mask(vec3 pos, float seed_f)
 // - mask_set contains the wear, pit and detail masks to be blended in
 // - makes use of some uniforms that are not passed as parameters
 //
-// Returns a value around 0.0 and 1.0 which can go beyond 1.0 for strong rust wear.
+// Returns a value between 0.0 and 1.0
 float rust_mask(float strength, maskset mask_set)
 {
 	const float uv_uniform_factor = 2.0; // UV/heat should visibly speed up uniform corrosion
@@ -84,7 +84,7 @@ float rust_mask(float strength, maskset mask_set)
 	float detail = mask_set.detail_mask; // No min_rust here to avoid fully flat corrosion
 
 	float value = wear * pits * detail;
-	return value * strength;
+	return clamp(value * strength, 0.0, 1.0);
 }
 
 // Samples the value of the paint mask at the given position.

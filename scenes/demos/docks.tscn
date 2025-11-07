@@ -3,7 +3,7 @@
 [ext_resource type="Material" uid="uid://cu46b100244nd" path="res://addons/boujie_water_shader/prefabs/deep_ocean_material.tres" id="3_ahy8y"]
 [ext_resource type="Script" uid="uid://btlidwqud2yiw" path="res://scripts/scene/walk_cam.gd" id="3_qmedp"]
 [ext_resource type="PackedScene" uid="uid://b4hsyij8pr4ip" path="res://scenes/docks_subscenes/boat_fishing.tscn" id="4_3mqdi"]
-[ext_resource type="Script" uid="uid://b00jpvdpm1bes" path="res://scripts/docks/ship.gd" id="4_5cbfq"]
+[ext_resource type="Script" uid="uid://b00jpvdpm1bes" path="res://scripts/demos/docks/ship.gd" id="4_5cbfq"]
 [ext_resource type="PackedScene" uid="uid://dattfc8huyknb" path="res://scenes/docks_subscenes/old_industrial_building.tscn" id="4_ogy8s"]
 [ext_resource type="PackedScene" uid="uid://dn6p2ihhne3pu" path="res://scenes/docks_subscenes/old_warehouse.tscn" id="4_tacti"]
 [ext_resource type="PackedScene" uid="uid://c33ixokjalxji" path="res://scenes/docks_subscenes/ropucha_class_landing_ship.tscn" id="5_lah8o"]
@@ -37,7 +37,7 @@
 [ext_resource type="PackedScene" uid="uid://1csvnv18ys6w" path="res://scenes/docks_subscenes/small_tanks.tscn" id="33_tihou"]
 [ext_resource type="PackedScene" uid="uid://bb0hcsjqt480m" path="res://scenes/docks_subscenes/old_rusty_car.tscn" id="35_7vls4"]
 [ext_resource type="PackedScene" uid="uid://bj5pkjogvc3jp" path="res://scenes/docks_subscenes/rusty_anchor.tscn" id="36_xwxqs"]
-[ext_resource type="Script" uid="uid://cnhsivhjpiuwe" path="res://scripts/docks/aging_demo.gd" id="38_1y5tm"]
+[ext_resource type="Script" uid="uid://cnhsivhjpiuwe" path="res://scripts/demos/docks/aging_demo.gd" id="38_1y5tm"]
 [ext_resource type="AudioStream" uid="uid://cvbftkf7mhijy" path="res://assets/AUDIO/halesite-marina-50580.mp3" id="38_svd3a"]
 [ext_resource type="PackedScene" uid="uid://crh4q66aofh52" path="res://scenes/ui_podium.tscn" id="39_1rsu6"]
 [ext_resource type="PackedScene" uid="uid://evqvq318x81p" path="res://scenes/docks_subscenes/demo_ui.tscn" id="41_sbu8j"]
@@ -561,7 +561,7 @@ transform = Transform3D(-0.21815939, 0, 0.39948538, 0, 0.45517257, 0, -0.3994853
 transform = Transform3D(0.38839284, 0, 0.23734593, 0, 0.45517257, 0, -0.23734593, 0, 0.38839284, -33.10344, 8.298111, 1.8060203)
 
 [node name="three_barrels2" parent="Non-demo props/Other props" instance=ExtResource("22_fclxg")]
-transform = Transform3D(0.04358259, 0.002097588, -0.006318397, -0.0020758866, 0.04403821, 0.00030095215, 0.0063255606, 5.6599142e-11, 0.043631993, 39.68556, 8.157445, 5.3230543)
+transform = Transform3D(0.04358259, 0.002097588, -0.006318397, -0.0020758866, 0.04403821, 0.00030095215, 0.0063255606, 5.6599142e-11, 0.043631993, 39.374256, 8.157445, 5.3230543)
 
 [node name="rusty_anchor2" parent="Non-demo props/Other props" instance=ExtResource("36_xwxqs")]
 transform = Transform3D(-0.09916522, 0.014124439, -0.1805341, 0.010578561, 0.2059315, 0.01030078, 0.18077652, -0.0043025757, -0.099635005, -30.137018, 8.421103, 24.81673)
