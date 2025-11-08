@@ -1,5 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://m8k6xi0ri2q"]
-
-[ext_resource type="PackedScene" uid="uid://petc5iwhubvx" path="res://assets/CC/industrial_asset_pack/barrels.blend" id="1_14qpi"]
-
-[node name="barrels" instance=ExtResource("1_14qpi")]

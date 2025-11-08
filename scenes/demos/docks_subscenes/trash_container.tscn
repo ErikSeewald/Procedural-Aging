@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://yjsy0fb28dn2"]
+
+[ext_resource type="PackedScene" uid="uid://b43303ff8c62d" path="res://assets/CC_MODELS/industrial_wasteland_pack/trash_container.blend" id="1_q42bv"]
+
+[node name="trash_container" instance=ExtResource("1_q42bv")]

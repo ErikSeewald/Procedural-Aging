@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://bawklwd67uebg"]
+
+[ext_resource type="PackedScene" uid="uid://cjjo2ndvxwawl" path="res://assets/CC_MODELS/industrial_buildings_set/factory_2.blend" id="1_upsse"]
+
+[node name="factory_2" instance=ExtResource("1_upsse")]
+
+[node name="Industrial_FactoryPlant_2_Industrial_Facade_Flr_1_0" parent="Industrial_FactoryPlant_2/Object_19" index="0"]
+cast_shadow = 0
+
+[node name="Industrial_FactoryPlant_2_Industrial_Walls_FLR_2_Dif_0" parent="Industrial_FactoryPlant_2/Object_19" index="1"]
+cast_shadow = 0

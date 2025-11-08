@@ -1,0 +1,47 @@
+[gd_scene load_steps=12 format=3 uid="uid://crh4q66aofh52"]
+
+[ext_resource type="PackedScene" uid="uid://bn0fhkw4cyd3o" path="res://assets/podium.blend" id="1_v46le"]
+[ext_resource type="Texture2D" uid="uid://bmxd0vply0vau" path="res://assets/TEXTURES/oak_veneer_01_2k.blend/textures/oak_veneer_01_diff_2k.jpg" id="2_iytmk"]
+[ext_resource type="Script" uid="uid://c8jpl2p3hcfyw" path="res://scripts/demos/docks/podium.gd" id="2_jwgvg"]
+[ext_resource type="Texture2D" uid="uid://cik72f7mwkkeg" path="res://assets/TEXTURES/oak_veneer_01_2k.blend/textures/oak_veneer_01_ao_2k.jpg" id="3_885er"]
+[ext_resource type="Texture2D" uid="uid://b3maen57ic1s" path="res://assets/TEXTURES/oak_veneer_01_2k.blend/textures/active_oak_veneer_01_diff_2k.jpg" id="3_ipnly"]
+[ext_resource type="Texture2D" uid="uid://e0smndoliort" path="res://assets/TEXTURES/oak_veneer_01_2k.blend/textures/oak_veneer_01_nor_gl_2k.png" id="3_ny7fw"]
+[ext_resource type="Texture2D" uid="uid://ckease0fvgp1c" path="res://assets/TEXTURES/oak_veneer_01_2k.blend/textures/oak_veneer_01_rough_2k.png" id="4_lqhyk"]
+[ext_resource type="AudioStream" uid="uid://c4jaghhjcl14j" path="res://assets/AUDIO/clickSound.mp3" id="5_rr3s7"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jwgvg"]
+resource_local_to_scene = true
+roughness_texture = ExtResource("4_lqhyk")
+normal_enabled = true
+normal_scale = 0.5
+normal_texture = ExtResource("3_ny7fw")
+ao_enabled = true
+ao_texture = ExtResource("3_885er")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_iytmk"]
+size = Vector3(0.23371887, 1.688324, 0.3451538)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_885er"]
+radius = 0.15055832
+
+[node name="podium" instance=ExtResource("1_v46le")]
+script = ExtResource("2_jwgvg")
+default_texture = ExtResource("2_iytmk")
+activated_texture = ExtResource("3_ipnly")
+click_sound = ExtResource("5_rr3s7")
+
+[node name="Podium" parent="." index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_jwgvg")
+
+[node name="Collision" type="StaticBody3D" parent="Podium" index="0"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Podium/Collision" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5058683, 0.77500916, 0.01911354)
+shape = SubResource("BoxShape3D_iytmk")
+
+[node name="Area3D" type="Area3D" parent="Button" index="0"]
+transform = Transform3D(1.4665151, 0.57742625, 0, -0.57742625, 1.4665151, 0, 0, 0, 1.5760989, -1.273712, -1.8321538, 0.004148481)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Button/Area3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.30943757, 1.3950828, 0)
+shape = SubResource("SphereShape3D_885er")

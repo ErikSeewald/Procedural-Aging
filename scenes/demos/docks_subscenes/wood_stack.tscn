@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cx6vaky70m58c"]
+
+[ext_resource type="PackedScene" uid="uid://bbmu6cigh4wve" path="res://assets/CC_MODELS/industrial_wasteland_pack/wood_stack.blend" id="1_q6dwy"]
+
+[node name="wood_stack" instance=ExtResource("1_q6dwy")]
+
+[node name="Object_6" parent="Sketchfab_model/Mainv2_obj_cleaner_materialmerger_gles" index="0"]
+cast_shadow = 0

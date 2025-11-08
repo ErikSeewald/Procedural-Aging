@@ -1,5 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://c875q4m07amds"]
-
-[ext_resource type="PackedScene" uid="uid://b64s5s8wb0s02" path="res://assets/CC/black_mesa_props/mesa_barrels.blend" id="1_a5870"]
-
-[node name="mesa_barrels" instance=ExtResource("1_a5870")]

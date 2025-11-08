@@ -1,0 +1,63 @@
+[gd_scene load_steps=9 format=3 uid="uid://cmi10fdhwt148"]
+
+[ext_resource type="PackedScene" uid="uid://b3g3tou51wng1" path="res://assets/CC_MODELS/rusty_old_gate/rusty_old_gate_optimized.blend" id="1_v8mue"]
+[ext_resource type="Shader" uid="uid://dr8p7qswmtovl" path="res://shaders/non_instanced_pma.gdshader" id="2_eum78"]
+[ext_resource type="Texture2D" uid="uid://bugeedvrdctjr" path="res://assets/CC_MODELS/rusty_old_gate/textures/gate_baseColor.jpeg" id="3_woloo"]
+[ext_resource type="Texture2D" uid="uid://dr5yro13xic2a" path="res://assets/CC_MODELS/rusty_old_gate/textures/gate_normal.png" id="4_dhjf8"]
+[ext_resource type="Texture2D" uid="uid://178cyi14x7ta" path="res://assets/CC_MODELS/rusty_old_gate/textures/gate_metallicRoughness.png" id="5_dysuy"]
+
+[sub_resource type="Gradient" id="Gradient_jh38f"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.6, 0.6, 0.6, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ux7xw"]
+gradient = SubResource("Gradient_jh38f")
+width = 1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jtxgv"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("2_eum78")
+shader_parameter/seed = 0
+shader_parameter/uv_scale = 1.0
+shader_parameter/patch_scale = 2.0
+shader_parameter/wear_scale = 2.0
+shader_parameter/pit_scale = 8.0
+shader_parameter/detail_scale = 100.0
+shader_parameter/time_scale = 0.01
+shader_parameter/uniform_corrosion_speed = 0.005
+shader_parameter/exposure = 1.0
+shader_parameter/pit_fbm_iterations = 5
+shader_parameter/detail_fbm_iterations = 4
+shader_parameter/use_vertex_weight = true
+shader_parameter/vertex_weight_scale = 5.0
+shader_parameter/vertex_weight_channel = 0
+shader_parameter/age = 10.0
+shader_parameter/paint_stability = 0.5
+shader_parameter/uv_and_heat = 0.5
+shader_parameter/pollution = 0.5
+shader_parameter/moisture = 0.5
+shader_parameter/albedo_base = ExtResource("3_woloo")
+shader_parameter/metallic_base = SubResource("GradientTexture1D_ux7xw")
+shader_parameter/roughness_base = ExtResource("5_dysuy")
+shader_parameter/normal_base = ExtResource("4_dhjf8")
+shader_parameter/use_paint_layer = false
+shader_parameter/paint_edge_sharpness = 0.98
+shader_parameter/paint_yellowing = Color(0.85, 0.85, 0.5, 1)
+shader_parameter/paint_yellowing_intensity = 2.5
+shader_parameter/grime_intensity = 4.0
+shader_parameter/grime_falloff = 0.9
+shader_parameter/grime_color = Color(0.5, 0.25, 0, 1)
+shader_parameter/rust_growth_factor = 200.0
+shader_parameter/rust_color_1 = Color(0.41, 0.34897834, 0.21729998, 1)
+shader_parameter/rust_color_2 = Color(0.25, 0.207125, 0.1275, 1)
+shader_parameter/rust_color_3 = Color(0.2, 0.074, 0.080300026, 1)
+shader_parameter/rust_color_4 = Color(0.13, 0.0559, 0.089244984, 1)
+shader_parameter/rust_red_shift = 0.25
+shader_parameter/rust_green_shift = 0.06
+
+[node name="rusty_old_gate_optimized" instance=ExtResource("1_v8mue")]
+
+[node name="Object_6" parent="Sketchfab_model/root/GLTF_SceneRootNode/Plane_001_1" index="0"]
+cast_shadow = 0
+surface_material_override/0 = SubResource("ShaderMaterial_jtxgv")

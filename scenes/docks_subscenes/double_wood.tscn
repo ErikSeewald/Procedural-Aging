@@ -1,5 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://i44i2mxt6h1m"]
-
-[ext_resource type="PackedScene" uid="uid://b2u6tysqv5hgu" path="res://assets/CC/industrial_asset_pack/double_wood.blend" id="1_kdlv7"]
-
-[node name="double_wood" instance=ExtResource("1_kdlv7")]

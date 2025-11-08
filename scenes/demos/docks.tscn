@@ -1,46 +1,47 @@
-[gd_scene load_steps=86 format=3 uid="uid://cugglih42gya2"]
+[gd_scene load_steps=87 format=3 uid="uid://cugglih42gya2"]
 
+[ext_resource type="PackedScene" uid="uid://bn4m67plorpi5" path="res://scenes/menu/sub_menu.tscn" id="1_b8lke"]
 [ext_resource type="Material" uid="uid://cu46b100244nd" path="res://addons/boujie_water_shader/prefabs/deep_ocean_material.tres" id="3_ahy8y"]
-[ext_resource type="Script" uid="uid://btlidwqud2yiw" path="res://scripts/scene/walk_cam.gd" id="3_qmedp"]
-[ext_resource type="PackedScene" uid="uid://b4hsyij8pr4ip" path="res://scenes/docks_subscenes/boat_fishing.tscn" id="4_3mqdi"]
+[ext_resource type="Script" uid="uid://btlidwqud2yiw" path="res://scripts/demos/docks/walk_cam.gd" id="3_qmedp"]
+[ext_resource type="PackedScene" uid="uid://b4hsyij8pr4ip" path="res://scenes/demos/docks_subscenes/boat_fishing.tscn" id="4_3mqdi"]
 [ext_resource type="Script" uid="uid://b00jpvdpm1bes" path="res://scripts/demos/docks/ship.gd" id="4_5cbfq"]
-[ext_resource type="PackedScene" uid="uid://dattfc8huyknb" path="res://scenes/docks_subscenes/old_industrial_building.tscn" id="4_ogy8s"]
-[ext_resource type="PackedScene" uid="uid://dn6p2ihhne3pu" path="res://scenes/docks_subscenes/old_warehouse.tscn" id="4_tacti"]
-[ext_resource type="PackedScene" uid="uid://c33ixokjalxji" path="res://scenes/docks_subscenes/ropucha_class_landing_ship.tscn" id="5_lah8o"]
-[ext_resource type="PackedScene" uid="uid://dpfe4yvtcep13" path="res://scenes/docks_subscenes/damaged_chainlink_fence.tscn" id="6_63ena"]
-[ext_resource type="PackedScene" uid="uid://dy68wofvayrww" path="res://scenes/docks_subscenes/ship_jj.tscn" id="6_g37qa"]
-[ext_resource type="PackedScene" uid="uid://cgok30nv7rkuf" path="res://scenes/docks_subscenes/ship_lorina.tscn" id="7_6vtbv"]
-[ext_resource type="PackedScene" uid="uid://cmi10fdhwt148" path="res://scenes/docks_subscenes/rusty_old_gate.tscn" id="7_hvwqb"]
-[ext_resource type="PackedScene" uid="uid://b56lmna2meqyc" path="res://scenes/docks_subscenes/small_cargo_ship.tscn" id="8_p1eg5"]
-[ext_resource type="PackedScene" uid="uid://i44i2mxt6h1m" path="res://scenes/docks_subscenes/double_wood.tscn" id="9_beo8h"]
-[ext_resource type="PackedScene" uid="uid://cx6vaky70m58c" path="res://scenes/docks_subscenes/wood_stack.tscn" id="9_fclxg"]
-[ext_resource type="PackedScene" uid="uid://bawklwd67uebg" path="res://scenes/docks_subscenes/factory_2.tscn" id="9_yknxi"]
-[ext_resource type="PackedScene" uid="uid://blakb3x7ua7lo" path="res://scenes/docks_subscenes/crane.tscn" id="10_aqv0v"]
-[ext_resource type="PackedScene" uid="uid://8fb5cjua0d2m" path="res://scenes/docks_subscenes/powerplant.tscn" id="10_mq83r"]
-[ext_resource type="PackedScene" uid="uid://sbvkuofnrjqi" path="res://scenes/docks_subscenes/factory.tscn" id="11_h5a0a"]
-[ext_resource type="PackedScene" uid="uid://bv2gnrxd2en0a" path="res://scenes/docks_subscenes/metal_roof.tscn" id="11_wvdex"]
-[ext_resource type="PackedScene" uid="uid://cs864d8cghwtm" path="res://scenes/docks_subscenes/small_buildings.tscn" id="12_wvdex"]
-[ext_resource type="PackedScene" uid="uid://cookdnggh7yf" path="res://scenes/docks_subscenes/little_tower.tscn" id="13_cyyg7"]
-[ext_resource type="PackedScene" uid="uid://cbvvqmiycfgnf" path="res://scenes/docks_subscenes/container_1.tscn" id="14_5mpqp"]
-[ext_resource type="PackedScene" uid="uid://lsd7cbam4m2x" path="res://scenes/docks_subscenes/electrical_wallmount.tscn" id="14_y6qa8"]
-[ext_resource type="PackedScene" uid="uid://crqr2xo7o7o5p" path="res://scenes/docks_subscenes/container_18.tscn" id="15_eoi6f"]
-[ext_resource type="PackedScene" uid="uid://c875q4m07amds" path="res://scenes/docks_subscenes/mesa_barrels.tscn" id="15_xwal0"]
-[ext_resource type="PackedScene" uid="uid://yjsy0fb28dn2" path="res://scenes/docks_subscenes/trash_container.tscn" id="16_8e53v"]
-[ext_resource type="PackedScene" uid="uid://67iiabvpjp3n" path="res://scenes/docks_subscenes/classic_container.tscn" id="16_eoi6f"]
-[ext_resource type="PackedScene" uid="uid://cs14ihinr0273" path="res://scenes/docks_subscenes/forklift.tscn" id="17_dtxmr"]
-[ext_resource type="PackedScene" uid="uid://c0heslag3vpps" path="res://scenes/docks_subscenes/three_barrels.tscn" id="22_fclxg"]
-[ext_resource type="PackedScene" uid="uid://d3l7tqvpo7jyx" path="res://scenes/docks_subscenes/pipe_stuff.tscn" id="24_gt5me"]
-[ext_resource type="PackedScene" uid="uid://diy7024gh5bxd" path="res://scenes/docks_subscenes/dock_base.tscn" id="30_fclxg"]
-[ext_resource type="PackedScene" uid="uid://cv2ib8kyb5xli" path="res://scenes/docks_subscenes/harbor_crane.tscn" id="31_8fc0f"]
-[ext_resource type="PackedScene" uid="uid://m8k6xi0ri2q" path="res://scenes/docks_subscenes/barrels.tscn" id="32_ixd5w"]
-[ext_resource type="PackedScene" uid="uid://bt5gf06h0k0ba" path="res://scenes/docks_subscenes/gas_tanks.tscn" id="32_p7h5r"]
-[ext_resource type="PackedScene" uid="uid://1csvnv18ys6w" path="res://scenes/docks_subscenes/small_tanks.tscn" id="33_tihou"]
-[ext_resource type="PackedScene" uid="uid://bb0hcsjqt480m" path="res://scenes/docks_subscenes/old_rusty_car.tscn" id="35_7vls4"]
-[ext_resource type="PackedScene" uid="uid://bj5pkjogvc3jp" path="res://scenes/docks_subscenes/rusty_anchor.tscn" id="36_xwxqs"]
+[ext_resource type="PackedScene" uid="uid://dattfc8huyknb" path="res://scenes/demos/docks_subscenes/old_industrial_building.tscn" id="4_ogy8s"]
+[ext_resource type="PackedScene" uid="uid://dn6p2ihhne3pu" path="res://scenes/demos/docks_subscenes/old_warehouse.tscn" id="4_tacti"]
+[ext_resource type="PackedScene" uid="uid://c33ixokjalxji" path="res://scenes/demos/docks_subscenes/ropucha_class_landing_ship.tscn" id="5_lah8o"]
+[ext_resource type="PackedScene" uid="uid://dpfe4yvtcep13" path="res://scenes/demos/docks_subscenes/damaged_chainlink_fence.tscn" id="6_63ena"]
+[ext_resource type="PackedScene" uid="uid://dy68wofvayrww" path="res://scenes/demos/docks_subscenes/ship_jj.tscn" id="6_g37qa"]
+[ext_resource type="PackedScene" uid="uid://cgok30nv7rkuf" path="res://scenes/demos/docks_subscenes/ship_lorina.tscn" id="7_6vtbv"]
+[ext_resource type="PackedScene" uid="uid://cmi10fdhwt148" path="res://scenes/demos/docks_subscenes/rusty_old_gate.tscn" id="7_hvwqb"]
+[ext_resource type="PackedScene" uid="uid://b56lmna2meqyc" path="res://scenes/demos/docks_subscenes/small_cargo_ship.tscn" id="8_p1eg5"]
+[ext_resource type="PackedScene" uid="uid://i44i2mxt6h1m" path="res://scenes/demos/docks_subscenes/double_wood.tscn" id="9_beo8h"]
+[ext_resource type="PackedScene" uid="uid://cx6vaky70m58c" path="res://scenes/demos/docks_subscenes/wood_stack.tscn" id="9_fclxg"]
+[ext_resource type="PackedScene" uid="uid://bawklwd67uebg" path="res://scenes/demos/docks_subscenes/factory_2.tscn" id="9_yknxi"]
+[ext_resource type="PackedScene" uid="uid://blakb3x7ua7lo" path="res://scenes/demos/docks_subscenes/crane.tscn" id="10_aqv0v"]
+[ext_resource type="PackedScene" uid="uid://8fb5cjua0d2m" path="res://scenes/demos/docks_subscenes/powerplant.tscn" id="10_mq83r"]
+[ext_resource type="PackedScene" uid="uid://sbvkuofnrjqi" path="res://scenes/demos/docks_subscenes/factory.tscn" id="11_h5a0a"]
+[ext_resource type="PackedScene" uid="uid://bv2gnrxd2en0a" path="res://scenes/demos/docks_subscenes/metal_roof.tscn" id="11_wvdex"]
+[ext_resource type="PackedScene" uid="uid://cs864d8cghwtm" path="res://scenes/demos/docks_subscenes/small_buildings.tscn" id="12_wvdex"]
+[ext_resource type="PackedScene" uid="uid://cookdnggh7yf" path="res://scenes/demos/docks_subscenes/little_tower.tscn" id="13_cyyg7"]
+[ext_resource type="PackedScene" uid="uid://cbvvqmiycfgnf" path="res://scenes/demos/docks_subscenes/container_1.tscn" id="14_5mpqp"]
+[ext_resource type="PackedScene" uid="uid://lsd7cbam4m2x" path="res://scenes/demos/docks_subscenes/electrical_wallmount.tscn" id="14_y6qa8"]
+[ext_resource type="PackedScene" uid="uid://crqr2xo7o7o5p" path="res://scenes/demos/docks_subscenes/container_18.tscn" id="15_eoi6f"]
+[ext_resource type="PackedScene" uid="uid://c875q4m07amds" path="res://scenes/demos/docks_subscenes/mesa_barrels.tscn" id="15_xwal0"]
+[ext_resource type="PackedScene" uid="uid://yjsy0fb28dn2" path="res://scenes/demos/docks_subscenes/trash_container.tscn" id="16_8e53v"]
+[ext_resource type="PackedScene" uid="uid://67iiabvpjp3n" path="res://scenes/demos/docks_subscenes/classic_container.tscn" id="16_eoi6f"]
+[ext_resource type="PackedScene" uid="uid://cs14ihinr0273" path="res://scenes/demos/docks_subscenes/forklift.tscn" id="17_dtxmr"]
+[ext_resource type="PackedScene" uid="uid://c0heslag3vpps" path="res://scenes/demos/docks_subscenes/three_barrels.tscn" id="22_fclxg"]
+[ext_resource type="PackedScene" uid="uid://d3l7tqvpo7jyx" path="res://scenes/demos/docks_subscenes/pipe_stuff.tscn" id="24_gt5me"]
+[ext_resource type="PackedScene" uid="uid://diy7024gh5bxd" path="res://scenes/demos/docks_subscenes/dock_base.tscn" id="30_fclxg"]
+[ext_resource type="PackedScene" uid="uid://cv2ib8kyb5xli" path="res://scenes/demos/docks_subscenes/harbor_crane.tscn" id="31_8fc0f"]
+[ext_resource type="PackedScene" uid="uid://m8k6xi0ri2q" path="res://scenes/demos/docks_subscenes/barrels.tscn" id="32_ixd5w"]
+[ext_resource type="PackedScene" uid="uid://bt5gf06h0k0ba" path="res://scenes/demos/docks_subscenes/gas_tanks.tscn" id="32_p7h5r"]
+[ext_resource type="PackedScene" uid="uid://1csvnv18ys6w" path="res://scenes/demos/docks_subscenes/small_tanks.tscn" id="33_tihou"]
+[ext_resource type="PackedScene" uid="uid://bb0hcsjqt480m" path="res://scenes/demos/docks_subscenes/old_rusty_car.tscn" id="35_7vls4"]
+[ext_resource type="PackedScene" uid="uid://bj5pkjogvc3jp" path="res://scenes/demos/docks_subscenes/rusty_anchor.tscn" id="36_xwxqs"]
 [ext_resource type="Script" uid="uid://cnhsivhjpiuwe" path="res://scripts/demos/docks/aging_demo.gd" id="38_1y5tm"]
 [ext_resource type="AudioStream" uid="uid://cvbftkf7mhijy" path="res://assets/AUDIO/halesite-marina-50580.mp3" id="38_svd3a"]
-[ext_resource type="PackedScene" uid="uid://crh4q66aofh52" path="res://scenes/ui_podium.tscn" id="39_1rsu6"]
-[ext_resource type="PackedScene" uid="uid://evqvq318x81p" path="res://scenes/docks_subscenes/demo_ui.tscn" id="41_sbu8j"]
+[ext_resource type="PackedScene" uid="uid://crh4q66aofh52" path="res://scenes/demos/docks_subscenes/ui_podium.tscn" id="39_1rsu6"]
+[ext_resource type="PackedScene" uid="uid://evqvq318x81p" path="res://scenes/demos/docks_subscenes/demo_ui.tscn" id="41_sbu8j"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_xwxqs"]
 
@@ -209,6 +210,8 @@ size = Vector3(0.6807648, 0.86249304, 1.3653647)
 size = Vector3(0.61076814, 0.86249304, 0.59706926)
 
 [node name="Docks" type="Node3D"]
+
+[node name="SubMenu" parent="." instance=ExtResource("1_b8lke")]
 
 [node name="Camera" type="CharacterBody3D" parent="."]
 transform = Transform3D(-0.010733562, 0, 0.999942, 0, 0.9999996, 0, -0.9999424, 0, -0.010733557, 10, 9.93954, 2.35661)
@@ -594,7 +597,7 @@ demo_name = "Blue barrels"
 mesh_path = NodePath("three_barrels/Sketchfab_model/Mainv2_obj_cleaner_materialmerger_gles/Object_4")
 
 [node name="three_barrels" parent="Demos/Blue barrels demo" instance=ExtResource("22_fclxg")]
-transform = Transform3D(0.044088136, 0, 0, 0, 0.044088136, 0, 0, 0, 0.044088136, 16.521091, 8.183561, -23.931791)
+transform = Transform3D(0.044088136, 0, 0, 0, 0.044088136, 0, 0, 0, 0.044088136, 16.521091, 8.176918, -23.931791)
 
 [node name="podium" parent="Demos/Blue barrels demo" instance=ExtResource("39_1rsu6")]
 transform = Transform3D(0.08719048, 0, 0.9961917, 0, 1, 0, -0.9961917, 0, 0.08719048, 16.465826, 8.1354885, -21.607124)
@@ -606,6 +609,7 @@ transform = Transform3D(0.28672516, 0.74680436, -0.6000599, -2.711639e-08, 0.626
 visible = false
 light_color = Color(1, 0.66400003, 0.58000004, 1)
 light_energy = 5.0
+shadow_enabled = true
 
 [node name="Pipe Demo" type="Node3D" parent="Demos"]
 script = ExtResource("38_1y5tm")
@@ -626,6 +630,7 @@ transform = Transform3D(-0.48750916, 0.3710108, -0.79037064, -9.104982e-09, 0.90
 visible = false
 light_color = Color(1, 0.66400003, 0.58000004, 1)
 light_energy = 5.0
+shadow_enabled = true
 
 [node name="Anchor Demo" type="Node3D" parent="Demos"]
 script = ExtResource("38_1y5tm")
@@ -645,6 +650,7 @@ transform = Transform3D(0.97693765, 0, -0.2135249, 0.1541473, 0.6919794, 0.70526
 visible = false
 light_color = Color(1, 0.66400003, 0.58000004, 1)
 light_energy = 5.0
+shadow_enabled = true
 
 [node name="Metal Beams Demo" type="Node3D" parent="Demos"]
 script = ExtResource("38_1y5tm")
@@ -652,7 +658,7 @@ demo_name = "Metal beams"
 mesh_path = NodePath("metal_roof/Industrial_Railroad_Loadbay_Shed_1/Object_51/Industrial_Railroad_Loadbay_Shed_1_Industrial_Bridgemetal_1_0")
 
 [node name="metal_roof" parent="Demos/Metal Beams Demo" instance=ExtResource("11_wvdex")]
-transform = Transform3D(0.8173611, 0, 0, 0, 0.8173611, 0, 0, 0, 0.8173611, 28.893064, 7.871422, -20.27777)
+transform = Transform3D(0.8173611, 0, 0, 0, 0.8173611, 0, 0, 0, 0.8173611, 28.874563, 7.89062, -20.287708)
 
 [node name="podium" parent="Demos/Metal Beams Demo" instance=ExtResource("39_1rsu6")]
 transform = Transform3D(0.57068497, 0, 0.82116914, 0, 1, 0, -0.82116914, 0, 0.57068497, 22.104342, 8.1354885, -9.023933)
@@ -687,6 +693,7 @@ transform = Transform3D(0.44670826, 0.22532637, -0.8658404, -0.058800165, 0.9730
 visible = false
 light_color = Color(1, 0.66400003, 0.58000004, 1)
 light_energy = 10.0
+shadow_enabled = true
 
 [node name="Gate Demo" type="Node3D" parent="Demos"]
 script = ExtResource("38_1y5tm")
@@ -703,8 +710,10 @@ transform = Transform3D(-0.8603063, 0, 0.5097775, 0, 1, 0, -0.5097775, 0, -0.860
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Demos/Gate Demo"]
 transform = Transform3D(0.23018566, 0, 0.9731468, 0, 1, 0, -0.9731468, 0, 0.23018566, -41.56497, 10.72839, -29.166592)
+visible = false
 light_color = Color(1, 0.66400003, 0.58000004, 1)
 light_energy = 10.0
+shadow_enabled = true
 
 [node name="Crane Demo" type="Node3D" parent="Demos"]
 script = ExtResource("38_1y5tm")
@@ -724,6 +733,7 @@ transform = Transform3D(0.8059593, 0, 0.591971, 0, 1, 0, -0.591971, 0, 0.8059593
 visible = false
 light_color = Color(1, 0.66400003, 0.58000004, 1)
 light_energy = 10.0
+shadow_enabled = true
 
 [node name="Small Tank Demo" type="Node3D" parent="Demos"]
 script = ExtResource("38_1y5tm")
@@ -744,6 +754,7 @@ transform = Transform3D(-0.54522824, -0.61720014, 0.5672655, -0.3934695, 0.78594
 visible = false
 light_color = Color(1, 0.66400003, 0.58000004, 1)
 light_energy = 5.0
+shadow_enabled = true
 
 [node name="Container Demo" type="Node3D" parent="Demos"]
 script = ExtResource("38_1y5tm")
@@ -763,3 +774,4 @@ transform = Transform3D(0.9260288, 0, 0.37745294, 0, 1, 0, -0.37745294, 0, 0.926
 visible = false
 light_color = Color(1, 0.66400003, 0.58000004, 1)
 light_energy = 5.0
+shadow_enabled = true

@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://c0mn3gc85qyld"]
+[gd_scene load_steps=5 format=3 uid="uid://c0mn3gc85qyld"]
 
 [ext_resource type="Script" uid="uid://c25mpqh84eqnv" path="res://scripts/profiling/profiling_main.gd" id="1_ef27e"]
+[ext_resource type="PackedScene" uid="uid://bn4m67plorpi5" path="res://scenes/menu/sub_menu.tscn" id="4_2j1y5"]
 [ext_resource type="Script" uid="uid://c3qn487o50poe" path="res://scripts/profiling/profiler.gd" id="9_m2au4"]
 [ext_resource type="Theme" uid="uid://b8bdf4l66bp3o" path="res://assets/ui_theme.tres" id="11_r70nd"]
 
@@ -73,6 +74,8 @@ text = "Reset scene"
 [node name="Run suite" type="Button" parent="UI/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Run suite"
+
+[node name="SubMenu" parent="." instance=ExtResource("4_2j1y5")]
 
 [connection signal="item_selected" from="UI/MarginContainer/VBoxContainer/Select scene" to="." method="set_scene"]
 [connection signal="item_selected" from="UI/MarginContainer/VBoxContainer/Select shader" to="." method="set_shader"]

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cv2ib8kyb5xli"]
+
+[ext_resource type="PackedScene" uid="uid://hus1b3eooia6" path="res://assets/CC_MODELS/harbor_crane/harbor_crane.blend" id="1_puqtb"]
+
+[node name="harbor_crane" instance=ExtResource("1_puqtb")]
+
+[node name="Object_17" parent="Sketchfab_model/root/GLTF_SceneRootNode/Crane_CTRL_Empty_9/Installations_7" index="0"]
+cast_shadow = 0

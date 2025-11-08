@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=3 uid="uid://bn4m67plorpi5"]
+
+[ext_resource type="Script" uid="uid://gat2738yc54" path="res://scripts/menu/sub_menu.gd" id="1_7mgp0"]
+[ext_resource type="Theme" uid="uid://b8bdf4l66bp3o" path="res://assets/ui_theme.tres" id="1_adajq"]
+
+[node name="SubMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 982.0
+offset_bottom = -610.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7mgp0")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -169.0
+offset_bottom = 37.0
+grow_horizontal = 0
+theme = ExtResource("1_adajq")
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 7.0
+offset_right = 163.0
+offset_bottom = 71.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer"]
+layout_mode = 2
+
+[node name="ReturnButton" type="Button" parent="Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Return to menu"
+
+[connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/ReturnButton" to="." method="return_to_menu"]

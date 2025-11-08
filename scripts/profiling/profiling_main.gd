@@ -4,6 +4,7 @@ extends Node
 @onready var ui: Panel = $UI
 @onready var pause_aging_btn: CheckButton = $"UI/MarginContainer/VBoxContainer/Pause aging"
 @onready var scene_picker: OptionButton = $"UI/MarginContainer/VBoxContainer/Select scene"
+@onready var sub_menu: SubMenu = $SubMenu
 
 const scenes: Array = [
 	preload("res://scenes/profiling/rotating_mesh.tscn"),
@@ -17,7 +18,6 @@ var _cur_scene_profiling_idx := 0
 
 var _aging_paused := false
 var _aging_factor := 1.0
-var _ui_enabled := true
 var _cur_bake_size := Vector2i(2048, 2048)
 
 var _profiling_shaders: ProfilingShaders
@@ -28,11 +28,11 @@ var _currently_profiling := false
 func _ready() -> void:
 	ui.visible = false
 	_profiling_shaders = ProfilingShaders.new()
+	sub_menu.visibility_changed.connect(_on_sub_menu_visibility)
 	set_scene(0)
 
-func _input(event: InputEvent) -> void:
-	if _ui_enabled and event.is_action_pressed("ui_toggle"):
-		toggle_ui(!ui.visible)
+func _on_sub_menu_visibility() -> void:
+	toggle_ui(sub_menu.visible)
 
 ## Toggles ui and propagates the setting down to child UIs
 func toggle_ui(toggled: bool) -> void:
@@ -113,7 +113,7 @@ func on_profiling_sequence_finished() -> void:
 
 func finish_profiling() -> void:
 	_currently_profiling = false
-	_ui_enabled = true
+	sub_menu.set_input_enabled(true)
 	toggle_vsync(true)
 	DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_RESIZE_DISABLED, false)
 	_aging_factor = 1.0
@@ -123,7 +123,8 @@ func finish_profiling() -> void:
 ## the profiler.
 func run_suite() -> void:
 	_currently_profiling = true
-	_ui_enabled = false
+	sub_menu.set_input_enabled(false)
+	sub_menu.visible = false
 	toggle_ui(false)
 	#toggle_vsync(false)
 	get_window().size = Vector2i(1920, 1080)

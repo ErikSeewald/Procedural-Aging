@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cgok30nv7rkuf"]
+
+[ext_resource type="PackedScene" uid="uid://d1mhcmo4gah12" path="res://assets/CC_MODELS/ship_lorina/ship_lorina_optimized.blend" id="1_yfq0m"]
+
+[node name="ship_lorina_optimized" instance=ExtResource("1_yfq0m")]
+
+[node name="Object_17" parent="Sketchfab_model/Lorina_obj_cleaner_materialmerger_gles" index="0"]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, -2.842171e-14, 0, 2.842171e-14, 0.99999994, 0, 0, 0)

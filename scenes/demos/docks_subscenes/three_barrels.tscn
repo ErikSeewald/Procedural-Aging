@@ -1,0 +1,70 @@
+[gd_scene load_steps=13 format=3 uid="uid://c0heslag3vpps"]
+
+[ext_resource type="PackedScene" uid="uid://cwxr2m8b380up" path="res://assets/CC_MODELS/industrial_wasteland_pack/three_barrels.blend" id="1_af35l"]
+[ext_resource type="Shader" uid="uid://dr8p7qswmtovl" path="res://shaders/non_instanced_pma.gdshader" id="2_21xis"]
+[ext_resource type="Texture2D" uid="uid://cryd6yr6s80ht" path="res://assets/TEXTURES/rusty_metal_05_2k.blend/textures/rusty_metal_05_diff_2k.jpg" id="3_m7xu8"]
+[ext_resource type="Texture2D" uid="uid://ci2h5jpbaikad" path="res://assets/CC_MODELS/industrial_wasteland_pack/textures/01___Default_baseColor.jpeg" id="4_t47dw"]
+[ext_resource type="Texture2D" uid="uid://33qfhhsmunyt" path="res://assets/CC_MODELS/industrial_wasteland_pack/textures/01___Default_metallicRoughness.png" id="5_kqtwg"]
+[ext_resource type="Texture2D" uid="uid://cse8uuw55uf3n" path="res://assets/TEXTURES/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_nor_gl_2k.png" id="6_n4a37"]
+[ext_resource type="Texture2D" uid="uid://bxbf4n23qlkx0" path="res://assets/CC_MODELS/industrial_wasteland_pack/textures/01___Default_normal.png" id="7_qgjac"]
+[ext_resource type="Texture2D" uid="uid://bb75x6l3ec5wc" path="res://assets/TEXTURES/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_rough_2k.png" id="8_m6f5h"]
+[ext_resource type="Texture2D" uid="uid://cse5w5a5s2cdi" path="res://assets/CC_MODELS/industrial_wasteland_pack/textures/01___Default_Roughness.png" id="9_ug1q5"]
+
+[sub_resource type="Gradient" id="Gradient_jh38f"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.6, 0.6, 0.6, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ux7xw"]
+gradient = SubResource("Gradient_jh38f")
+width = 1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bk6po"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("2_21xis")
+shader_parameter/seed = 0
+shader_parameter/uv_scale = 0.03
+shader_parameter/patch_scale = 2.0
+shader_parameter/wear_scale = 2.0
+shader_parameter/pit_scale = 8.0
+shader_parameter/detail_scale = 100.0
+shader_parameter/time_scale = 0.01
+shader_parameter/uniform_corrosion_speed = 0.005
+shader_parameter/exposure = 1.0
+shader_parameter/pit_fbm_iterations = 5
+shader_parameter/detail_fbm_iterations = 3
+shader_parameter/use_vertex_weight = false
+shader_parameter/vertex_weight_scale = 1.0
+shader_parameter/vertex_weight_channel = 0
+shader_parameter/age = 50.0
+shader_parameter/paint_stability = 0.5
+shader_parameter/uv_and_heat = 0.5
+shader_parameter/pollution = 0.5
+shader_parameter/moisture = 0.5
+shader_parameter/albedo_base = ExtResource("3_m7xu8")
+shader_parameter/metallic_base = SubResource("GradientTexture1D_ux7xw")
+shader_parameter/roughness_base = ExtResource("8_m6f5h")
+shader_parameter/normal_base = ExtResource("6_n4a37")
+shader_parameter/use_paint_layer = true
+shader_parameter/paint_edge_sharpness = 0.98
+shader_parameter/paint_yellowing = Color(0.59436995, 0.51408255, 0.22923264, 1)
+shader_parameter/paint_yellowing_intensity = 2.5
+shader_parameter/albedo_paint = ExtResource("4_t47dw")
+shader_parameter/metallic_paint = ExtResource("5_kqtwg")
+shader_parameter/roughness_paint = ExtResource("9_ug1q5")
+shader_parameter/normal_paint = ExtResource("7_qgjac")
+shader_parameter/grime_intensity = 4.0
+shader_parameter/grime_falloff = 0.9
+shader_parameter/grime_color = Color(0.5, 0.25, 0, 1)
+shader_parameter/rust_growth_factor = 200.0
+shader_parameter/rust_color_1 = Color(0.5, 0.35, 0, 1)
+shader_parameter/rust_color_2 = Color(0.33, 0.22, 0, 1)
+shader_parameter/rust_color_3 = Color(0.2, 0.01, 0.02, 1)
+shader_parameter/rust_color_4 = Color(0.125, 0.035, 0.075, 1)
+shader_parameter/rust_red_shift = 0.25
+shader_parameter/rust_green_shift = 0.06
+
+[node name="three_barrels" instance=ExtResource("1_af35l")]
+
+[node name="Object_4" parent="Sketchfab_model/Mainv2_obj_cleaner_materialmerger_gles" index="0"]
+surface_material_override/0 = SubResource("ShaderMaterial_bk6po")

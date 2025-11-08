@@ -1,19 +1,21 @@
-[gd_scene load_steps=24 format=3 uid="uid://756yyv5igncm"]
+[gd_scene load_steps=26 format=3 uid="uid://756yyv5igncm"]
 
-[ext_resource type="PackedScene" uid="uid://dayj48d625g8j" path="res://scenes/test_mesh.tscn" id="1_gcn6a"]
+[ext_resource type="PackedScene" uid="uid://dayj48d625g8j" path="res://scenes/testing/test_mesh.tscn" id="1_gcn6a"]
 [ext_resource type="Script" uid="uid://dssx8d521xmad" path="res://scripts/demos/single_objects_scene.gd" id="1_syaxu"]
 [ext_resource type="Shader" uid="uid://dr8p7qswmtovl" path="res://shaders/non_instanced_pma.gdshader" id="2_saikx"]
-[ext_resource type="Texture2D" uid="uid://cvoom7qu4404c" path="res://assets/single_textures/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_diff_2k.jpg" id="3_syaxu"]
-[ext_resource type="Texture2D" uid="uid://brs1husbmdekd" path="res://assets/single_textures/green_metal_rust_2k.blend/textures/green_metal_rust_diff_2k.jpg" id="4_yhhud"]
-[ext_resource type="Texture2D" uid="uid://cse8uuw55uf3n" path="res://assets/single_textures/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_nor_gl_2k.png" id="5_h2ux0"]
-[ext_resource type="Texture2D" uid="uid://c0wg2kmpentsv" path="res://assets/single_textures/green_metal_rust_2k.blend/textures/green_metal_rust_nor_gl_2k.png" id="6_pf1it"]
-[ext_resource type="Texture2D" uid="uid://bb75x6l3ec5wc" path="res://assets/single_textures/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_rough_2k.png" id="7_0viot"]
-[ext_resource type="Texture2D" uid="uid://t0xk1rw1uk3x" path="res://assets/single_textures/green_metal_rust_2k.blend/textures/green_metal_rust_rough_2k.jpg" id="8_ymd8k"]
+[ext_resource type="Texture2D" uid="uid://cvoom7qu4404c" path="res://assets/TEXTURES/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_diff_2k.jpg" id="3_syaxu"]
+[ext_resource type="Texture2D" uid="uid://brs1husbmdekd" path="res://assets/TEXTURES/green_metal_rust_2k.blend/textures/green_metal_rust_diff_2k.jpg" id="4_yhhud"]
+[ext_resource type="Texture2D" uid="uid://cse8uuw55uf3n" path="res://assets/TEXTURES/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_nor_gl_2k.png" id="5_h2ux0"]
+[ext_resource type="Texture2D" uid="uid://c0wg2kmpentsv" path="res://assets/TEXTURES/green_metal_rust_2k.blend/textures/green_metal_rust_nor_gl_2k.png" id="6_pf1it"]
+[ext_resource type="Texture2D" uid="uid://bb75x6l3ec5wc" path="res://assets/TEXTURES/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_rough_2k.png" id="7_0viot"]
+[ext_resource type="Texture2D" uid="uid://t0xk1rw1uk3x" path="res://assets/TEXTURES/green_metal_rust_2k.blend/textures/green_metal_rust_rough_2k.jpg" id="8_ymd8k"]
 [ext_resource type="Theme" uid="uid://b8bdf4l66bp3o" path="res://assets/ui_theme.tres" id="9_saikx"]
-[ext_resource type="PackedScene" uid="uid://bb0hcsjqt480m" path="res://scenes/docks_subscenes/old_rusty_car.tscn" id="10_yhhud"]
-[ext_resource type="PackedScene" uid="uid://c0heslag3vpps" path="res://scenes/docks_subscenes/three_barrels.tscn" id="11_h2ux0"]
-[ext_resource type="PackedScene" uid="uid://bj5pkjogvc3jp" path="res://scenes/docks_subscenes/rusty_anchor.tscn" id="12_pf1it"]
-[ext_resource type="PackedScene" uid="uid://cpfct4fthco1e" path="res://scenes/demos/yellow_tank.tscn" id="13_0viot"]
+[ext_resource type="PackedScene" uid="uid://bb0hcsjqt480m" path="res://scenes/demos/docks_subscenes/old_rusty_car.tscn" id="10_yhhud"]
+[ext_resource type="PackedScene" uid="uid://c0heslag3vpps" path="res://scenes/demos/docks_subscenes/three_barrels.tscn" id="11_h2ux0"]
+[ext_resource type="PackedScene" uid="uid://bj5pkjogvc3jp" path="res://scenes/demos/docks_subscenes/rusty_anchor.tscn" id="12_pf1it"]
+[ext_resource type="PackedScene" uid="uid://cpfct4fthco1e" path="res://scenes/demos/docks_subscenes/yellow_tank.tscn" id="13_0viot"]
+[ext_resource type="PackedScene" uid="uid://7brgje74xg8s" path="res://scenes/demos/docks_subscenes/green_tank.tscn" id="14_ymd8k"]
+[ext_resource type="PackedScene" uid="uid://bn4m67plorpi5" path="res://scenes/menu/sub_menu.tscn" id="16_rtwaf"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_rtwaf"]
 
@@ -83,13 +85,13 @@ shader_parameter/rust_green_shift = 0.06
 sky_top_color = Color(0.55, 0.55, 0.55, 1)
 energy_multiplier = 5.0
 
-[sub_resource type="Sky" id="Sky_8ujxi"]
+[sub_resource type="Sky" id="Sky_rtwaf"]
 sky_material = SubResource("ProceduralSkyMaterial_dvg6f")
 
 [sub_resource type="Environment" id="Environment_c3e8e"]
 background_mode = 1
 background_color = Color(0.08, 0.08, 0.08, 1)
-sky = SubResource("Sky_8ujxi")
+sky = SubResource("Sky_rtwaf")
 ambient_light_source = 3
 reflected_light_source = 2
 
@@ -100,13 +102,15 @@ NodePath("Objects/default_sphere"): 0,
 NodePath("Objects/old_rusty_car/Sketchfab_model/oldcar_FBX/RootNode/Object007/Car"): 1,
 NodePath("Objects/three_barrels/Sketchfab_model/Mainv2_obj_cleaner_materialmerger_gles/Object_4"): 0,
 NodePath("Objects/rusty_anchor/Sketchfab_model/Collada visual scene group/Line001/defaultMaterial_002"): 0,
-NodePath("Objects/yellow_tank/Sketchfab_model/9fb78655edda40b6bc435c9c02f93a04_fbx/RootNode/valve_small1/valve_small1_valve1_0"): 1
+NodePath("Objects/yellow_tank/Sketchfab_model/9fb78655edda40b6bc435c9c02f93a04_fbx/RootNode/valve_small1/valve_small1_valve1_0"): 1,
+NodePath("Objects/green_tank/Sketchfab_model/9fb78655edda40b6bc435c9c02f93a04_fbx/RootNode/valve_small1/valve_small1_valve1_0"): 3
 }
 
 [node name="Objects" type="Node3D" parent="."]
 
 [node name="default_sphere" parent="Objects" instance=ExtResource("1_gcn6a")]
 transform = Transform3D(1.0027082, 0, 0, 0, 1.002708, 0, 0, 0, 1.0027097, 0, 0, 0)
+visible = false
 mesh = SubResource("SphereMesh_rtwaf")
 skeleton = NodePath("../../..")
 surface_material_override/0 = SubResource("ShaderMaterial_gcn6a")
@@ -128,6 +132,9 @@ visible = false
 transform = Transform3D(0.0059759193, 0.10380397, 0.45023385, 2.1189606e-09, 0.45027143, -0.10381265, -0.4620451, 0.0013425639, 0.005823162, 0, -0.08956823, 0)
 visible = false
 
+[node name="green_tank" parent="Objects" instance=ExtResource("14_ymd8k")]
+transform = Transform3D(-0.089185745, 0.21283947, 0.3613835, 0.050996564, 0.37222594, -0.20663974, -0.4162908, -5.8331118e-12, -0.10273629, 0, -0.3525887, 0)
+
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
 
@@ -142,7 +149,7 @@ environment = SubResource("Environment_c3e8e")
 
 [node name="UI" type="Panel" parent="."]
 offset_right = 375.0
-offset_bottom = 217.0
+offset_bottom = 385.0
 theme = ExtResource("9_saikx")
 
 [node name="MarginContainer" type="MarginContainer" parent="UI"]
@@ -158,7 +165,7 @@ layout_mode = 2
 [node name="Select object" type="OptionButton" parent="UI/MarginContainer/VBoxContainer"]
 layout_mode = 2
 selected = 0
-item_count = 5
+item_count = 6
 popup/item_0/text = "default_sphere"
 popup/item_0/id = 0
 popup/item_1/text = "old_rusty_car"
@@ -167,8 +174,10 @@ popup/item_2/text = "three_barrels"
 popup/item_2/id = 2
 popup/item_3/text = "rusty_anchor"
 popup/item_3/id = 3
-popup/item_4/text = "single_tank"
+popup/item_4/text = "yellow_tank"
 popup/item_4/id = 4
+popup/item_5/text = "green_tank"
+popup/item_5/id = 5
 
 [node name="HSeparator" type="HSeparator" parent="UI/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -208,6 +217,7 @@ text = "Age"
 [node name="AgeSlider" type="HSlider" parent="UI/MarginContainer/VBoxContainer"]
 layout_mode = 2
 max_value = 300.0
+allow_greater = true
 
 [node name="HSeparator3" type="HSeparator" parent="UI/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -217,9 +227,55 @@ layout_mode = 2
 allow_greater = true
 prefix = "Seed:"
 
+[node name="HSeparator4" type="HSeparator" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="UVLabel" type="Label" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "UV and heat"
+
+[node name="UVSlider" type="HSlider" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 0.5
+
+[node name="PollutionLabel" type="Label" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Pollution"
+
+[node name="PollutionSlider" type="HSlider" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 0.5
+
+[node name="MoistureLabel" type="Label" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Moisture"
+
+[node name="MoistureSlider" type="HSlider" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 0.5
+
+[node name="HSeparator5" type="HSeparator" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="StabilityLabel" type="Label" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Paint stability"
+
+[node name="StabilitySlider" type="HSlider" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 0.5
+
+[node name="SubMenu" parent="." instance=ExtResource("16_rtwaf")]
+
 [connection signal="item_selected" from="UI/MarginContainer/VBoxContainer/Select object" to="." method="set_object"]
 [connection signal="value_changed" from="UI/MarginContainer/VBoxContainer/RotationSlider" to="." method="rotate_cam"]
 [connection signal="item_selected" from="UI/MarginContainer/VBoxContainer/RotationAxis" to="." method="set_rotation_axis"]
 [connection signal="value_changed" from="UI/MarginContainer/VBoxContainer/Distance" to="." method="set_distance"]
-[connection signal="value_changed" from="UI/MarginContainer/VBoxContainer/AgeSlider" to="." method="set_age"]
-[connection signal="value_changed" from="UI/MarginContainer/VBoxContainer/SeedInput" to="." method="set_seed"]

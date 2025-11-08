@@ -1,5 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://cookdnggh7yf"]
-
-[ext_resource type="PackedScene" uid="uid://dtrh6apo2twoo" path="res://assets/CC/industrial_buildings_set/little_tower.blend" id="1_b6qy2"]
-
-[node name="little_tower" instance=ExtResource("1_b6qy2")]

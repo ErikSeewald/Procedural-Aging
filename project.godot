@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Procedural Aging"
-run/main_scene="res://scenes/shader_testing.tscn"
+run/main_scene="uid://bfcvyx5l85uc1"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 
 [autoload]

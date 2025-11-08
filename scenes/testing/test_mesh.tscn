@@ -1,0 +1,88 @@
+[gd_scene load_steps=15 format=3 uid="uid://dayj48d625g8j"]
+
+[ext_resource type="Shader" uid="uid://dr8p7qswmtovl" path="res://shaders/non_instanced_pma.gdshader" id="1_iut2x"]
+[ext_resource type="Texture2D" uid="uid://cvoom7qu4404c" path="res://assets/TEXTURES/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_diff_2k.jpg" id="2_agye0"]
+[ext_resource type="Texture2D" uid="uid://brs1husbmdekd" path="res://assets/TEXTURES/green_metal_rust_2k.blend/textures/green_metal_rust_diff_2k.jpg" id="3_6cpv6"]
+[ext_resource type="Script" uid="uid://btw6rsvpf0k4w" path="res://scripts/testing/aging_object.gd" id="3_kjgf0"]
+[ext_resource type="Texture2D" uid="uid://cse8uuw55uf3n" path="res://assets/TEXTURES/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_nor_gl_2k.png" id="4_xbad3"]
+[ext_resource type="Texture2D" uid="uid://c0wg2kmpentsv" path="res://assets/TEXTURES/green_metal_rust_2k.blend/textures/green_metal_rust_nor_gl_2k.png" id="5_d0lx4"]
+[ext_resource type="Texture2D" uid="uid://bb75x6l3ec5wc" path="res://assets/TEXTURES/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_rough_2k.png" id="6_ylr1i"]
+[ext_resource type="Texture2D" uid="uid://t0xk1rw1uk3x" path="res://assets/TEXTURES/green_metal_rust_2k.blend/textures/green_metal_rust_rough_2k.jpg" id="7_n4fai"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_6cpv6"]
+
+[sub_resource type="Gradient" id="Gradient_jh38f"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.6, 0.6, 0.6, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ux7xw"]
+gradient = SubResource("Gradient_jh38f")
+width = 1
+
+[sub_resource type="Gradient" id="Gradient_gchre"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.4, 0.4, 0.4, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ytkqt"]
+gradient = SubResource("Gradient_gchre")
+width = 1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ciyly"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_iut2x")
+shader_parameter/seed = 0
+shader_parameter/uv_scale = 1.0
+shader_parameter/patch_scale = 2.0
+shader_parameter/wear_scale = 2.0
+shader_parameter/pit_scale = 8.0
+shader_parameter/detail_scale = 100.0
+shader_parameter/time_scale = 0.01
+shader_parameter/uniform_corrosion_speed = 0.005
+shader_parameter/exposure = 1.0
+shader_parameter/voronoi_fbm_iterations = 5
+shader_parameter/snoise_fbm_iterations = 4
+shader_parameter/bake_mode = false
+shader_parameter/bake_target = 0
+shader_parameter/use_vertex_weight = false
+shader_parameter/vertex_weight_scale = 1.0
+shader_parameter/vertex_weight_channel = 0
+shader_parameter/age = 42.55
+shader_parameter/paint_stability = 0.5
+shader_parameter/uv_and_heat = 0.5
+shader_parameter/pollution = 0.5
+shader_parameter/moisture = 0.5
+shader_parameter/albedo_base = ExtResource("2_agye0")
+shader_parameter/metallic_base = SubResource("GradientTexture1D_ux7xw")
+shader_parameter/roughness_base = ExtResource("6_ylr1i")
+shader_parameter/normal_base = ExtResource("4_xbad3")
+shader_parameter/use_paint_layer = true
+shader_parameter/paint_edge_sharpness = 0.98
+shader_parameter/paint_yellowing = Color(0.85, 0.85, 0.5, 1)
+shader_parameter/paint_yellowing_intensity = 2.5
+shader_parameter/albedo_paint = ExtResource("3_6cpv6")
+shader_parameter/metallic_paint = SubResource("GradientTexture1D_ytkqt")
+shader_parameter/roughness_paint = ExtResource("7_n4fai")
+shader_parameter/normal_paint = ExtResource("5_d0lx4")
+shader_parameter/grime_intensity = 4.0
+shader_parameter/grime_falloff = 0.9
+shader_parameter/grime_color = Color(0.5, 0.25, 0, 1)
+shader_parameter/rust_growth_factor = 200.0
+shader_parameter/rust_color_1 = Color(0.5, 0.35, 0, 1)
+shader_parameter/rust_color_2 = Color(0.33, 0.22, 0, 1)
+shader_parameter/rust_color_3 = Color(0.2, 0.01, 0.02, 1)
+shader_parameter/rust_color_4 = Color(0.125, 0.035, 0.075, 1)
+shader_parameter/rust_red_shift = 0.25
+shader_parameter/rust_green_shift = 0.06
+
+[node name="TestMesh" type="MeshInstance3D"]
+transform = Transform3D(1.0027078, 0, 0, 0, 1.0027082, 0, 0, 0, 1.0027096, 0, 0, 0)
+mesh = SubResource("SphereMesh_6cpv6")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("ShaderMaterial_ciyly")
+script = ExtResource("3_kjgf0")
+
+[node name="DebugLabel" type="Label3D" parent="."]
+transform = Transform3D(1, -1.69166e-10, -2.32831e-10, -8.91305e-11, 1, -4.65661e-10, 0, 0, 1, 0.00176512, 0.73930967, -0.00379661)
+billboard = 1
+outline_size = 8

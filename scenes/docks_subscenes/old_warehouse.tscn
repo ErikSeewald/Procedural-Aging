@@ -1,5 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://dn6p2ihhne3pu"]
-
-[ext_resource type="PackedScene" uid="uid://bwysjs27rcn3h" path="res://Models/CC/old_warehouse/old_warehouse_optimized.blend" id="1_wbsn6"]
-
-[node name="old_warehouse_optimized" instance=ExtResource("1_wbsn6")]

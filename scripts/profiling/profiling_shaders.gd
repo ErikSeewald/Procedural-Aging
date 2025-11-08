@@ -2,15 +2,15 @@ extends Resource
 class_name ProfilingShaders
 
 const base_textures = [
-	preload("res://assets/single_textures/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_diff_2k.jpg"),
-	preload("res://assets/single_textures/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_rough_2k.png"),
-	preload("res://assets/single_textures/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_nor_gl_2k.png")
+	preload("res://assets/TEXTURES/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_diff_2k.jpg"),
+	preload("res://assets/TEXTURES/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_rough_2k.png"),
+	preload("res://assets/TEXTURES/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_nor_gl_2k.png")
 ]
 
 const paint_textures = [
-	preload("res://assets/single_textures/green_metal_rust_2k.blend/textures/green_metal_rust_diff_2k.jpg"),
-	preload("res://assets/single_textures/green_metal_rust_2k.blend/textures/green_metal_rust_rough_2k.jpg"),
-	preload("res://assets/single_textures/green_metal_rust_2k.blend/textures/green_metal_rust_nor_gl_2k.png")
+	preload("res://assets/TEXTURES/green_metal_rust_2k.blend/textures/green_metal_rust_diff_2k.jpg"),
+	preload("res://assets/TEXTURES/green_metal_rust_2k.blend/textures/green_metal_rust_rough_2k.jpg"),
+	preload("res://assets/TEXTURES/green_metal_rust_2k.blend/textures/green_metal_rust_nor_gl_2k.png")
 ]
 
 const shaders: Array = [

@@ -2,12 +2,12 @@
 
 [ext_resource type="Shader" uid="uid://dr8p7qswmtovl" path="res://shaders/non_instanced_pma.gdshader" id="1_cms58"]
 [ext_resource type="Script" uid="uid://unr6io4aw2kx" path="res://scripts/profiling/scenes/env_and_lights_scene.gd" id="1_eu2mh"]
-[ext_resource type="Texture2D" uid="uid://cvoom7qu4404c" path="res://assets/single_textures/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_diff_2k.jpg" id="2_eu2mh"]
-[ext_resource type="Texture2D" uid="uid://brs1husbmdekd" path="res://assets/single_textures/green_metal_rust_2k.blend/textures/green_metal_rust_diff_2k.jpg" id="3_mg0jk"]
-[ext_resource type="Texture2D" uid="uid://cse8uuw55uf3n" path="res://assets/single_textures/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_nor_gl_2k.png" id="4_sn7ye"]
-[ext_resource type="Texture2D" uid="uid://c0wg2kmpentsv" path="res://assets/single_textures/green_metal_rust_2k.blend/textures/green_metal_rust_nor_gl_2k.png" id="5_756vv"]
-[ext_resource type="Texture2D" uid="uid://bb75x6l3ec5wc" path="res://assets/single_textures/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_rough_2k.png" id="6_m3oi6"]
-[ext_resource type="Texture2D" uid="uid://t0xk1rw1uk3x" path="res://assets/single_textures/green_metal_rust_2k.blend/textures/green_metal_rust_rough_2k.jpg" id="7_xhmft"]
+[ext_resource type="Texture2D" uid="uid://cvoom7qu4404c" path="res://assets/TEXTURES/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_diff_2k.jpg" id="2_eu2mh"]
+[ext_resource type="Texture2D" uid="uid://brs1husbmdekd" path="res://assets/TEXTURES/green_metal_rust_2k.blend/textures/green_metal_rust_diff_2k.jpg" id="3_mg0jk"]
+[ext_resource type="Texture2D" uid="uid://cse8uuw55uf3n" path="res://assets/TEXTURES/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_nor_gl_2k.png" id="4_sn7ye"]
+[ext_resource type="Texture2D" uid="uid://c0wg2kmpentsv" path="res://assets/TEXTURES/green_metal_rust_2k.blend/textures/green_metal_rust_nor_gl_2k.png" id="5_756vv"]
+[ext_resource type="Texture2D" uid="uid://bb75x6l3ec5wc" path="res://assets/TEXTURES/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_rough_2k.png" id="6_m3oi6"]
+[ext_resource type="Texture2D" uid="uid://t0xk1rw1uk3x" path="res://assets/TEXTURES/green_metal_rust_2k.blend/textures/green_metal_rust_rough_2k.jpg" id="7_xhmft"]
 [ext_resource type="Theme" uid="uid://b8bdf4l66bp3o" path="res://assets/ui_theme.tres" id="8_rk6yx"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_cms58"]
