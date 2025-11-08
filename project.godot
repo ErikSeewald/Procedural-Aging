@@ -16,8 +16,6 @@ config/features=PackedStringArray("4.5", "GL Compatibility")
 
 [autoload]
 
-MeshHelper="*res://scripts/autoloads/mesh_helper.gd"
-TextureHelper="*res://scripts/autoloads/texture_helper.gd"
 AgeBaker="*res://scripts/baking/age_baker.gd"
 
 [display]

@@ -1,21 +1,21 @@
-# Autoload for mesh related helper functions like managing debug wireframe meshes.
 extends Node
+class_name MeshHelper
 
 # MATERIALS
 var wireframe_mat: StandardMaterial3D
 var transparency_mat: StandardMaterial3D
 
 # SCENES
-@onready var sphere_wireframe_scene = preload("res://assets//wireframes//sphere_curve.blend").instantiate()
-@onready var box_wireframe_scene = preload("res://assets//wireframes//box_wireframe.blend").instantiate()
-@onready var cylinder_wireframe_scene = preload("res://assets//wireframes//cylinder_wireframe.blend").instantiate()
+var sphere_wireframe_scene = preload("res://assets//wireframes//sphere_curve.blend").instantiate()
+var box_wireframe_scene = preload("res://assets//wireframes//box_wireframe.blend").instantiate()
+var cylinder_wireframe_scene = preload("res://assets//wireframes//cylinder_wireframe.blend").instantiate()
 
 # MESH INSTANCES
 var sphere_wireframe_inst: MeshInstance3D
 var box_wireframe_inst: MeshInstance3D
 var cylinder_wireframe_inst: MeshInstance3D
 
-func _ready() -> void:
+func _init() -> void:
 	wireframe_mat = StandardMaterial3D.new()
 	wireframe_mat.albedo_color = Color(0, 1, 0.5, 1)
 	wireframe_mat.cull_mode = BaseMaterial3D.CULL_DISABLED
@@ -33,7 +33,7 @@ func _ready() -> void:
 
 func new_wireframe_mesh() -> MeshInstance3D:
 	var m = MeshInstance3D.new()
-	m.material_override = MeshHelper.wireframe_mat
+	m.material_override = wireframe_mat
 	m.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	return m
 	

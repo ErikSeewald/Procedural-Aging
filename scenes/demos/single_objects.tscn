@@ -1,6 +1,5 @@
-[gd_scene load_steps=26 format=3 uid="uid://756yyv5igncm"]
+[gd_scene load_steps=25 format=3 uid="uid://756yyv5igncm"]
 
-[ext_resource type="PackedScene" uid="uid://dayj48d625g8j" path="res://scenes/testing/test_mesh.tscn" id="1_gcn6a"]
 [ext_resource type="Script" uid="uid://dssx8d521xmad" path="res://scripts/demos/single_objects_scene.gd" id="1_syaxu"]
 [ext_resource type="Shader" uid="uid://dr8p7qswmtovl" path="res://shaders/non_instanced_pma.gdshader" id="2_saikx"]
 [ext_resource type="Texture2D" uid="uid://cvoom7qu4404c" path="res://assets/TEXTURES/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_diff_2k.jpg" id="3_syaxu"]
@@ -17,7 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://7brgje74xg8s" path="res://scenes/demos/docks_subscenes/green_tank.tscn" id="14_ymd8k"]
 [ext_resource type="PackedScene" uid="uid://bn4m67plorpi5" path="res://scenes/menu/sub_menu.tscn" id="16_rtwaf"]
 
-[sub_resource type="SphereMesh" id="SphereMesh_rtwaf"]
+[sub_resource type="SphereMesh" id="SphereMesh_ouist"]
 
 [sub_resource type="Gradient" id="Gradient_ouist"]
 offsets = PackedFloat32Array(0)
@@ -35,7 +34,7 @@ colors = PackedColorArray(0.4, 0.4, 0.4, 1)
 gradient = SubResource("Gradient_0xixl")
 width = 1
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_gcn6a"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0xixl"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("2_saikx")
@@ -108,13 +107,10 @@ NodePath("Objects/green_tank/Sketchfab_model/9fb78655edda40b6bc435c9c02f93a04_fb
 
 [node name="Objects" type="Node3D" parent="."]
 
-[node name="default_sphere" parent="Objects" instance=ExtResource("1_gcn6a")]
-transform = Transform3D(1.0027082, 0, 0, 0, 1.002708, 0, 0, 0, 1.0027097, 0, 0, 0)
+[node name="default_sphere" type="MeshInstance3D" parent="Objects"]
 visible = false
-mesh = SubResource("SphereMesh_rtwaf")
-skeleton = NodePath("../../..")
-surface_material_override/0 = SubResource("ShaderMaterial_gcn6a")
-script = null
+mesh = SubResource("SphereMesh_ouist")
+surface_material_override/0 = SubResource("ShaderMaterial_0xixl")
 
 [node name="old_rusty_car" parent="Objects" instance=ExtResource("10_yhhud")]
 transform = Transform3D(0.01656828, 0.009342902, 0.028539099, -2.5519356e-09, 0.03259473, -0.010670603, -0.030029483, 0.005154793, 0.01574598, 0, 0, 0)
@@ -139,7 +135,13 @@ transform = Transform3D(-0.089185745, 0.21283947, 0.3613835, 0.050996564, 0.3722
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Camera3D"]
-transform = Transform3D(0.76021624, 0.3625422, 0.5391052, -0.6095464, 0.1109274, 0.78495115, 0.22477639, -0.92534226, 0.3053151, 2.07682, 5.80568, 0.86998)
+transform = Transform3D(-0.38397217, 0.06925553, 0.92074376, 0.8427904, 0.433637, 0.31884685, -0.3771868, 0.8984223, -0.22487237, -1.7174757, 5.80568, 1.0104489)
+light_energy = 1.5
+shadow_enabled = true
+shadow_opacity = 0.5
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="Camera3D"]
+transform = Transform3D(0.48906893, -0.8643325, -0.117222205, 0.8427904, 0.43363726, 0.31884682, -0.22475779, -0.25473186, 0.9405296, -1.7174757, 5.80568, 1.0072584)
 light_energy = 1.5
 shadow_enabled = true
 shadow_opacity = 0.5

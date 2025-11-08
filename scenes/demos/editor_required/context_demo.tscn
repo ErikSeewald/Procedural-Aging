@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://b86r0mrll0iq5"]
+[gd_scene load_steps=30 format=3 uid="uid://b86r0mrll0iq5"]
 
 [ext_resource type="Script" uid="uid://8hdvyjr11krb" path="res://scripts/demos/context_demo.gd" id="1_capty"]
 [ext_resource type="Shader" uid="uid://dyydjc00gom2y" path="res://shaders/instanced_pma.gdshader" id="1_gff70"]
@@ -8,8 +8,12 @@
 [ext_resource type="Texture2D" uid="uid://c0wg2kmpentsv" path="res://assets/TEXTURES/green_metal_rust_2k.blend/textures/green_metal_rust_nor_gl_2k.png" id="5_qu13q"]
 [ext_resource type="Texture2D" uid="uid://bb75x6l3ec5wc" path="res://assets/TEXTURES/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_rough_2k.png" id="6_w50ka"]
 [ext_resource type="Texture2D" uid="uid://t0xk1rw1uk3x" path="res://assets/TEXTURES/green_metal_rust_2k.blend/textures/green_metal_rust_rough_2k.jpg" id="7_rp574"]
+[ext_resource type="Script" uid="uid://btw6rsvpf0k4w" path="res://scripts/demos/aging_object.gd" id="9_g37q6"]
 [ext_resource type="Script" uid="uid://cng38wbkc6o1l" path="res://scripts/demos/fly_cam.gd" id="9_prcud"]
 [ext_resource type="PackedScene" uid="uid://bn4m67plorpi5" path="res://scenes/menu/sub_menu.tscn" id="10_bsfwu"]
+[ext_resource type="Script" uid="uid://bg5e1ysrvtvw8" path="res://addons/context_probe/context_probe.gd" id="10_gw4sy"]
+[ext_resource type="Theme" uid="uid://b8bdf4l66bp3o" path="res://assets/ui_theme.tres" id="10_obhtf"]
+[ext_resource type="Script" uid="uid://cht8i58wawxmi" path="res://addons/context_probe/context_params.gd" id="11_nc8h1"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_qn7y5"]
 
@@ -82,12 +86,44 @@ sky = SubResource("Sky_8ujxi")
 ambient_light_source = 3
 reflected_light_source = 2
 
+[sub_resource type="Resource" id="Resource_g37q6"]
+script = ExtResource("11_nc8h1")
+uv_and_heat = 0.75
+pollution = 1.0
+moisture = 0.75
+metadata/_custom_type_script = "uid://cht8i58wawxmi"
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_nc8h1"]
+radius = 3.0
+
+[sub_resource type="Resource" id="Resource_k78lt"]
+script = ExtResource("11_nc8h1")
+uv_and_heat = 0.0
+pollution = 0.0
+moisture = 0.75
+metadata/_custom_type_script = "uid://cht8i58wawxmi"
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_g37q6"]
+radius = 2.0
+
+[sub_resource type="Resource" id="Resource_8xmcb"]
+script = ExtResource("11_nc8h1")
+uv_and_heat = 0.0
+pollution = 1.0
+moisture = 0.0
+metadata/_custom_type_script = "uid://cht8i58wawxmi"
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g37q6"]
+size = Vector3(3.727417, 1, 2.331543)
+
 [node name="ContextDemo" type="Node3D"]
 script = ExtResource("1_capty")
 
 [node name="BaseInstance" type="MeshInstance3D" parent="."]
+visible = false
 mesh = SubResource("SphereMesh_qn7y5")
 surface_material_override/0 = SubResource("ShaderMaterial_leftl")
+script = ExtResource("9_g37q6")
 
 [node name="Camera" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.66318196, 0.7484577, 0, -0.7484577, 0.66318196, 0, 0.708569, 1.6561717)
@@ -104,4 +140,98 @@ shadow_opacity = 0.5
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_rsnot")
 
+[node name="Probes" type="Node3D" parent="."]
+
+[node name="SphereContext" type="Area3D" parent="Probes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.2500086, 0, -4.4198227)
+script = ExtResource("10_gw4sy")
+params = SubResource("Resource_g37q6")
+metadata/_custom_type_script = "uid://bg5e1ysrvtvw8"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Probes/SphereContext"]
+shape = SubResource("SphereShape3D_nc8h1")
+
+[node name="CylinderContext" type="Area3D" parent="Probes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4597154, 0, -11.560891)
+script = ExtResource("10_gw4sy")
+params = SubResource("Resource_k78lt")
+metadata/_custom_type_script = "uid://bg5e1ysrvtvw8"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Probes/CylinderContext"]
+shape = SubResource("CylinderShape3D_g37q6")
+
+[node name="BoxContext" type="Area3D" parent="Probes"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.976, 0, -11.237421)
+script = ExtResource("10_gw4sy")
+params = SubResource("Resource_8xmcb")
+metadata/_custom_type_script = "uid://bg5e1ysrvtvw8"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Probes/BoxContext"]
+shape = SubResource("BoxShape3D_g37q6")
+
+[node name="UI" type="Panel" parent="."]
+offset_right = 291.0
+offset_bottom = 191.0
+theme = ExtResource("10_obhtf")
+
+[node name="MarginContainer" type="MarginContainer" parent="UI"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 8.0
+offset_right = 280.0
+offset_bottom = 156.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/MarginContainer"]
+layout_mode = 2
+
+[node name="ShowProbes" type="CheckButton" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+button_pressed = true
+text = "Show context probes"
+
+[node name="InstancesInput" type="SpinBox" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+max_value = 1000.0
+value = 100.0
+allow_greater = true
+prefix = "Instances:"
+
+[node name="HSeparator" type="HSeparator" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="AgeLabel" type="Label" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Age"
+
+[node name="AgeSlider" type="HSlider" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+max_value = 275.0
+allow_greater = true
+
+[node name="RandomizeAge" type="Button" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Randomize"
+
+[node name="HSeparator1" type="HSeparator" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SeedInput" type="SpinBox" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+allow_greater = true
+prefix = "Seed:"
+
+[node name="RandomizeSeed" type="Button" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Randomize"
+
+[node name="HSeparator2" type="HSeparator" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
 [node name="SubMenu" parent="." instance=ExtResource("10_bsfwu")]
+
+[connection signal="toggled" from="UI/MarginContainer/VBoxContainer/ShowProbes" to="." method="show_probes"]
+[connection signal="value_changed" from="UI/MarginContainer/VBoxContainer/InstancesInput" to="." method="set_instance_count"]
+[connection signal="value_changed" from="UI/MarginContainer/VBoxContainer/AgeSlider" to="." method="set_age"]
+[connection signal="pressed" from="UI/MarginContainer/VBoxContainer/RandomizeAge" to="." method="randomize_age"]
+[connection signal="value_changed" from="UI/MarginContainer/VBoxContainer/SeedInput" to="." method="set_seed"]
+[connection signal="pressed" from="UI/MarginContainer/VBoxContainer/RandomizeSeed" to="." method="randomize_seed"]

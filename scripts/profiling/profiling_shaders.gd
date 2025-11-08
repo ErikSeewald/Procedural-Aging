@@ -27,8 +27,8 @@ func _init() -> void:
 		mat.shader = shader
 		_shader_materials.append(mat)
 	
-	var metallic_base := TextureHelper.get_unit_texture(Color(0.6, 0.6, 0.6));
-	var metallic_paint := TextureHelper.get_unit_texture(Color(0.4, 0.4, 0.4));
+	var metallic_base := _get_unit_texture(Color(0.6, 0.6, 0.6));
+	var metallic_paint := _get_unit_texture(Color(0.4, 0.4, 0.4));
 	
 	var pma = _shader_materials[0]
 	pma.set_shader_parameter("albedo_base", base_textures[0])
@@ -48,3 +48,11 @@ func _init() -> void:
 		
 func get_material_copy(index: int) -> ShaderMaterial:
 	return _shader_materials[index].duplicate()
+
+# Creates a 1 pixel wide GradientTexture1D with the given color.
+func _get_unit_texture(color: Color) -> GradientTexture1D:
+	var tex := GradientTexture1D.new()
+	tex.width = 1
+	tex.gradient = Gradient.new()
+	tex.gradient.colors = [color]
+	return tex

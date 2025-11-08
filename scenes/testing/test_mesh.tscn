@@ -1,9 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://dayj48d625g8j"]
+[gd_scene load_steps=15 format=3 uid="uid://dqho0xsaf5f48"]
 
 [ext_resource type="Shader" uid="uid://dr8p7qswmtovl" path="res://shaders/non_instanced_pma.gdshader" id="1_iut2x"]
 [ext_resource type="Texture2D" uid="uid://cvoom7qu4404c" path="res://assets/TEXTURES/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_diff_2k.jpg" id="2_agye0"]
 [ext_resource type="Texture2D" uid="uid://brs1husbmdekd" path="res://assets/TEXTURES/green_metal_rust_2k.blend/textures/green_metal_rust_diff_2k.jpg" id="3_6cpv6"]
-[ext_resource type="Script" uid="uid://btw6rsvpf0k4w" path="res://scripts/testing/aging_object.gd" id="3_kjgf0"]
+[ext_resource type="Script" uid="uid://btw6rsvpf0k4w" path="res://scripts/demos/aging_object.gd" id="3_kjgf0"]
 [ext_resource type="Texture2D" uid="uid://cse8uuw55uf3n" path="res://assets/TEXTURES/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_nor_gl_2k.png" id="4_xbad3"]
 [ext_resource type="Texture2D" uid="uid://c0wg2kmpentsv" path="res://assets/TEXTURES/green_metal_rust_2k.blend/textures/green_metal_rust_nor_gl_2k.png" id="5_d0lx4"]
 [ext_resource type="Texture2D" uid="uid://bb75x6l3ec5wc" path="res://assets/TEXTURES/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_rough_2k.png" id="6_ylr1i"]
@@ -40,10 +40,8 @@ shader_parameter/detail_scale = 100.0
 shader_parameter/time_scale = 0.01
 shader_parameter/uniform_corrosion_speed = 0.005
 shader_parameter/exposure = 1.0
-shader_parameter/voronoi_fbm_iterations = 5
-shader_parameter/snoise_fbm_iterations = 4
-shader_parameter/bake_mode = false
-shader_parameter/bake_target = 0
+shader_parameter/pit_fbm_iterations = 5
+shader_parameter/detail_fbm_iterations = 4
 shader_parameter/use_vertex_weight = false
 shader_parameter/vertex_weight_scale = 1.0
 shader_parameter/vertex_weight_channel = 0
@@ -81,8 +79,3 @@ mesh = SubResource("SphereMesh_6cpv6")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("ShaderMaterial_ciyly")
 script = ExtResource("3_kjgf0")
-
-[node name="DebugLabel" type="Label3D" parent="."]
-transform = Transform3D(1, -1.69166e-10, -2.32831e-10, -8.91305e-11, 1, -4.65661e-10, 0, 0, 1, 0.00176512, 0.73930967, -0.00379661)
-billboard = 1
-outline_size = 8

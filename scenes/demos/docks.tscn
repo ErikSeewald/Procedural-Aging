@@ -770,7 +770,7 @@ transform = Transform3D(-0.15683085, 0, 0.98762554, 0, 1, 0, -0.98762554, 0, -0.
 [node name="DemoUI" parent="Demos/Container Demo" instance=ExtResource("41_sbu8j")]
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Demos/Container Demo"]
-transform = Transform3D(0.9260288, 0, 0.37745294, 0, 1, 0, -0.37745294, 0, 0.9260288, 2.304524, 13.183506, -8.758195)
+transform = Transform3D(0.51439464, 0, 0.85755366, 0, 1, 0, -0.85755366, 0, 0.51439464, 3.944311, 13.183506, -10.347971)
 visible = false
 light_color = Color(1, 0.66400003, 0.58000004, 1)
 light_energy = 5.0
