@@ -1,6 +1,8 @@
 extends Node3D
 
 @onready var ui: Panel = $UI
+@onready var age_input: HSlider = $UI/MarginContainer/VBoxContainer/AgeSlider
+@onready var seed_input: SpinBox = $UI/MarginContainer/VBoxContainer/SeedInput
 @onready var sub_menu: SubMenu = $SubMenu
 @onready var instance_count_input = $UI/MarginContainer/VBoxContainer/InstancesInput
 
@@ -46,6 +48,9 @@ func set_instance_count(count: int) -> void:
 		inst.visible = true
 		add_child(inst)
 		_instances.append(inst)
+		
+	set_age(age_input.value)
+	set_seed(int(seed_input.value))
 	
 
 func _process(_delta: float) -> void:

@@ -29,11 +29,7 @@ struct maskset
 // The value is between 0.0 and 1.0
 float get_detail_mask(vec3 pos, float lod)
 {
-	const float iteration_lod_factor = 10.0; // Balanced with later lod flattening
-	int iterations = int(detail_fbm_iterations) -int(lod*iteration_lod_factor);
-	float mask = snoise_fbm(pos*detail_scale, iterations);
-
-
+	float mask = snoise_fbm(pos*detail_scale, int(detail_fbm_iterations));
 	mask = mask * 0.5 + 0.5; // Remap around 0.0-1.0
 	float w = clamp(0.5 + lod, 0.0, 1.0); // Stronger flattening when far away
 	return mix(mask, 0.5, w); // Flatten around 0.5
@@ -46,7 +42,6 @@ float get_detail_mask(vec3 pos, float lod)
 // The value is between -0.25 and 1.0
 float get_pit_mask(vec3 pos, float seed_f)
 {
-	// Not using lod to scale iterations here because it is way too obvious, even from far away
 	float mask = 1.0 - voronoi_fbm(pos*pit_scale, seed_f, int(pit_fbm_iterations));
 
 	// Clamped between -0.25 and 1.0 to allow for some wear "slowing"
@@ -71,7 +66,7 @@ float get_wear_mask(vec3 pos, float seed_f)
 // - makes use of some uniforms that are not passed as parameters
 //
 // Returns a value between 0.0 and 1.0
-float rust_mask(float strength, maskset mask_set)
+float get_rust_mask(float strength, maskset mask_set)
 {
 	const float uv_uniform_factor = 2.0; // UV/heat should visibly speed up uniform corrosion
 	float min_rust = exp(strength) // Use a global minimum rust amount as uniform corrosion
@@ -94,7 +89,7 @@ float rust_mask(float strength, maskset mask_set)
 // - makes use of some uniforms that are not passed as parameters
 //
 // Returns a value between 0.0 (Paint fully intact) and 1.0 (Paint fully gone)
-float paint_mask(vec3 pos, float strength, maskset mask_set, float seed_f)
+float get_paint_mask(vec3 pos, float strength, maskset mask_set, float seed_f)
 {
 	// These scales and weights are hard-coded so other aging effects
 	// do not need to dynamically depend on this weight distribution.

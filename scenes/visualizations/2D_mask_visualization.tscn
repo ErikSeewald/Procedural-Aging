@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://daisssnxri2og"]
 
-[ext_resource type="Script" uid="uid://b6j66gryxhyvq" path="res://scripts/visualizations/mask_rect.gd" id="1_8ota2"]
 [ext_resource type="Shader" uid="uid://f6um1kb1jaa2" path="res://shaders/debug/mask_rect.gdshader" id="1_etvrs"]
+[ext_resource type="Script" uid="uid://cbiajqojoo6v3" path="res://scripts/visualizations/sub_viewport.gd" id="1_glba1"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_etvrs"]
 shader = ExtResource("1_etvrs")
@@ -26,8 +26,10 @@ shader_parameter/include_p2_output = true
 shader_parameter/include_p3_output = true
 shader_parameter/include_p4_output = true
 shader_parameter/include_extra_wear = true
-shader_parameter/discrete_edge_paint_mask = true
+shader_parameter/discrete_edge_paint_mask = false
 shader_parameter/use_standard_voronoi_instead = false
+shader_parameter/apply_smoothstep = true
+shader_parameter/paint_edge = 0.4
 shader_parameter/full_mode_paint_mask = 3
 shader_parameter/base_mask_for_detail = 0
 shader_parameter/with_detail = true
@@ -45,7 +47,7 @@ shader_parameter/detail_fbm_iterations = 4
 shader_parameter/use_vertex_weight = false
 shader_parameter/vertex_weight_scale = 1.0
 shader_parameter/vertex_weight_channel = 0
-shader_parameter/age = 0.46
+shader_parameter/age = 0.665
 shader_parameter/paint_stability = 0.5
 shader_parameter/uv_and_heat = 0.5
 shader_parameter/pollution = 0.5
@@ -68,9 +70,9 @@ shader_parameter/rust_green_shift = 0.06
 [node name="2dMaskVisualization" type="Node2D"]
 
 [node name="SubViewport" type="SubViewport" parent="."]
+script = ExtResource("1_glba1")
 
 [node name="MaskRect" type="ColorRect" parent="SubViewport"]
 material = SubResource("ShaderMaterial_etvrs")
 offset_right = 512.0
 offset_bottom = 512.0
-script = ExtResource("1_8ota2")

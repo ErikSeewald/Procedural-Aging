@@ -43,6 +43,8 @@ uniform bool include_p4_output = true;
 uniform bool include_extra_wear = true;
 uniform bool discrete_edge_paint_mask = false;
 uniform bool use_standard_voronoi_instead = false;
+uniform bool apply_smoothstep = false;
+uniform float paint_edge = 0.4;
 uniform int full_mode_paint_mask : hint_enum("full_p1", "full_p2", "p1_and_p2", "full_output") = 0;
 
 
@@ -50,7 +52,7 @@ group_uniforms mode_with_vs_without_detail;
 uniform int base_mask_for_detail : hint_enum("pit_mask");
 uniform bool with_detail = false;
 
-#include "../pm_aging_header.gdshaderinc"
+#include "../pma_header.gdshaderinc"
 #include "../masks.gdshaderinc"
 
 vec4 mode_detail_mask(vec3 pos)
@@ -168,6 +170,12 @@ vec4 mode_paint_mask(vec3 pos, float seed_f)
 	{
 		if (value <= 0.5) {value = 0.0;}
 		else if (value >= 0.55) {value = 1.0; }
+	}
+	
+	if (apply_smoothstep)
+	{
+		float offset = (1.0 - paint_edge_sharpness);
+		value = smoothstep(paint_edge - offset, paint_edge + offset, value);
 	}
 	
 	switch (full_mode_paint_mask)

@@ -1,8 +1,7 @@
 ## This autoload allows baking the results of the pma shader into static textures in memory.
 extends Node3D
 
-## albedo; metallic, roughness, specular; normal map
-const bake_targets = {"albedo": 0, "mrs": 1, "normal": 2}
+const bake_targets = {"albedo": 0, "metallic_roughness": 1, "normal": 2}
 
 ## Dataclass for storing information about an entry that has registered for baking.
 ## Results will also be written into this class.
@@ -23,7 +22,7 @@ class RegisteredEntry:
 var _registered: Array[RegisteredEntry] = []
 
 ## This is the shader that is used to actually display the outputs.
-## A default shader is not used here because of the way the mrs texture is handled.
+## A default shader is not used here because of the way the metallic_roughness texture is handled.
 const result_shader = preload("res://shaders/baking/baked.gdshader")
 var _result_material: ShaderMaterial
 
