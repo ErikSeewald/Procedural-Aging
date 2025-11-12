@@ -29,7 +29,7 @@ layout_mode = 2
 [node name="Select scene" type="OptionButton" parent="UI/MarginContainer/VBoxContainer"]
 layout_mode = 2
 selected = 0
-item_count = 4
+item_count = 5
 popup/item_0/text = "rotating_object"
 popup/item_0/id = 0
 popup/item_1/text = "multiple_objects"
@@ -38,6 +38,8 @@ popup/item_2/text = "pixel_count"
 popup/item_2/id = 2
 popup/item_3/text = "env_and_lights"
 popup/item_3/id = 3
+popup/item_4/text = "parameters"
+popup/item_4/id = 4
 
 [node name="Select shader" type="OptionButton" parent="UI/MarginContainer/VBoxContainer"]
 layout_mode = 2

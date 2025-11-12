@@ -146,7 +146,7 @@ void blend_paint_mask(inout outputs outs, vec2 uv, float paint_mask, float smoot
 {
 	vec3 base_col = outs.albedo;
 	float base_roughness = outs.roughness;
-	float base_metallic_adj = outs.metallic;
+	float base_metallic = outs.metallic;
 	vec3 base_normal = outs.normal;
 
 	// Replace base with paint layer and wear it away
@@ -155,31 +155,29 @@ void blend_paint_mask(inout outputs outs, vec2 uv, float paint_mask, float smoot
 	outs.roughness = texture(roughness_paint, uv).r;
 	outs.normal = texture(normal_paint, uv).rgb;
 
- 	// Intensify difference between inside and outside of the paint edges
-	float adjusted_w = 1.0; // Force weight to 1.0 beyond grime edge
-
 	// Limit stability factor to this range to avoid extreme results that
 	// can cause aliasing or complete blur.
 	const float min_stability = 0.25;
 	const float max_stability = 0.75;
 	float stability_factor = clamp(1.0 - paint_stability, min_stability, max_stability);
-	adjusted_w = mix(paint_mask * stability_factor, adjusted_w, smooth_paint_mask);
 
 	// Moisture and uv/heat should further wear the normal and add yellowing to the paint surface.
 	float m = (moisture+uv_and_heat) * stability_factor;
 
  	// paint_mask is squared in the factor for stronger edges
 	float yellowing_factor = m * paint_mask * paint_mask * paint_yellowing_intensity;
-	vec3 yellowed_albedo = mix(outs.albedo, paint_yellowing, yellowing_factor);
-	outs.albedo = mix(yellowed_albedo, outs.albedo, smooth_paint_mask);
+	outs.albedo = mix(outs.albedo, paint_yellowing, yellowing_factor);
 
-	vec3 adjusted_normal = mix(outs.normal, base_normal, m*paint_mask);
-	outs.normal = mix(adjusted_normal, outs.normal, smooth_paint_mask);
+	outs.normal = mix(outs.normal, base_normal, m * paint_mask);
 
-	// Now expose the base layer below the paint again
+	// Now expose the base layer below the paint again.
+ 	// Intensify difference between inside and outside of the paint edges
+	float adjusted_w = 1.0; // Force weight to 1.0 beyond grime edge
+	adjusted_w = mix(paint_mask * stability_factor, adjusted_w, smooth_paint_mask);
+	
 	outs.albedo = mix(outs.albedo, base_col, adjusted_w);
 	outs.roughness = mix(outs.roughness, base_roughness, adjusted_w);
-	outs.metallic = mix(outs.metallic, base_metallic_adj, adjusted_w);
+	outs.metallic = mix(outs.metallic, base_metallic, adjusted_w);
 	outs.normal = mix(outs.normal, base_normal, adjusted_w);
 }
 
@@ -224,9 +222,9 @@ void blend_rust_mask(inout outputs outs, float rust_mask, maskset mask_set)
 
 	// To not deviate too drastically from the "physiochemical" look of the material,
 	// the other outputs are blended with a much smaller weight.
-	const float scale_factor = 0.25;
-	float scaled_w = rust_mask * scale_factor;
-	outs.roughness = clamp(outs.roughness + scaled_w * pollution_factor, 0.0, 1.0);
+	const float scale_factor = 0.5;
+	float scaled_w = rust_mask * pollution_factor * scale_factor; 
+	outs.roughness = mix(outs.roughness, 1.0, scaled_w);
 
 	// While real rust would affect the metallic value, for the visual look it
 	// is more appropriate to focus on roughness only, as decreasing metallic makes the
@@ -281,11 +279,17 @@ void fragment()
 	if (paint_mask > paint_edge) // Rust only needs to be calculated where it can actually be visible
 	{
 		float rust_mask = get_rust_mask(intensity, mask_set);
-		rust_mask *= rust_growth_factor * (paint_mask - paint_edge); // Rust grows more strongly where paint has worn away
+		
+		// Rust grows more strongly where paint has worn away (use paint_mask instead of smoothed
+		// mask here because rust_mask also encodes "how long" the surface has been exposed)
+		rust_mask *= rust_growth_factor * (paint_mask - paint_edge);
 		blend_rust_mask(outs, rust_mask, mask_set);
 	}
 
-	blend_paint_mask(outs, UV, paint_mask, smooth_paint_mask);
+	if (use_paint_layer)
+	{
+		blend_paint_mask(outs, UV, paint_mask, smooth_paint_mask);
+	}
 	blend_grime(outs, paint_mask, smooth_paint_mask);
 
 	outs.albedo *= exposure;

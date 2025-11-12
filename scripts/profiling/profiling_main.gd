@@ -7,10 +7,11 @@ extends Node
 @onready var sub_menu: SubMenu = $SubMenu
 
 const scenes: Array = [
-	preload("res://scenes/profiling/rotating_mesh.tscn"),
-	preload("res://scenes/profiling/multiple_objects.tscn"),
-	preload("res://scenes/profiling/pixel_count.tscn"),
-	preload("res://scenes/profiling/env_and_lights.tscn")
+	#preload("res://scenes/profiling/rotating_mesh.tscn"),
+	#preload("res://scenes/profiling/multiple_objects.tscn"),
+	#preload("res://scenes/profiling/pixel_count.tscn"),
+	#preload("res://scenes/profiling/env_and_lights.tscn"),
+	preload("res://scenes/profiling/parameters.tscn"),
 ]
 var _scene_index := 0
 var _cur_scene: ProfilingScene
@@ -108,10 +109,12 @@ func on_profiling_sequence_finished() -> void:
 			_scene_index += 1
 	
 	reset_scene()
+	profiler.save_and_reset()
 	ids = _cur_scene.get_profiling_ids()
 	profiler.warmup_and_run(ids[_cur_scene_profiling_idx])
 
 func finish_profiling() -> void:
+	profiler.save_and_reset()
 	_currently_profiling = false
 	sub_menu.set_input_enabled(true)
 	toggle_vsync(true)
@@ -126,7 +129,7 @@ func run_suite() -> void:
 	sub_menu.set_input_enabled(false)
 	sub_menu.visible = false
 	toggle_ui(false)
-	#toggle_vsync(false)
+	toggle_vsync(false)
 	get_window().size = Vector2i(1920, 1080)
 	DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_RESIZE_DISABLED, true)
 	_aging_factor = 10.0

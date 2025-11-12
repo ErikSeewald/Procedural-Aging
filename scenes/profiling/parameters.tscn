@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://bixdud3ufwusw"]
+
+[ext_resource type="Script" uid="uid://c2wfdy4hne56q" path="res://scripts/profiling/scenes/parameters_scene.gd" id="1_fbupw"]
+[ext_resource type="Theme" uid="uid://b8bdf4l66bp3o" path="res://assets/ui_theme.tres" id="9_ocla5"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_v300n"]
+sky_top_color = Color(0.55, 0.55, 0.55, 1)
+energy_multiplier = 5.0
+
+[sub_resource type="Sky" id="Sky_160ns"]
+sky_material = SubResource("ProceduralSkyMaterial_v300n")
+
+[sub_resource type="Environment" id="Environment_3c7w5"]
+background_mode = 1
+background_color = Color(0.08, 0.08, 0.08, 1)
+sky = SubResource("Sky_160ns")
+ambient_light_source = 3
+reflected_light_source = 2
+
+[sub_resource type="QuadMesh" id="QuadMesh_h7m6b"]
+
+[node name="Parameters" type="Node3D"]
+script = ExtResource("1_fbupw")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_3c7w5")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("QuadMesh_h7m6b")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+projection = 1
+
+[node name="UI" type="Panel" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -72.0
+offset_right = 132.0
+grow_vertical = 0
+theme = ExtResource("9_ocla5")
+
+[node name="MarginContainer" type="MarginContainer" parent="UI"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 8.0
+offset_right = 120.0
+offset_bottom = 74.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/MarginContainer"]
+layout_mode = 2

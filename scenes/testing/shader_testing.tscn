@@ -51,7 +51,7 @@ shader_parameter/detail_fbm_iterations = 4
 shader_parameter/use_vertex_weight = false
 shader_parameter/vertex_weight_scale = 1.0
 shader_parameter/vertex_weight_channel = 0
-shader_parameter/age = 50.0
+shader_parameter/age = 47.825
 shader_parameter/paint_stability = 0.5
 shader_parameter/uv_and_heat = 0.5
 shader_parameter/pollution = 0.5
@@ -89,13 +89,13 @@ ground_horizon_color = Color(0.321569, 0.372549, 0.643137, 1)
 sun_angle_max = 37.65
 sun_curve = 0.166435
 
-[sub_resource type="Sky" id="Sky_y6ry5"]
+[sub_resource type="Sky" id="Sky_0q0pf"]
 sky_material = SubResource("ProceduralSkyMaterial_160ns")
 
 [sub_resource type="Environment" id="Environment_5140r"]
 background_mode = 2
 background_color = Color(0.00619635, 0.013396, 0.0194763, 1)
-sky = SubResource("Sky_y6ry5")
+sky = SubResource("Sky_0q0pf")
 ambient_light_source = 3
 ambient_light_color = Color(0.482749, 0.47207, 0.541328, 1)
 ambient_light_sky_contribution = 0.55
@@ -179,6 +179,7 @@ surface_material_override/0 = SubResource("ShaderMaterial_3a5gf")
 
 [node name="Camera" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.66318196, 0.7484577, 0, -0.7484577, 0.66318196, 0, 0.708569, 1.6561717)
+visible = false
 script = ExtResource("1_g8tjy")
 
 [node name="Camera3D" type="Camera3D" parent="Camera"]
@@ -201,6 +202,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_1oqqo")
 
 [node name="Baked" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1980464, 0, 0)
+visible = false
 mesh = SubResource("SphereMesh_ba6i0")
 script = ExtResource("43_gb77c")
 bake_material = SubResource("ShaderMaterial_ie0bw")

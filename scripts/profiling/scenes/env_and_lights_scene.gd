@@ -12,7 +12,7 @@ var _enable_env_effects := false
 
 var _rotating := true
 
-const profiling_length := 1.0
+const profiling_length := 2.0
 var _cur_profiling_length = 0.0
 
 const profiling_ids: Array[String] = [
