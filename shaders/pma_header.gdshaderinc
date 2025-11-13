@@ -48,7 +48,7 @@ uniform float age = 0.0;
 uniform float paint_stability: hint_range(0.0, 1.0) = 0.5; // Affects residue, grime, roughness and yellowing
 
 /// Wear scaling parameters of the environment context (details on the effects are in the docs)
-group_uniforms context_parameters;
+group_uniforms environment_parameters;
 #ifdef INSTANCE_UNIFORMS
 	instance
 #endif

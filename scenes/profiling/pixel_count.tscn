@@ -41,8 +41,8 @@ shader_parameter/detail_scale = 100.0
 shader_parameter/time_scale = 0.01
 shader_parameter/uniform_corrosion_speed = 0.005
 shader_parameter/exposure = 1.0
-shader_parameter/voronoi_fbm_iterations = 5
-shader_parameter/snoise_fbm_iterations = 4
+shader_parameter/pit_fbm_iterations = 5
+shader_parameter/detail_fbm_iterations = 4
 shader_parameter/use_vertex_weight = false
 shader_parameter/vertex_weight_scale = 1.0
 shader_parameter/vertex_weight_channel = 0
@@ -97,6 +97,7 @@ surface_material_override/0 = SubResource("ShaderMaterial_xgp15")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.0025928)
+projection = 1
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_h0vca")
@@ -106,7 +107,7 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_top = -54.0
-offset_right = 130.0
+offset_right = 224.0
 grow_vertical = 0
 theme = ExtResource("1_rspj0")
 
@@ -114,7 +115,7 @@ theme = ExtResource("1_rspj0")
 layout_mode = 0
 offset_left = 10.0
 offset_top = 8.0
-offset_right = 120.0
+offset_right = 216.0
 offset_bottom = 56.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/MarginContainer"]
@@ -122,14 +123,14 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="UI/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Distance"
+text = "Size"
 
-[node name="Distance" type="HSlider" parent="UI/MarginContainer/VBoxContainer"]
+[node name="Size" type="HSlider" parent="UI/MarginContainer/VBoxContainer"]
 layout_mode = 2
-min_value = 0.1
-max_value = 1000.0
-step = 0.1
+min_value = 0.001
+max_value = 4.0
+step = 0.001
 value = 1.0
 exp_edit = true
 
-[connection signal="value_changed" from="UI/MarginContainer/VBoxContainer/Distance" to="." method="set_distance"]
+[connection signal="value_changed" from="UI/MarginContainer/VBoxContainer/Size" to="." method="set_size"]

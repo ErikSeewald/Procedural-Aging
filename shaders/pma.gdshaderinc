@@ -163,12 +163,13 @@ void blend_paint_mask(inout outputs outs, vec2 uv, float paint_mask, float smoot
 
 	// Moisture and uv/heat should further wear the normal and add yellowing to the paint surface.
 	float m = (moisture+uv_and_heat) * stability_factor;
+	float mp = m * paint_mask;
 
  	// paint_mask is squared in the factor for stronger edges
-	float yellowing_factor = m * paint_mask * paint_mask * paint_yellowing_intensity;
+	float yellowing_factor = mp * paint_mask * paint_yellowing_intensity;
 	outs.albedo = mix(outs.albedo, paint_yellowing, yellowing_factor);
 
-	outs.normal = mix(outs.normal, base_normal, m * paint_mask);
+	outs.normal = mix(outs.normal, base_normal, mp);
 
 	// Now expose the base layer below the paint again.
  	// Intensify difference between inside and outside of the paint edges

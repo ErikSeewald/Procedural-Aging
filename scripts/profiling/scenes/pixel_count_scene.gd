@@ -3,13 +3,13 @@ extends ProfilingScene
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
 @onready var camera: Camera3D = $Camera3D
 
-var _cur_distance := 1.0
+var _cur_size := 1.0
 
-const profiling_length := 2.0
+const profiling_length := 5.0
 var _cur_profiling_length = 0.0
 
 const profiling_ids: Array[String] = [
-	"dist_0.25", "dist_1", "dist_10", "dist_100"
+	 "scale_1", "scale_0.5", "scale_0.25", "scale_0.05",
 ]
 
 func get_profiling_ids() -> Array[String]:
@@ -17,11 +17,11 @@ func get_profiling_ids() -> Array[String]:
 
 func _setup_existing_id(profiling_id: String) -> void:
 	print("SETUP " + profiling_id)	
-	_cur_distance = float(profiling_id.split("_")[-1])
+	_cur_size = float(profiling_id.split("_")[-1])
 
 func _ready() -> void:
 	super()
-	set_distance(_cur_distance)
+	set_size(_cur_size)
 
 func _process(delta: float) -> void:
 	super(delta)
@@ -40,6 +40,6 @@ func bake_shader(mat: ShaderMaterial, size: Vector2i) -> void:
 	AgeBaker.register(mesh_instance, _cur_mat, _cur_bake_size, material_slot)
 	AgeBaker.bake()
 
-## Sets the distance of the test quad from the camera to the given float
-func set_distance(distance: float) -> void:
-	mesh_instance.global_position = camera.global_position - Vector3(0.0, 0.0, distance)
+## Sets the size of the test quad
+func set_size(size: float) -> void:
+	mesh_instance.scale = Vector3(size, size, size)

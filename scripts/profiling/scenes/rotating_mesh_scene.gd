@@ -10,7 +10,7 @@ const _default_segments := 64
 const _default_rings := 32
 var _complexity_factor := 1.0
 
-const profiling_length := 1.0
+const profiling_length := 5.0
 var _cur_profiling_length = 0.0
 
 const profiling_ids: Array[String] = [
