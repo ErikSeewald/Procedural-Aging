@@ -97,12 +97,12 @@ reflected_light_source = 2
 [node name="SingleObjects" type="Node3D" node_paths=PackedStringArray("objects")]
 script = ExtResource("1_syaxu")
 objects = {
-NodePath("Objects/default_sphere"): 0,
-NodePath("Objects/old_rusty_car/Sketchfab_model/oldcar_FBX/RootNode/Object007/Car"): 1,
-NodePath("Objects/three_barrels/Sketchfab_model/Mainv2_obj_cleaner_materialmerger_gles/Object_4"): 0,
-NodePath("Objects/rusty_anchor/Sketchfab_model/Collada visual scene group/Line001/defaultMaterial_002"): 0,
-NodePath("Objects/yellow_tank/Sketchfab_model/9fb78655edda40b6bc435c9c02f93a04_fbx/RootNode/valve_small1/valve_small1_valve1_0"): 1,
-NodePath("Objects/green_tank/Sketchfab_model/9fb78655edda40b6bc435c9c02f93a04_fbx/RootNode/valve_small1/valve_small1_valve1_0"): 3
+NodePath("Objects/default_sphere"): [0],
+NodePath("Objects/old_rusty_car/Sketchfab_model/oldcar_FBX/RootNode/Object007/Car"): [1],
+NodePath("Objects/three_barrels/Sketchfab_model/Mainv2_obj_cleaner_materialmerger_gles/Object_4"): [0],
+NodePath("Objects/rusty_anchor/Sketchfab_model/Collada visual scene group/Line001/defaultMaterial_002"): [0, 1],
+NodePath("Objects/yellow_tank/Sketchfab_model/9fb78655edda40b6bc435c9c02f93a04_fbx/RootNode/valve_small1/valve_small1_valve1_0"): [1, 3],
+NodePath("Objects/green_tank/Sketchfab_model/9fb78655edda40b6bc435c9c02f93a04_fbx/RootNode/valve_small1/valve_small1_valve1_0"): [4, 3]
 }
 
 [node name="Objects" type="Node3D" parent="."]

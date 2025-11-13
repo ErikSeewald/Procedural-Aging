@@ -575,7 +575,7 @@ transform = Transform3D(-0.09916522, 0.014124439, -0.1805341, 0.010578561, 0.205
 script = ExtResource("38_1y5tm")
 demo_name = "Old rusty car"
 mesh_path = NodePath("old_rusty_car/Sketchfab_model/oldcar_FBX/RootNode/Object007/Car")
-material_slot = 1
+material_slots = Array[int]([1])
 
 [node name="old_rusty_car" parent="Demos/Car Demo" instance=ExtResource("35_7vls4")]
 transform = Transform3D(0.20814653, 0, 0.03652208, 0, 0.21132639, 0, -0.03652208, 0, 0.20814653, 26.234816, 8.135022, -22.873224)
@@ -595,6 +595,7 @@ light_energy = 5.0
 script = ExtResource("38_1y5tm")
 demo_name = "Blue barrels"
 mesh_path = NodePath("three_barrels/Sketchfab_model/Mainv2_obj_cleaner_materialmerger_gles/Object_4")
+material_slots = Array[int]([0])
 
 [node name="three_barrels" parent="Demos/Blue barrels demo" instance=ExtResource("22_fclxg")]
 transform = Transform3D(0.044088136, 0, 0, 0, 0.044088136, 0, 0, 0, 0.044088136, 16.521091, 8.176918, -23.931791)
@@ -615,7 +616,7 @@ shadow_enabled = true
 script = ExtResource("38_1y5tm")
 demo_name = "Pipes"
 mesh_path = NodePath("pipe_stuff/Industrial_Smth_1/Object_55/Industrial_Smth_1_Industrial_Walls_FLR_1_0")
-material_slot = 1
+material_slots = Array[int]([1])
 
 [node name="pipe_stuff" parent="Demos/Pipe Demo" instance=ExtResource("24_gt5me")]
 transform = Transform3D(0.004539184, 0, -0.41149464, 0, 0.41151968, 0, 0.41149464, 0, 0.004539184, 38.259415, 8.154812, -2.4624405)
@@ -636,6 +637,7 @@ shadow_enabled = true
 script = ExtResource("38_1y5tm")
 demo_name = "Anchor"
 mesh_path = NodePath("rusty_anchor/Sketchfab_model/Collada visual scene group/Line001/defaultMaterial_002")
+material_slots = Array[int]([0, 1])
 
 [node name="rusty_anchor" parent="Demos/Anchor Demo" instance=ExtResource("36_xwxqs")]
 transform = Transform3D(0.10270473, -0.0126931025, 0.1786517, 0.010846676, 0.20600386, 0.0084008295, -0.1787733, 0.005206681, 0.103144586, 20.442339, 8.427134, 34.65766)
@@ -656,6 +658,7 @@ shadow_enabled = true
 script = ExtResource("38_1y5tm")
 demo_name = "Metal beams"
 mesh_path = NodePath("metal_roof/Industrial_Railroad_Loadbay_Shed_1/Object_51/Industrial_Railroad_Loadbay_Shed_1_Industrial_Bridgemetal_1_0")
+material_slots = Array[int]([0])
 
 [node name="metal_roof" parent="Demos/Metal Beams Demo" instance=ExtResource("11_wvdex")]
 transform = Transform3D(0.8173611, 0, 0, 0, 0.8173611, 0, 0, 0, 0.8173611, 28.874563, 7.89062, -20.287708)
@@ -675,7 +678,7 @@ light_energy = 5.0
 script = ExtResource("38_1y5tm")
 demo_name = "Fishing boat"
 mesh_path = NodePath("boat_fishing/Sketchfab_model/root/GLTF_SceneRootNode/Sketchfab_model_0/root_1/GLTF_SceneRootNode_2/3356e59f0f8c4b78a6de6b679e49b456_fbx_7_3/RootNode_6_4/Final_Boat_5_5/Final_Boat_Main_Boat_0_2_10/Object_11_11/Object_17")
-material_slot = 1
+material_slots = Array[int]([1])
 
 [node name="boat_fishing" parent="Demos/Fishing Boat Demo" instance=ExtResource("4_3mqdi")]
 transform = Transform3D(2.1982057, 0, 0, 0, 2.1982057, 0, 0, 0, 2.1982057, 8.065616, 2.5648322, 25.061499)
@@ -699,6 +702,7 @@ shadow_enabled = true
 script = ExtResource("38_1y5tm")
 demo_name = "Gate"
 mesh_path = NodePath("rusty_old_gate_optimized/Sketchfab_model/root/GLTF_SceneRootNode/Plane_001_1/Object_6")
+material_slots = Array[int]([0])
 
 [node name="rusty_old_gate_optimized" parent="Demos/Gate Demo" instance=ExtResource("7_hvwqb")]
 transform = Transform3D(0.01291673, 0, 1.709156, 0, 1.7092049, 0, -1.709156, 0, 0.01291673, -45.192947, 8.039212, -25.557346)
@@ -719,6 +723,7 @@ shadow_enabled = true
 script = ExtResource("38_1y5tm")
 demo_name = "Crane"
 mesh_path = NodePath("crane/Industrial_PortalCrane_2/Object_45/Industrial_PortalCrane_2_Industrial_Walls_FLR_2_0")
+material_slots = Array[int]([0])
 
 [node name="crane" parent="Demos/Crane Demo" instance=ExtResource("10_aqv0v")]
 transform = Transform3D(-1.2048086, 0, -0.0021868653, 0, 1.2048106, 0, 0.0021868653, 0, -1.2048086, -16.39234, 8.063292, -8.85328)
@@ -739,7 +744,7 @@ shadow_enabled = true
 script = ExtResource("38_1y5tm")
 demo_name = "Small tank"
 mesh_path = NodePath("small_tanks4/Sketchfab_model/9fb78655edda40b6bc435c9c02f93a04_fbx/RootNode/valve_small1/valve_small1_valve1_0")
-material_slot = 1
+material_slots = Array[int]([1, 3])
 
 [node name="small_tanks4" parent="Demos/Small Tank Demo" instance=ExtResource("33_tihou")]
 transform = Transform3D(-0.35013077, 0, 0.4083892, 0, 0.5379343, 0, -0.4083892, 0, -0.35013077, -34.67494, 8.824713, 44.679295)
@@ -760,6 +765,7 @@ shadow_enabled = true
 script = ExtResource("38_1y5tm")
 demo_name = "Container"
 mesh_path = NodePath("classic_container/Sketchfab_model/Collada visual scene group/CamsAndKeepers_low/defaultMaterial")
+material_slots = Array[int]([0])
 
 [node name="classic_container" parent="Demos/Container Demo" instance=ExtResource("16_eoi6f")]
 transform = Transform3D(1.2303437, -7.679541e-09, -0.41463023, 7.4440996e-09, 1.2983313, -1.957854e-09, 0.41463023, -5.2199056e-10, 1.2303437, -1.5319691, 12.839746, -13.404261)

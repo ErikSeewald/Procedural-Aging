@@ -42,18 +42,6 @@ roughness_texture_channel = 1
 normal_enabled = true
 normal_texture = ExtResource("7_u68gg")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1mc3s"]
-resource_name = "handle2"
-cull_mode = 2
-albedo_texture = ExtResource("8_k7eui")
-metallic = 1.0
-metallic_texture = ExtResource("9_p24lb")
-metallic_texture_channel = 2
-roughness_texture = ExtResource("9_p24lb")
-roughness_texture_channel = 1
-normal_enabled = true
-normal_texture = ExtResource("10_v2i22")
-
 [sub_resource type="Gradient" id="Gradient_jh38f"]
 offsets = PackedFloat32Array(0)
 colors = PackedColorArray(0.6, 0.6, 0.6, 1)
@@ -69,6 +57,52 @@ colors = PackedColorArray(0.4, 0.4, 0.4, 1)
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_ie0bw"]
 gradient = SubResource("Gradient_gchre")
 width = 1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_htheo"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("11_d3h3o")
+shader_parameter/seed = 0
+shader_parameter/uv_scale = 0.5
+shader_parameter/patch_scale = 2.0
+shader_parameter/wear_scale = 2.0
+shader_parameter/pit_scale = 8.0
+shader_parameter/detail_scale = 100.0
+shader_parameter/time_scale = 0.015
+shader_parameter/uniform_corrosion_speed = 0.02
+shader_parameter/exposure = 1.0
+shader_parameter/pit_fbm_iterations = 5
+shader_parameter/detail_fbm_iterations = 4
+shader_parameter/use_vertex_weight = true
+shader_parameter/vertex_weight_scale = 2.0
+shader_parameter/vertex_weight_channel = 0
+shader_parameter/age = 30.0
+shader_parameter/paint_stability = 0.5
+shader_parameter/uv_and_heat = 0.5
+shader_parameter/pollution = 0.5
+shader_parameter/moisture = 0.5
+shader_parameter/albedo_base = ExtResource("12_jsv07")
+shader_parameter/metallic_base = SubResource("GradientTexture1D_gb77c")
+shader_parameter/roughness_base = ExtResource("16_u4byw")
+shader_parameter/normal_base = ExtResource("14_6sxl4")
+shader_parameter/use_paint_layer = true
+shader_parameter/paint_edge_sharpness = 0.98
+shader_parameter/paint_yellowing = Color(0.85, 0.85, 0.5, 1)
+shader_parameter/paint_yellowing_intensity = 2.5
+shader_parameter/albedo_paint = ExtResource("8_k7eui")
+shader_parameter/metallic_paint = SubResource("GradientTexture1D_ie0bw")
+shader_parameter/roughness_paint = ExtResource("9_p24lb")
+shader_parameter/normal_paint = ExtResource("10_v2i22")
+shader_parameter/grime_intensity = 3.0
+shader_parameter/grime_falloff = 0.750000035625
+shader_parameter/grime_color = Color(0.44848305, 0.29091117, 4.3317675e-07, 1)
+shader_parameter/rust_growth_factor = 200.0
+shader_parameter/rust_color_1 = Color(0.5, 0.41, 0.19999999, 1)
+shader_parameter/rust_color_2 = Color(0.33, 0.2772, 0.1716, 1)
+shader_parameter/rust_color_3 = Color(0.2, 0.092, 0.097400025, 1)
+shader_parameter/rust_color_4 = Color(0.13, 0.0663, 0.09496498, 1)
+shader_parameter/rust_red_shift = 0.25
+shader_parameter/rust_green_shift = 0.06
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7ejpg"]
 resource_local_to_scene = true
@@ -121,5 +155,5 @@ shader_parameter/rust_green_shift = 0.06
 [node name="valve_small1_valve1_0" parent="Sketchfab_model/9fb78655edda40b6bc435c9c02f93a04_fbx/RootNode/valve_small1" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_q8ldr")
 surface_material_override/1 = SubResource("StandardMaterial3D_up75n")
-surface_material_override/2 = SubResource("StandardMaterial3D_1mc3s")
+surface_material_override/2 = SubResource("ShaderMaterial_htheo")
 surface_material_override/3 = SubResource("ShaderMaterial_7ejpg")
