@@ -1,18 +1,5 @@
+#include "pma_header.gdshaderinc"
 #include "voronoi_fbm.gdshaderinc"
-
-// Allows using the uniforms of the shader that this is included into
-// without leaving this standalone file with errors.
-// -> Whichever file includes this one needs to define INCLUDE_PARAMS_DEFINED
-#ifndef INCLUDE_PARAMS_DEFINED
-	uniform float patch_scale;
-	uniform float wear_scale;
-	uniform float pit_scale;
-	uniform float detail_scale;
-	uniform float uniform_corrosion_speed;
-	uniform float uv_and_heat;
-	uniform uint pit_fbm_iterations;
-	uniform uint detail_fbm_iterations;
-#endif
 
 // Struct for compact value passing of the wear, pit and detail masks.
 struct maskset

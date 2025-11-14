@@ -4,6 +4,9 @@
 * like a canvas shader for displaying masks on their own can simply include this file.
 */
 
+#ifndef PMA_HEADER
+#define PMA_HEADER
+
 /// Parameters relating to mask scaling, time and rng
 group_uniforms general_parameters;
 #ifdef INSTANCE_UNIFORMS
@@ -11,7 +14,7 @@ group_uniforms general_parameters;
 #endif
 uniform uint seed = 0; // Seed used by all pseudo-rng functions
 
-uniform float uv_scale = 1.0; // Scale of the UV(W) coordinates used to sample procedural (3D) textures
+uniform float mask_scale = 1.0; // Scaling factor for the coordinates used to sample procedural masks.
 uniform float patch_scale = 2.0; // Scaling of the paint wear and rust patches
 uniform float wear_scale = 2.0; // Scaling of the wear masks that affects the strength of the other masks
 uniform float pit_scale = 8.0; // Scaling of the pit mask that is used for pitting corrosion and paint wear.
@@ -98,4 +101,4 @@ uniform vec3 rust_color_4: source_color = vec3(0.125, 0.035, 0.075);
 uniform float rust_red_shift = 0.25; // Scales the mask texture based shift of the rust's red channel
 uniform float rust_green_shift = 0.06; // Scales the mask texture based shift of the rust's green channel
 
-#define INCLUDE_PARAMS_DEFINED
+#endif

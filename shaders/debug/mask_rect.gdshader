@@ -204,7 +204,7 @@ vec4 mode_with_vs_without_detail(vec3 pos, float seed_f)
 
 void fragment()
 {
-	vec3 pos = vec3(UV.x, UV.y, z_offset) * uv_scale;
+	vec3 pos = vec3(UV.x, UV.y, z_offset) * mask_scale;
 	const uint wrap = 0x10000u;
 	float seed_f = float(seed % wrap);
 

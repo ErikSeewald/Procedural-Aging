@@ -31,7 +31,7 @@ vec3 voronoi_hash3d(vec3 p, float seed_f)
 	float f2 = dot(p, c2) + seed_f;
 
 	const float spread_factor = 5678.9123;
-	vec3 v = sin(vec3(f0, f1, f2))  * spread_factor;
+	vec3 v = sin(vec3(f0, f1, f2)) * spread_factor;
 	return fract(v);
 }
 

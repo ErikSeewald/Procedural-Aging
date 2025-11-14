@@ -59,8 +59,8 @@ void vertex()
 float get_lod()
 {
 #ifdef SHADER_TYPE_DEFINED
-	vec3 dx = dFdx(obj_pos * uv_scale);
-	vec3 dy = dFdy(obj_pos * uv_scale);
+	vec3 dx = dFdx(obj_pos * mask_scale);
+	vec3 dy = dFdy(obj_pos * mask_scale);
 	float pixel_size = max(length(dx), length(dy));
 	return exp(pixel_size*50.0) - 1.0;
 #else
@@ -246,16 +246,15 @@ void fragment()
 	outs.roughness = texture(roughness_base, UV).r;
 	outs.normal = texture(normal_base, UV).rgb;
 
-	// The uint seed needs to be wrapped in a lower range because high values eventually
-	// mean floats cannot represent differences of 1 in the seed.
-	// Even below the point where step sizes of 1 are no longer representable,
-	// high seeds start to look strange so the cutoff is even lower.
+	// At some point the magnitude becomes so large that the distance between
+	// representable float values becomes large enough to create visible artifacts
+	// -> force a smaller range.
 	const uint wrap = 0x10000u;
 	float seed_f = float(seed % wrap);
 
-	// The interpolated object space position scaled by uv_scale is used by all
+	// The interpolated object space position scaled by mask_scale is used by all
 	// procedural sampling functions.
-	vec3 pos = obj_pos*uv_scale;
+	vec3 pos = obj_pos*mask_scale;
 
 	float lod = get_lod();
 	float intensity = get_weathering_intensity();
