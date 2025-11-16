@@ -7,18 +7,18 @@ extends Node
 @onready var sub_menu: SubMenu = $SubMenu
 
 const scenes: Array = [
-	#preload("res://scenes/profiling/rotating_mesh.tscn"),
-	#preload("res://scenes/profiling/multiple_objects.tscn"),
+	preload("res://scenes/profiling/rotating_mesh.tscn"),
+	preload("res://scenes/profiling/multiple_objects.tscn"),
 	preload("res://scenes/profiling/pixel_count.tscn"),
-	#preload("res://scenes/profiling/env_and_lights.tscn"),
-	#preload("res://scenes/profiling/parameters.tscn"),
+	preload("res://scenes/profiling/env_and_lights.tscn"),
+	preload("res://scenes/profiling/parameters.tscn"),
 ]
 var _scene_index := 0
 var _cur_scene: ProfilingScene
 var _cur_scene_profiling_idx := 0
 
 var _aging_paused := false
-var _aging_factor := 1.0
+var _aging_factor := 3.0
 var _cur_bake_size := Vector2i(2048, 2048)
 
 var _profiling_shaders: ProfilingShaders

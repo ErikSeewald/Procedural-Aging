@@ -56,11 +56,11 @@ void vertex()
 // object position.
 // The value rises exponentially with larger pixel size.
 // The growth is tuned for the lod usage in the detail mask.
-float get_lod()
+float get_lod(vec3 pos)
 {
 #ifdef SHADER_TYPE_DEFINED
-	vec3 dx = dFdx(obj_pos * mask_scale);
-	vec3 dy = dFdy(obj_pos * mask_scale);
+	vec3 dx = dFdx(pos);
+	vec3 dy = dFdy(pos);
 	float pixel_size = max(length(dx), length(dy));
 	return exp(pixel_size*50.0) - 1.0;
 #else
@@ -256,7 +256,7 @@ void fragment()
 	// procedural sampling functions.
 	vec3 pos = obj_pos*mask_scale;
 
-	float lod = get_lod();
+	float lod = get_lod(pos);
 	float intensity = get_weathering_intensity();
 
 	// Calculate these once and then compactly pass them around in the maskset struct.

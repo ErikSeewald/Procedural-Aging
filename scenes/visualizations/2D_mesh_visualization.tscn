@@ -32,7 +32,7 @@ resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("1_nbaqg")
 shader_parameter/seed = 0
-shader_parameter/uv_scale = 1.0
+shader_parameter/mask_scale = 1.0
 shader_parameter/patch_scale = 2.0
 shader_parameter/wear_scale = 2.0
 shader_parameter/pit_scale = 8.0
@@ -79,6 +79,7 @@ shader_parameter/rust_green_shift = 0.06
 script = ExtResource("1_krrj5")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewport"]
+transform = Transform3D(2.7499065, 0, 0, 0, 2.7499065, 0, 0, 0, 2.7499065, -0.78960514, -0.19137378, 0)
 mesh = SubResource("QuadMesh_tta8p")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("ShaderMaterial_krrj5")

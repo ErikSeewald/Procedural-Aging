@@ -51,7 +51,7 @@ shader_parameter/detail_fbm_iterations = 4
 shader_parameter/use_vertex_weight = false
 shader_parameter/vertex_weight_scale = 1.0
 shader_parameter/vertex_weight_channel = 0
-shader_parameter/age = 47.825
+shader_parameter/age = 50.0
 shader_parameter/paint_stability = 0.5
 shader_parameter/uv_and_heat = 0.5
 shader_parameter/pollution = 0.5
@@ -202,7 +202,6 @@ surface_material_override/0 = SubResource("StandardMaterial3D_1oqqo")
 
 [node name="Baked" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1980464, 0, 0)
-visible = false
 mesh = SubResource("SphereMesh_ba6i0")
 script = ExtResource("43_gb77c")
 bake_material = SubResource("ShaderMaterial_ie0bw")

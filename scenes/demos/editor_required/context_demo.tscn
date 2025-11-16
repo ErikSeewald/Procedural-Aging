@@ -36,7 +36,7 @@ width = 1
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_leftl"]
 render_priority = 0
 shader = ExtResource("1_gff70")
-shader_parameter/uv_scale = 1.0
+shader_parameter/mask_scale = 1.0
 shader_parameter/patch_scale = 2.0
 shader_parameter/wear_scale = 2.0
 shader_parameter/pit_scale = 8.0
@@ -94,7 +94,7 @@ moisture = 0.75
 metadata/_custom_type_script = "uid://cht8i58wawxmi"
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_nc8h1"]
-radius = 3.0
+radius = 2.5
 
 [sub_resource type="Resource" id="Resource_k78lt"]
 script = ExtResource("11_nc8h1")
@@ -143,7 +143,7 @@ environment = SubResource("Environment_rsnot")
 [node name="Probes" type="Node3D" parent="."]
 
 [node name="SphereContext" type="Area3D" parent="Probes"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.2500086, 0, -4.4198227)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.005, 0, -4.55)
 script = ExtResource("10_gw4sy")
 params = SubResource("Resource_g37q6")
 metadata/_custom_type_script = "uid://bg5e1ysrvtvw8"
