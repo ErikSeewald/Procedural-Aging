@@ -25,8 +25,8 @@ func _ready() -> void:
 		_mats.append(mesh.get_surface_override_material(i))
 		
 	for mat in _mats:
-		seed_input.set_value_no_signal(mat.get_shader_parameter("seed"))
-		age_slider.set_value_no_signal(mat.get_shader_parameter("age"))
+		seed_input.set_value(mat.get_shader_parameter("seed"))
+		age_slider.set_value(mat.get_shader_parameter("age"))
 	_connect_inputs()
 	_set_input_values()
 

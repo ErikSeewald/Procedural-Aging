@@ -36,12 +36,14 @@ func _input(event: InputEvent) -> void:
 
 ## Allows registering the given geometry instance for batched baking. (started through bake()).
 ## The results will be rendered at the given size.
-## The given material is the material that should be baked.
+## The given material is the material that should be baked. 
 ## The given slot defines which material slot should be baked (if the instance class does not support
 ## slot based overrides, a global override is used instead).
 ## The material (at the given slot) of the instance will be overwritten with one
 ## displaying the baked result.
 func register(inst: GeometryInstance3D, material: ShaderMaterial, size: Vector2i, slot: int) -> void:
+	# Each material/slot pair requires a separate entry and thereby separate render viewport
+	# to avoid screen space overlap
 	_registered.append(RegisteredEntry.new(inst, material, size, slot))
 
 ## Runs the batched baking process for all registered entries in parallel over the course of
