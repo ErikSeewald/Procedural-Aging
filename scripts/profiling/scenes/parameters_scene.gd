@@ -2,8 +2,6 @@ extends ProfilingScene
 
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
 
-const profiling_length := 5.0
-var _cur_profiling_length = 0.0
 var _cur_id := "others_default"
 var _values_set := false
 
@@ -18,7 +16,7 @@ const profiling_ids: Array[String] = [
 ]
 
 const other_params_names: Array[String] = [
-	"uv_scale", "wear_scale", "pit_scale", "detail_scale", "time_scale", 
+	"mask_scale", "wear_scale", "pit_scale", "detail_scale", "time_scale", 
 	"uniform_corrosion_speed", "exposure", "paint_edge_sharpness", "paint_yellowing_intensity",
 	"grime_intensity", "grime_falloff", "rust_growth_factor", "rust_red_shift", "rust_green_shift"
 ]
@@ -39,12 +37,9 @@ func _ready() -> void:
 	mesh_instance.set_instance_shader_parameter("age", 50.0)
 
 func _process(delta: float) -> void:
+	super(delta)
 	if _cur_mat and not _values_set:
 		_set_params()
-	
-	_cur_profiling_length += delta
-	if _cur_profiling_length >= profiling_length:
-		profiling_sequence_finished.emit()
 
 ## Sets the parameters once according to the current profiling id.
 func _set_params() -> void:

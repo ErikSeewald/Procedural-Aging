@@ -5,9 +5,6 @@ extends ProfilingScene
 
 var _cur_size := 1.0
 
-const profiling_length := 5.0
-var _cur_profiling_length = 0.0
-
 const profiling_ids: Array[String] = [
 	 "scale_1", "scale_0.5", "scale_0.25", "scale_0.05",
 ]
@@ -26,10 +23,6 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	super(delta)
 	mesh_instance.set_instance_shader_parameter("age", _cur_age)
-	
-	_cur_profiling_length += delta
-	if _cur_profiling_length >= profiling_length:
-		profiling_sequence_finished.emit()
 	
 func switch_to_shader(mat: ShaderMaterial) -> void:
 	super(mat)

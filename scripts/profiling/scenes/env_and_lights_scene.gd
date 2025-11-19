@@ -12,9 +12,6 @@ var _enable_env_effects := false
 
 var _rotating := true
 
-const profiling_length := 2.0
-var _cur_profiling_length = 0.0
-
 const profiling_ids: Array[String] = [
 	"lights_0", "lights_1", "lights_8",
 	"env_effects_on"
@@ -46,10 +43,6 @@ func _process(delta: float) -> void:
 	
 	if _rotating:
 		mesh_instance.rotate_y(delta * 0.25)
-		
-	_cur_profiling_length += delta
-	if _cur_profiling_length >= profiling_length:
-		profiling_sequence_finished.emit()
 	
 func switch_to_shader(mat: ShaderMaterial) -> void:
 	super(mat)

@@ -1,8 +1,8 @@
 extends Node
 class_name Profiler
 
-@export var warmup_seconds := 1
-@export var measure_interval := 0.1
+const warmup_seconds := 1
+const measure_interval := 0.1
 @export var export_path := "user://"
 
 var _warmup_started := false

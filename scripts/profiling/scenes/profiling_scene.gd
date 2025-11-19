@@ -31,6 +31,11 @@ var _cur_mat: ShaderMaterial
 var _baked_mode = false
 var _cur_bake_size: Vector2i
 
+## Some scenes might benefit from specific lengths, but a uniform length
+## is fine.
+const profiling_length := 20.0
+var _cur_profiling_length = 0.0
+
 ## Sets the scene up for profiling corresponding to the given id. 
 ## Can only be called right after creating the node. 
 ## New setups should use newly instantiated scenes.
@@ -90,3 +95,8 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if not _aging_paused:
 		_cur_age += delta * _aging_factor
+		
+			
+	_cur_profiling_length += delta
+	if _cur_profiling_length >= profiling_length:
+		profiling_sequence_finished.emit()

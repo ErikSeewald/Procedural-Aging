@@ -46,8 +46,9 @@ void vertex()
 	}
 
 #ifdef BAKE_MODE
-	// Project to render uv map. Since obj_pos is set prior, it will
-	// correctly map the 3D noise matching object position to the flat UV.
+	// Project to render uv map. Values sent to the fragment shader like obj_pos
+	// are unaffected -> This will correctly map the 3D noise matching
+	// object position to the flat UV.
 	POSITION = vec4(UV*2.0 - 1.0, 0.0, 1.0);
 #endif
 }
@@ -126,14 +127,14 @@ void blend_grime(inout outputs outs, float paint_mask, float smooth_paint_mask)
 	float fade_edge = (1.0 - grime_falloff) + paint_edge_default;
 	float grime_fade = clamp(fade_edge - paint_mask, 0.0, 1.0);
 	float grime_weight = smooth_paint_mask * grime_intensity * grime_fade;
-	
+
 	// Kept constant instead of as uniforms because these values,
 	// unlike grime color, are not very dependant on the base and paint albedo.
 	const float grime_roughness = 1.0;
 	outs.roughness = mix(outs.roughness, grime_roughness, grime_weight);
 
 	outs.albedo = mix(outs.albedo, grime_color, grime_weight);
-	
+
 	// Stronger pollution should add some extra grime beyond just the edges
 	const float extra_grime_factor = 0.25; // Enough to be visible but subtle
 	outs.albedo = mix(outs.albedo, grime_color, pollution * extra_grime_factor);
@@ -175,7 +176,7 @@ void blend_paint_mask(inout outputs outs, vec2 uv, float paint_mask, float smoot
  	// Intensify difference between inside and outside of the paint edges
 	float adjusted_w = 1.0; // Force weight to 1.0 beyond grime edge
 	adjusted_w = mix(paint_mask * stability_factor, adjusted_w, smooth_paint_mask);
-	
+
 	outs.albedo = mix(outs.albedo, base_col, adjusted_w);
 	outs.roughness = mix(outs.roughness, base_roughness, adjusted_w);
 	outs.metallic = mix(outs.metallic, base_metallic, adjusted_w);
@@ -224,7 +225,7 @@ void blend_rust_mask(inout outputs outs, float rust_mask, maskset mask_set)
 	// To not deviate too drastically from the "physiochemical" look of the material,
 	// the other outputs are blended with a much smaller weight.
 	const float scale_factor = 0.5;
-	float scaled_w = rust_mask * pollution_factor * scale_factor; 
+	float scaled_w = rust_mask * pollution_factor * scale_factor;
 	outs.roughness = mix(outs.roughness, 1.0, scaled_w);
 
 	// While real rust would affect the metallic value, for the visual look it
@@ -279,7 +280,7 @@ void fragment()
 	if (paint_mask > paint_edge) // Rust only needs to be calculated where it can actually be visible
 	{
 		float rust_mask = get_rust_mask(intensity, mask_set);
-		
+
 		// Rust grows more strongly where paint has worn away (use paint_mask instead of smoothed
 		// mask here because rust_mask also encodes "how long" the surface has been exposed)
 		rust_mask *= rust_growth_factor * (paint_mask - paint_edge);

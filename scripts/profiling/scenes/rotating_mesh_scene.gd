@@ -10,11 +10,8 @@ const _default_segments := 64
 const _default_rings := 32
 var _complexity_factor := 1.0
 
-const profiling_length := 5.0
-var _cur_profiling_length = 0.0
-
 const profiling_ids: Array[String] = [
-	"rotating_sphere_complexity_1", "rotating_sphere_complexity_5",
+	"rotating_sphere_complexity_1", "rotating_sphere_complexity_5", "rotating_sphere_complexity_10",
 	"rotating_quad"
 ]
 
@@ -24,10 +21,8 @@ func get_profiling_ids() -> Array[String]:
 func _setup_existing_id(profiling_id: String) -> void:
 	print("SETUP " + profiling_id)
 	
-	if profiling_id == "rotating_sphere_complexity_1":
-		pass
-	elif profiling_id == "rotating_sphere_complexity_5":
-		_complexity_factor = 5.0
+	if "complexity" in profiling_id:
+		_complexity_factor = int(profiling_id.split("_")[-1])
 	elif profiling_id == "rotating_quad":
 		_mesh_index = 1
 
@@ -53,10 +48,6 @@ func _process(delta: float) -> void:
 		mesh_instance.rotate_z(delta * 0.25)
 	else:
 		mesh_instance.rotate_y(delta * 0.25)
-		
-	_cur_profiling_length += delta
-	if _cur_profiling_length >= profiling_length:
-		profiling_sequence_finished.emit()
 
 ## Sets the mesh of the MeshInstance3D to the mesh at the given index
 ## and resets its transform

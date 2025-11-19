@@ -106,7 +106,7 @@ ambient_light_energy = 3.82
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1oqqo"]
 albedo_color = Color(0.606626, 0.606626, 0.606626, 1)
 
-[sub_resource type="SphereMesh" id="SphereMesh_ba6i0"]
+[sub_resource type="SphereMesh" id="SphereMesh_0q0pf"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_13kjg"]
 resource_local_to_scene = true
@@ -185,12 +185,13 @@ mesh = SubResource("PlaneMesh_5140r")
 surface_material_override/0 = SubResource("StandardMaterial3D_1oqqo")
 
 [node name="Baked" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1980464, 0, 0)
-mesh = SubResource("SphereMesh_ba6i0")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.303206, 0, 0)
+mesh = SubResource("SphereMesh_0q0pf")
 script = ExtResource("43_gb77c")
 material_to_slot = Dictionary[ShaderMaterial, int]({
 SubResource("ShaderMaterial_13kjg"): 0
 })
+bake_resolution = Vector2i(1024, 1024)
 
 [node name="Bakespawner" type="Node3D" parent="." node_paths=PackedStringArray("target")]
 script = ExtResource("44_gb77c")
