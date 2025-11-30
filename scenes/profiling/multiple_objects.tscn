@@ -57,7 +57,7 @@ popup/item_2/id = 2
 
 [node name="Size" type="SpinBox" parent="UI/MarginContainer/VBoxContainer"]
 layout_mode = 2
-value = 10.0
+value = 5.0
 allow_greater = true
 
 [node name="Instanced" type="CheckButton" parent="UI/MarginContainer/VBoxContainer"]

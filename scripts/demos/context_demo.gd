@@ -23,10 +23,15 @@ func _on_sub_menu_visibility() -> void:
 func set_age(age: float) -> void:
 	for inst in _instances:
 		inst.set_instance_shader_parameter("age", age)
-		
+
+func _rand_strong_falloff() -> float:
+	var r = randf()
+	var biased = pow(r, 3)
+	return biased * 250.0
+
 func randomize_age() -> void:
 	for inst in _instances:
-		inst.set_instance_shader_parameter("age", randf_range(0.0,  100.0))
+		inst.set_instance_shader_parameter("age", _rand_strong_falloff())
 		
 func set_seed(s: int) -> void:
 	for inst in _instances:

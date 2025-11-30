@@ -53,7 +53,7 @@ func bake() -> void:
 	_registered = _registered.filter(func(r): return is_instance_valid(r.geom_instance))
 	
 	await _bake_textures(bake_targets.values())
-	
+
 	var target_names = bake_targets.keys()
 	for r in _registered:
 		var mat: ShaderMaterial = _result_material.duplicate()

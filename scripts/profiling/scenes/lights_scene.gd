@@ -1,20 +1,16 @@
 extends ProfilingScene
 
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
-@onready var env: Environment = $WorldEnvironment.environment
 
 const max_lights := 8 # Forward+ directional light limit for a single mesh
 const light_radius := 5.0
 var _cur_lights := []
 var _light_count := 0
 
-var _enable_env_effects := false
-
 var _rotating := true
 
 const profiling_ids: Array[String] = [
-	"lights_0", "lights_1", "lights_8",
-	"env_effects_on"
+	"lights_0", "lights_1", "lights_4", "lights_8",
 ]
 
 func get_profiling_ids() -> Array[String]:
@@ -24,18 +20,10 @@ func _setup_existing_id(profiling_id: String) -> void:
 	print("SETUP " + profiling_id)
 	if profiling_id.contains("lights"):
 		_light_count = int(profiling_id.split("_")[-1])
-	if profiling_id == "env_effects_on":
-		_enable_env_effects = true
 
 func _ready() -> void:
 	super()
 	set_random_light_count(_light_count)
-	
-	if _enable_env_effects:
-		env.ssr_enabled = true
-		env.ssao_enabled = true
-		env.ssil_enabled = true
-		env.fog_enabled = true
 
 func _process(delta: float) -> void:
 	super(delta)

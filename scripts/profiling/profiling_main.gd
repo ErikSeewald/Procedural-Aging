@@ -10,7 +10,7 @@ const scenes: Array = [
 	preload("res://scenes/profiling/rotating_mesh.tscn"),
 	preload("res://scenes/profiling/multiple_objects.tscn"),
 	preload("res://scenes/profiling/pixel_count.tscn"),
-	preload("res://scenes/profiling/env_and_lights.tscn"),
+	preload("res://scenes/profiling/lights.tscn"),
 	preload("res://scenes/profiling/parameters.tscn"),
 ]
 var _scene_index := 0

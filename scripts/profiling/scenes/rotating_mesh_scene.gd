@@ -11,7 +11,8 @@ const _default_rings := 32
 var _complexity_factor := 1.0
 
 const profiling_ids: Array[String] = [
-	"rotating_sphere_complexity_1", "rotating_sphere_complexity_5", "rotating_sphere_complexity_10",
+	"rotating_sphere_complexity_1", "rotating_sphere_complexity_5", "rotating_sphere_complexity_10", 
+	"rotating_sphere_complexity_20", "rotating_sphere_complexity_50", "rotating_sphere_complexity_100",
 	"rotating_quad"
 ]
 

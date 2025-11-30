@@ -6,7 +6,7 @@ extends ProfilingScene
 var _cur_size := 1.0
 
 const profiling_ids: Array[String] = [
-	 "scale_1", "scale_0.5", "scale_0.25", "scale_0.05",
+	 "scale_1", "scale_0.75", #"scale_0.5", "scale_0.25", "scale_0.05",
 ]
 
 func get_profiling_ids() -> Array[String]:

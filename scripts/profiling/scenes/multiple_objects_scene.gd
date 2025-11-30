@@ -14,10 +14,10 @@ enum MeshLayout { SQUARE, CUBE, OVERDRAW}
 var _cur_layout: MeshLayout = MeshLayout.SQUARE
 
 const profiling_ids: Array[String] = [
-	"instanced_square_5","instanced_square_10", "instanced_square_20",
-	"non_instanced_square_5", "non_instanced_square_10", "non_instanced_square_20",
-	"instanced_overdraw_5", "instanced_overdraw_10", "instanced_overdraw_20",
-	"non_instanced_overdraw_5", "non_instanced_overdraw_10", "non_instanced_overdraw_20"
+	"instanced_square_5","instanced_square_10", "instanced_square_20", "instanced_square_15", "instanced_square_25",
+	"non_instanced_square_5", "non_instanced_square_10", "non_instanced_square_15", "non_instanced_square_25",
+	"instanced_overdraw_5", "instanced_overdraw_10", "instanced_overdraw_20", "instanced_overdraw_50", "instanced_overdraw_100", "instanced_overdraw_300",
+	"non_instanced_overdraw_5", "non_instanced_overdraw_10", "non_instanced_overdraw_20", "non_instanced_overdraw_50", "non_instanced_overdraw_100", "non_instanced_overdraw_300",
 ]
 
 func get_profiling_ids() -> Array[String]:

@@ -8,11 +8,11 @@ var _values_set := false
 const profiling_ids: Array[String] = [
 	"others_default", "others_half", "others_twice", "others_10x",
 	"instance_default", "instance_half", "instance_twice", "instance_10x",
-	"age_0", "age_50", "age_100", "age_200",
+	"age_0", "age_50", "age_100", "age_200", "age_500",
 	"vertex_colors_on", "vertex_colors_off",
 	"paint_layer_on", "paint_layer_off",
-	"pit_fbm5", "pit_fbm3", "pit_fbm1",
-	"detail_fbm4", "detail_fbm2", "detail_fbm1"
+	"pit_fbm8", "pit_fbm7", "pit_fbm6", "pit_fbm5", "pit_fbm4", "pit_fbm3", "pit_fbm2", "pit_fbm1",
+	"detail_fbm8", "detail_fbm7", "detail_fbm6", "detail_fbm5", "detail_fbm4", "detail_fbm3", "detail_fbm2", "detail_fbm1"
 ]
 
 const other_params_names: Array[String] = [

@@ -62,7 +62,7 @@ vec4 mode_detail_mask(vec3 pos)
 	float b= snoise_fbm(pos * detail_scale, int(detail_fbm_iterations)) * sfbm_strength;
 	float d = get_detail_mask(pos, 0.0);
 
-	switch (full_mode_pit_mask)
+	switch (full_mode_detail_mask)
 	{
 		case 1: return vec4(r < 0.0 ? -r : 0.0, 0.0, r > 0.0 ? r : 0.0, 1.0);
 		case 2: return vec4(b < 0.0 ? -b : 0.0, 0.0, b > 0.0 ? b : 0.0 ,1.0);
@@ -73,6 +73,9 @@ vec4 mode_detail_mask(vec3 pos)
 
 vec4 mode_pit_mask(vec3 pos, float seed_f)
 {
+	float v = voronoi3d_sq(pos * mask_scale, seed_f);
+	return vec4(v, v, v, 1.0);
+	
 	float r = voronoi3d_sq(pos * pit_scale, seed_f);
 	float b = voronoi_fbm(pos*pit_scale, seed_f, int(pit_fbm_iterations));
 	float p = get_pit_mask(pos, seed_f);
