@@ -48,15 +48,15 @@ float get_wear_mask(vec3 pos, float seed_f)
 }
 
 // Samples the value of the rust mask at the given position.
-// - strength defines how strongly the mask is aged
+// - weathering_intensity defines how strongly the mask is aged
 // - mask_set contains the wear, pit and detail masks to be blended in
 // - makes use of some uniforms that are not passed as parameters
 //
 // Returns a value between 0.0 and 1.0
-float get_rust_mask(float strength, maskset mask_set)
+float get_rust_mask(float weathering_intensity, maskset mask_set)
 {
 	const float uv_uniform_factor = 2.0; // UV/heat should visibly speed up uniform corrosion
-	float min_rust = exp(strength) // Use a global minimum rust amount as uniform corrosion
+	float min_rust = exp(weathering_intensity) // Use a global minimum rust amount as uniform corrosion
 		* uniform_corrosion_speed
 		* (1.0 + mask_set.pit_mask) // Have uniform corrosion still favor pits
 		* (1.0 + uv_and_heat * uv_uniform_factor);
@@ -66,17 +66,17 @@ float get_rust_mask(float strength, maskset mask_set)
 	float detail = mask_set.detail_mask; // No min_rust here to avoid fully flat corrosion
 
 	float value = wear * pits * detail;
-	return clamp(value * strength, 0.0, 1.0);
+	return clamp(value * weathering_intensity, 0.0, 1.0);
 }
 
 // Samples the value of the paint mask at the given position.
-// - strength defines how strongly the mask is aged
+// - weathering_intensity defines how strongly the mask is aged
 // - mask_set contains the wear, pit and detail masks to be blended in
 // - seed_f is used for rng
 // - makes use of some uniforms that are not passed as parameters
 //
 // Returns a value between 0.0 (Paint fully intact) and 1.0 (Paint fully gone)
-float get_paint_mask(vec3 pos, float strength, maskset mask_set, float seed_f)
+float get_paint_mask(vec3 pos, float weathering_intensity, maskset mask_set, float seed_f)
 {
 	// These scales and weights are hard-coded so other aging effects
 	// do not need to dynamically depend on this weight distribution.
@@ -87,16 +87,16 @@ float get_paint_mask(vec3 pos, float strength, maskset mask_set, float seed_f)
 	const float w4 = 0.2;
 	const float scale_2 = 2.0;
 
-	float p1 = dist_from_voronoi3d_border(pos * patch_scale, seed_f);
-	float p2 = dist_from_voronoi3d_border(pos * patch_scale * scale_2, seed_f);
-	float p3 = mask_set.pit_mask;
-	float p4 = mask_set.detail_mask;
-	float value = p1*w1 + p2*w2 + p3*w3 + p4*w4;
+	float m1 = dist_from_voronoi3d_border(pos * patch_scale, seed_f);
+	float m2 = dist_from_voronoi3d_border(pos * patch_scale * scale_2, seed_f);
+	float m3 = mask_set.pit_mask;
+	float m4 = mask_set.detail_mask;
+	float value = m1*w1 + m2*w2 + m3*w3 + m4*w4;
 
 	// Introduce a larger wear mask that increases in weight over time
 	// to reduce the border-banding of the other layers at later stages.
-	value += mask_set.wear_mask * strength;
-	value += uniform_corrosion_speed * exp(strength);
+	value += mask_set.wear_mask * weathering_intensity;
+	value += uniform_corrosion_speed * exp(weathering_intensity);
 
-	return clamp(value * strength, 0.0, 1.0);
+	return clamp(value * weathering_intensity, 0.0, 1.0);
 }

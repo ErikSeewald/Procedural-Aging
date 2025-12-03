@@ -14,12 +14,12 @@ group_uniforms general_parameters;
 #endif
 uniform uint seed = 0; // Seed used by all pseudo-rng functions
 
-uniform float mask_scale = 1.0; // Scaling factor for the coordinates used to sample procedural masks.
+uniform float mask_scale = 1.0; // Scaling factor for the coordinates used to sample procedural masks
 uniform float patch_scale = 2.0; // Scaling of the paint wear and rust patches
 uniform float wear_scale = 2.0; // Scaling of the wear masks that affects the strength of the other masks
-uniform float pit_scale = 8.0; // Scaling of the pit mask that is used for pitting corrosion and paint wear.
+uniform float pit_scale = 8.0; // Scaling of the pit mask that is used for pitting corrosion and paint wear
 uniform float detail_scale = 100.0; // Scaling of the mask that adds detail to the other masks
-uniform float time_scale = 0.01; // Scales the affect of the age uniform
+uniform float time_scale = 0.01; // Scales the overall speed of the increase in weathering intensity
 uniform float uniform_corrosion_speed = 0.005; // Speed of uniform corrosion vs local corrosion
 uniform float exposure = 1.0; // Linearly scales the final albedo
 
