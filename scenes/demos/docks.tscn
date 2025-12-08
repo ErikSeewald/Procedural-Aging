@@ -1,7 +1,7 @@
 [gd_scene load_steps=87 format=3 uid="uid://cugglih42gya2"]
 
 [ext_resource type="PackedScene" uid="uid://bn4m67plorpi5" path="res://scenes/menu/sub_menu.tscn" id="1_b8lke"]
-[ext_resource type="Material" uid="uid://cu46b100244nd" path="res://addons/boujie_water_shader/prefabs/deep_ocean_material.tres" id="3_ahy8y"]
+[ext_resource type="Material" uid="uid://cu46b100244nd" path="res://assets/boujie_water_shader/prefabs/deep_ocean_material.tres" id="3_ahy8y"]
 [ext_resource type="Script" uid="uid://btlidwqud2yiw" path="res://scripts/demos/docks/walk_cam.gd" id="3_qmedp"]
 [ext_resource type="PackedScene" uid="uid://b4hsyij8pr4ip" path="res://scenes/demos/docks_subscenes/boat_fishing.tscn" id="4_3mqdi"]
 [ext_resource type="Script" uid="uid://b00jpvdpm1bes" path="res://scripts/demos/docks/ship.gd" id="4_5cbfq"]
