@@ -6,9 +6,9 @@ var wireframe_mat: StandardMaterial3D
 var transparency_mat: StandardMaterial3D
 
 # SCENES
-var sphere_wireframe_scene = preload("res://assets//wireframes//sphere_curve.blend").instantiate()
-var box_wireframe_scene = preload("res://assets//wireframes//box_wireframe.blend").instantiate()
-var cylinder_wireframe_scene = preload("res://assets//wireframes//cylinder_wireframe.blend").instantiate()
+var sphere_wireframe_scene = preload("res://assets//WIREFRAMES//sphere_curve.blend").instantiate()
+var box_wireframe_scene = preload("res://assets//WIREFRAMES//box_wireframe.blend").instantiate()
+var cylinder_wireframe_scene = preload("res://assets//WIREFRAMES//cylinder_wireframe.blend").instantiate()
 
 # MESH INSTANCES
 var sphere_wireframe_inst: MeshInstance3D

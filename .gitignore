@@ -2,10 +2,10 @@
 .godot/
 /android/
 
-# Exports and other addons
-/export/
-/addons/boujie_water_shader/
-
-
-# Ignore assets for now, maybe change later
+# Ignore assets and exports (separate upload)
 /assets/
+/export/
+
+# Others
+*.blend1
+*.import
