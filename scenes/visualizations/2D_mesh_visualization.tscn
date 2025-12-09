@@ -79,7 +79,6 @@ shader_parameter/rust_green_shift = 0.06
 script = ExtResource("1_krrj5")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewport"]
-transform = Transform3D(2.7499065, 0, 0, 0, 2.7499065, 0, 0, 0, 2.7499065, -0.78960514, -0.19137378, 0)
 mesh = SubResource("QuadMesh_tta8p")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("ShaderMaterial_krrj5")

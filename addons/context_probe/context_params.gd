@@ -1,8 +1,8 @@
+## A set of environment context parameters that emit the "changed" signal
+## whenever they are modified so that ContextSamplers can connect to it.
+
 class_name ContextParams
 extends Resource
-
-# All changes to these export variables should emit the "changed" signal
-# so that ContextSamplers can connect to it.
 
 @export_range(0.0, 1.0) var uv_and_heat: float = 0.5:
 	set(value):
@@ -19,8 +19,9 @@ extends Resource
 ## Returns an Array of names of all context params.
 ## Can be useful for .get(name) and .set(name, value).
 func get_param_names() -> Array:
-	return get_property_list().filter(
-		func(p): return p.usage == 4102).map(func(p): return p.name)
+	return get_property_list() \
+	.filter(func(p): return (p.usage & PROPERTY_USAGE_SCRIPT_VARIABLE) != 0) \
+	.map(func(p): return p.name)
 
 ## Returns the new value after optionally calling emit_changed()
 ## if the new value is different from the old value.

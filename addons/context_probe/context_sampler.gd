@@ -1,3 +1,7 @@
+## A monitoring node that samples ContextProbes at its current position and
+## emits signals whenever the sampled parameters change.
+## Intended to be a child of a node that uses ContextParams.
+
 @icon("res://addons/context_probe/sampler_icon.svg")
 extends Node3D
 class_name ContextSampler
@@ -5,6 +9,8 @@ class_name ContextSampler
 ## Only interacts with probes on these layers
 @export_flags_3d_physics var probe_mask: int = 1
 
+## Signals a change in sampled ContextParams either due to a change
+## in the parameters themselves or a change in the set of sampled probes.
 signal context_changed(current: ContextParams)
 
 var _current_probes: Array[ContextProbe] = []
@@ -39,6 +45,8 @@ func _on_area_exited(area: Area3D) -> void:
 func _emit_context_changed() -> void:
 	context_changed.emit(sample_parameters())
 
+## Returns the average of the ContextParams of all current probes.
+## If no probes are being sampled, default parameters are returned.
 func sample_parameters() -> ContextParams:	
 	if _current_probes.is_empty():
 		return ContextParams.new()

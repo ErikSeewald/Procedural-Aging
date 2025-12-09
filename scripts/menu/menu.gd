@@ -1,7 +1,7 @@
 extends Control
 
 func set_docks_demo_scene() -> void:
-	get_tree().change_scene_to_file("res://scenes/demos/docks.tscn")
+	get_tree().change_scene_to_file("res://scenes/demos/shipyard.tscn")
 		
 func set_single_objects_demo_scene() -> void:
 	get_tree().change_scene_to_file("res://scenes/demos/single_objects.tscn")

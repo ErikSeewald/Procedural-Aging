@@ -4,24 +4,12 @@ class_name AgingObject
 @onready var context_sampler: ContextSampler
 @onready var env_context := ContextParams.new()
 
-@export var material_slot := 0
-
 func _ready():
-	add_to_group("age_nodes")
-	
 	context_sampler = ContextSampler.new()
-	context_sampler.context_changed.connect(_set_context)
+	context_sampler.context_changed.connect(_on_context_changed)
 	add_child(context_sampler)
 
-func _set_context(new_context: ContextParams) -> void:
-	if env_context.changed.is_connected(_on_context_changed):
-			env_context.changed.disconnect(_on_context_changed)	
-	
-	new_context.changed.connect(_on_context_changed)
+func _on_context_changed(new_context: ContextParams) -> void:
 	env_context = new_context
-	
-	_on_context_changed()
-
-func _on_context_changed() -> void:
 	for param in env_context.get_param_names():
 		set_instance_shader_parameter(param, env_context.get(param))

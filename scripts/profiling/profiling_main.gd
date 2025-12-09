@@ -93,7 +93,23 @@ func toggle_vsync(toggled: bool) -> void:
 
 func reset_scene() -> void:
 	set_scene(_scene_index)
+
+## Runs the profiling suite, takes away control from the user, and sets up
+## the profiler.
+func run_suite() -> void:
+	_currently_profiling = true
+	sub_menu.set_input_enabled(false)
+	sub_menu.visible = false
+	toggle_ui(false)
+	toggle_vsync(false)
+	get_window().size = Vector2i(1920, 1080)
+	DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_RESIZE_DISABLED, true)
+	_aging_factor = 10.0
 	
+	reset_scene()
+	var profiling_id = _cur_scene.profiling_ids[0]
+	profiler.warmup_and_run(profiling_id)
+
 func on_profiling_sequence_finished() -> void:
 	if not _currently_profiling:
 		return
@@ -121,19 +137,3 @@ func finish_profiling() -> void:
 	DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_RESIZE_DISABLED, false)
 	_aging_factor = 1.0
 	set_scene(scene_picker.selected)
-
-## Runs the profiling suite, takes away control from the user and sets up
-## the profiler.
-func run_suite() -> void:
-	_currently_profiling = true
-	sub_menu.set_input_enabled(false)
-	sub_menu.visible = false
-	toggle_ui(false)
-	toggle_vsync(false)
-	get_window().size = Vector2i(1920, 1080)
-	DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_RESIZE_DISABLED, true)
-	_aging_factor = 10.0
-	
-	reset_scene()
-	var profiling_id = _cur_scene.profiling_ids[0]
-	profiler.warmup_and_run(profiling_id)

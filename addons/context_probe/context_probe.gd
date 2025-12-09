@@ -1,6 +1,6 @@
-# Probe with a collision shape and ContextParams.
-# ContextSamplers can sample the parameters of probes that they are colliding
-# with.
+## Area3D with ContextParams.
+## ContextSamplers can sample the parameters of probes that they are colliding
+## with.
 
 @icon("res://addons/context_probe/probe_icon.svg")
 extends Area3D
