@@ -54,9 +54,9 @@ horizontal_alignment = 1
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="DocksButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/DemoButtons"]
+[node name="ShipyardButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/DemoButtons"]
 layout_mode = 2
-text = "Docks"
+text = "Shipyard"
 
 [node name="SingleObjectsButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/DemoButtons"]
 layout_mode = 2
@@ -65,12 +65,12 @@ text = "Single objects
 
 [node name="ContextButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/DemoButtons"]
 layout_mode = 2
-text = "Context (Requires godot editor)"
+text = "Context (Requires Godot editor)"
 
 [node name="VertexButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/DemoButtons"]
 layout_mode = 2
 disabled = true
-text = "Vertex painting (Only in the godot editor)"
+text = "Vertex painting (Only in the Godot editor)"
 
 [node name="HSeparator2" type="HSeparator" parent="Panel/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -87,7 +87,7 @@ theme_override_constants/separation = 10
 
 [node name="ProfilingRootButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/ProfilingButtons"]
 layout_mode = 2
-text = "Profiling root scene"
+text = "Shader profiling"
 
 [node name="HSeparator3" type="HSeparator" parent="Panel/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -106,7 +106,7 @@ theme_override_constants/separation = 10
 layout_mode = 2
 text = "Shader testing"
 
-[connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/DemoButtons/DocksButton" to="." method="set_docks_demo_scene"]
+[connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/DemoButtons/ShipyardButton" to="." method="set_docks_demo_scene"]
 [connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/DemoButtons/SingleObjectsButton" to="." method="set_single_objects_demo_scene"]
 [connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/DemoButtons/ContextButton" to="." method="set_context_demo_scene"]
 [connection signal="pressed" from="Panel/MarginContainer/VBoxContainer/ProfilingButtons/ProfilingRootButton" to="." method="set_profiling_root_scene"]

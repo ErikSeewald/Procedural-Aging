@@ -1,4 +1,8 @@
 # Procedural-Aging
+TODO: Beyond just the shader, context and the project itself, also explain systems like vertex painting etc.
+
+## Shaders
+TODO: Explain shader config and different files
 
 ## Context Parameters
 Beyond shader- and material-specific parameters, there are properties of objects and their environments themselves that also affect weathering.
@@ -56,5 +60,26 @@ Note that the given material needs to be in *BAKE_MODE* for this to work. More i
 The *baked_aged_object* script also allows for exporting the textures to permanent storage.
 
 ## Demos
+This project provides a few demo scenes for the appearance and infrastructure of PMA-S and the context-based shading system.
+Some can be accessed through the main scene menu:
+- **Shipyard**: An old shipyard. The user can walk through the scene and approach podiums with red buttons. If pressed (using the mouse after pressing *TAB* to toggle the UI), a menu opens up that allows dynamic modification of the weathered appearance of the object that the podium corresponds to. The intent of this demo is to show how the shader can integrate with "complex" scenes in real-time. Movement is controlled with *WASD* and *Shift* for faster walking. 
+- **Single objects**: This demo allows modifying the weathered appearance of various objects. It is controlled entirely with the UI that is toggled with *TAB*. The parameters that can be edited here represent just a small selection. The Godot editor should be used to modify other parameters of the shader.
+- **Context**: This demo showcases the **ContextProbe** system. With the use of *WASD*, *Shift*, and *Space* for movement, as well as the UI toggled with *TAB*, the user can see the effect of probes on varying amounts of object instances. To modify the probes themselves (both their parameters and their shapes/transforms), the scene needs to be run within the Godot editor. A system for visualizing probe areas in the run-time view is provided so that they can be matched up to what is being edited in the scene view, but it only supports spheres, cylinders and boxes. Other shapes can be used but do not have a run-time visualization.
+
+The last demo can only be accessed within the Godot editor:
+- **Vertex painting**: A sphere that uses vertex colors as weathering weights. Using the shader parameter editor, the effect of various vertex weight configurations can be seen. Modifying the vertex colors in the corresponding *vert_color_test.blend* file allows live changes to the vertex weight distribution.
 
 ## Profiling
+The main menu has a button for **profiling**. From the main profiling scene, various subscenes can be opened and
+modified to profile the performance of PMA-S (as well as the baked equivalent) under specific conditions.
+
+The UI in the top left has input options that stay the same for all profiling scenes, such the scene picker itself, the shader picker, bake resolution, and more. It also contains a "Run suite" button. This disables vsync and the UI to run all profiling scenes in various configurations. The results are written to the default Godot user directory. This suite is only run for the selected shader (and, if baked, the selected resolution). To test different shaders and resolutions, the old results need to be saved and the suite re-run.
+
+**NOTE**: The vsync button and the automatic vsync disabling of the profiling suite may not work depending on operating system restrictions. The user may have to take additional steps to allow running with an un-capped framerate.
+
+The bottom left UI has options that are specific to the current scene:
+- **rotating_object**: This scene weathers a rotating object (sphere or quad) over time. The menu allows adjusting the mesh and its triangle complexity.
+- **multiple_objects**: This scene weathers multiple objects. The menu allows adjusting the layout and amount of objects. It also allows changing between **instanced** (uses MultiMeshInstance3D -> all instances share the same appearance) and **non-instanced** (all objects have a unique appearance).
+- **pixel_count**: This scene weathers a quad at an adjustable distance from the camera to profile performance with respect to pixel count.
+- **lights**: This scene allows profiling the shader with varying amounts of light sources.
+- **parameters**: This scene is used by the automatic profiling suite only. It tests a quad at various shader parameter configurations but has no GUI of its own.
