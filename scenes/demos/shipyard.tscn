@@ -771,7 +771,7 @@ material_slots = Array[int]([0])
 transform = Transform3D(1.2303437, -7.679541e-09, -0.41463023, 7.4440996e-09, 1.2983313, -1.957854e-09, 0.41463023, -5.2199056e-10, 1.2303437, -1.5319691, 12.839746, -13.404261)
 
 [node name="podium" parent="Demos/Container Demo" instance=ExtResource("39_1rsu6")]
-transform = Transform3D(-0.15683085, 0, 0.98762554, 0, 1, 0, -0.98762554, 0, -0.15683085, 1.6056054, 8.1354885, -8.191269)
+transform = Transform3D(-0.9990941, 0, -0.04255563, 0, 1, 0, 0.04255563, 0, -0.9990941, 4.102188, 8.1354885, -12.55738)
 
 [node name="DemoUI" parent="Demos/Container Demo" instance=ExtResource("41_sbu8j")]
 

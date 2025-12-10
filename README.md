@@ -80,14 +80,14 @@ The *shaders* directory is divided into the following structure:
 
 #### Shader configurations
 By choosing to use ```#define BAKE_MODE``` and ```#define INSTANCE_UNIFORMS```, different configurations of PMA-S can be compiled. By default, the following are provided:
-- *baked_pma*: PMA-S configured to be used in baking. Includes UV-reprojection for texture rendering, making in unusable for normal spatial shading. Does non use any instance uniforms.
+- *baked_pma*: PMA-S configured to be used in baking. Includes UV-reprojection for texture rendering, making it unusable for normal spatial shading. Does not use any instance uniforms.
 - *instanced_pma*: PMA-S configured to be used in real-time spatial rendering with instance uniforms for context parameters and the RNG seed.
 - *non_instanced_pma*: PMA-S configured to be used in real-time spatial rendering without any instance uniforms. All shader parameters are per-material, not per-instance. This is useful for testing parameters that would otherwise be instance uniforms in the material editor.
 
 #### pma_include
 The implementation code for PMA-S includes the following files:
 - *masks.gdshaderinc*: Samples and composites 3D noise masks that are used for blending between substrate and coating.
-- *pma.gdshaderinc*: Core implementation, does the actual blending of surface properties.
+- *pma.gdshaderinc*: Core implementation, performs the actual blending of surface properties.
 - *pma_header.gdshaderinc*: Contains all PMA-S uniforms. Separated so that debug shaders can easily use the same uniforms.
 - *snoise3d.gdshaderinc*: 3D simplex noise implementation. Licensing and credits are within the file and in [LICENSE](LICENSE)
 - *voronoi_fbm.gdshadering*: Implementations of various voronoi noise and FBM functions.
@@ -107,9 +107,9 @@ The [baked_aged_object](scripts/baking/baked_aged_object.gd) script also allows 
 ## Demos
 This project provides a few demo scenes for the appearance and infrastructure of PMA-S and the context-based shading system.
 Some can be accessed through the main scene menu:
-- **Shipyard**: An old shipyard. The user can walk through the scene and approach podiums with red buttons. If pressed (using the mouse after pressing *TAB* to toggle the UI), a menu opens up that allows dynamic modification of the weathered appearance of the object that the podium corresponds to. The intent of this demo is to show how the shader can integrate with "complex" scenes in real-time. Movement is controlled with *WASD* and *Shift* for faster walking. 
+- **Shipyard**: An old shipyard. The user can walk through the scene and approach podiums with red buttons. If pressed with the mouse (after pressing *TAB* to activate the UI and mouse control), a menu opens up that allows dynamic modification of the weathered appearance of the object that the podium corresponds to. The intent of this demo is to show how the shader can integrate with "complex" scenes in real-time. Movement is controlled with *WASD* and *Shift* for faster walking. 
 - **Single objects**: This demo allows modifying the weathered appearance of various objects. It is controlled entirely with the UI that is toggled with *TAB*. The parameters that can be edited here represent just a small selection. The Godot editor should be used to modify other parameters of the shader.
-- **Context**: This demo showcases the **ContextProbe** system. With the use of *WASD*, *Shift*, and *Space* for movement, as well as the UI toggled with *TAB*, the user can see the effect of probes on varying amounts of object instances. To modify the probes themselves (both their parameters and their shapes/transforms), the scene needs to be run within the Godot editor. A system for visualizing probe areas in the run-time view is provided so that they can be matched up to what is being edited in the scene view, but it only supports spheres, cylinders and boxes. Other shapes can be used but do not have a run-time visualization.
+- **Context**: This demo showcases the **ContextProbe** system. With the use of *WASD*, *Shift*, *Space*, and the *Arrow keys* for movement, as well as the UI toggled with *TAB*, the user can see the effect of probes on varying amounts of object instances. To modify the probes themselves (both their parameters and their shapes/transforms), the scene needs to be run within the Godot editor. A system for visualizing probe areas in the run-time view is provided so that they can be matched up to what is being edited in the scene view, but it only supports spheres, cylinders and boxes. Other shapes can be used but do not have a run-time visualization.
 
 The last demo can only be accessed within the Godot editor:
 - **Vertex painting**: A sphere that uses vertex colors as weathering weights. Using the shader parameter editor, the effect of various vertex weight configurations can be seen. Modifying the vertex colors in the corresponding *assets/vert_color_test.blend* file allows live changes to the vertex weight distribution.
