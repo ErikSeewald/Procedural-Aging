@@ -16,7 +16,7 @@ And RNG can also differentiate objects that otherwise share the exact same param
 <div align="center"><img src="docs/img/seed_demo.png" alt="PMA-S canisters with different RNG seeds" width="500"></div>
 
 
-Beyond the parameters that can be edited in the Godot material view, PMA-S also allows using vertex colors to control the degree of weathering across a mesh surface. When the use of vertex weights is activated, a vertex color channel can be chosen to reflect weathering intensity.
+Beyond the parameters that can be edited in the Godot material view, PMA-S also allows using vertex colors to control the degree of weathering across a mesh surface. When the use of vertex weights is activated, a vertex color channel can be chosen to reflect weathering intensity. (To use vertex colors, they need to be enabled in the import settings of the asset)
 
 <div align="center"><img src="docs/img/vertex_color_editing.png" alt="Shader (left) vs vertex colors (right)" width="500"></div>
 
