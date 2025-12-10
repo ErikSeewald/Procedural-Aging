@@ -16,7 +16,7 @@ const paint_textures = [
 const shaders: Array = [
 	preload("res://shaders/instanced_pma.gdshader"),
 	preload("res://shaders/debug/baseline.gdshader"),
-	preload("res://shaders/baking/baked_pma.gdshader")
+	preload("res://shaders/baked_pma.gdshader")
 ]
 var _shader_materials: Array
 const baked_index := 2

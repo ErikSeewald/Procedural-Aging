@@ -52,8 +52,8 @@ group_uniforms mode_with_vs_without_detail;
 uniform int base_mask_for_detail : hint_enum("pit_mask");
 uniform bool with_detail = false;
 
-#include "../pma_header.gdshaderinc"
-#include "../masks.gdshaderinc"
+#include "../pma_include/pma_header.gdshaderinc"
+#include "../pma_include/masks.gdshaderinc"
 
 vec4 mode_detail_mask(vec3 pos)
 {

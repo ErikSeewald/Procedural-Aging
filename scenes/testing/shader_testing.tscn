@@ -1,7 +1,7 @@
 [gd_scene load_steps=27 format=3 uid="uid://c4hvqyphiayku"]
 
+[ext_resource type="Shader" uid="uid://dr8p7qswmtovl" path="res://shaders/non_instanced_pma.gdshader" id="1_18mxg"]
 [ext_resource type="Script" uid="uid://cng38wbkc6o1l" path="res://scripts/demos/fly_cam.gd" id="1_g8tjy"]
-[ext_resource type="Shader" uid="uid://dr8p7qswmtovl" path="res://shaders/non_instanced_pma.gdshader" id="4_160ns"]
 [ext_resource type="PackedScene" uid="uid://bn4m67plorpi5" path="res://scenes/menu/sub_menu.tscn" id="4_887s3"]
 [ext_resource type="Texture2D" uid="uid://cvoom7qu4404c" path="res://assets/TEXTURES/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_diff_2k.jpg" id="6_3xn8w"]
 [ext_resource type="Texture2D" uid="uid://brs1husbmdekd" path="res://assets/TEXTURES/green_metal_rust_2k.blend/textures/green_metal_rust_diff_2k.jpg" id="7_iqdmv"]
@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://bb75x6l3ec5wc" path="res://assets/TEXTURES/rusty_metal_sheet_2k.blend/textures/rusty_metal_sheet_rough_2k.png" id="10_bpg18"]
 [ext_resource type="Texture2D" uid="uid://t0xk1rw1uk3x" path="res://assets/TEXTURES/green_metal_rust_2k.blend/textures/green_metal_rust_rough_2k.jpg" id="11_kijjg"]
 [ext_resource type="Theme" uid="uid://b8bdf4l66bp3o" path="res://assets/ui_theme.tres" id="14_0q0pf"]
-[ext_resource type="Shader" uid="uid://dt2amutg36ald" path="res://shaders/baking/baked_pma.gdshader" id="41_ytkqt"]
+[ext_resource type="Shader" uid="uid://dt2amutg36ald" path="res://shaders/baked_pma.gdshader" id="41_ytkqt"]
 [ext_resource type="Script" uid="uid://bt02wgj2yc0pw" path="res://scripts/baking/baked_aged_object.gd" id="43_gb77c"]
 
 [sub_resource type="GDScript" id="GDScript_31xwi"]
@@ -50,7 +50,7 @@ width = 1
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3a5gf"]
 resource_local_to_scene = true
 render_priority = 0
-shader = ExtResource("4_160ns")
+shader = ExtResource("1_18mxg")
 shader_parameter/seed = 0
 shader_parameter/mask_scale = 1.0
 shader_parameter/patch_scale = 2.0
@@ -122,7 +122,7 @@ albedo_color = Color(0.606626, 0.606626, 0.606626, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_0q0pf"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_13kjg"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_31xwi"]
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("41_ytkqt")
@@ -203,7 +203,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.303206, 0, 0)
 mesh = SubResource("SphereMesh_0q0pf")
 script = ExtResource("43_gb77c")
 material_to_slot = Dictionary[ShaderMaterial, int]({
-SubResource("ShaderMaterial_13kjg"): 0
+SubResource("ShaderMaterial_31xwi"): 0
 })
 bake_resolution = Vector2i(1024, 1024)
 

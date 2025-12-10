@@ -1,8 +1,52 @@
 # Procedural-Aging
-TODO: Beyond just the shader, context and the project itself, also explain systems like vertex painting etc.
+This project introduces a context-based system for the procedural aging/weathering of shader-based materials in Godot.
+It aims to achieve real-time weathering with minimal memory requirements and interactive control.
+For context-based shading it makes use of various environment and local context parameters that should be easily configurable with the help of a provided Godot addon. 
+
+While this system is material-independent, its usefulness is illustrated with a shader that weathers painted metals (Painted Metal Aging Shader (PMA-S)). The shader takes surface property textures for a substrate and a coating, then dynamically blends between them in real-time and completely stateless while maintaining spatial and temporal consistency.
+
+<div align="center"><img src="docs/img/sphere_age_demo.png" alt="A PMA-S sphere at weathering intensities that increase in reading oder" width="500"></div>
+
+Context-based parameter changes can impact the appearance of object instances even if object age and all non-instance material parameters are the same.
+
+<div align="center"><img src="docs/img/sphere_context_difference_demo.png" alt="PMA-S spheres with different context parameters" width="500"></div>
+
+And RNG can also differentiate objects that otherwise share the exact same parameters.
+
+<div align="center"><img src="docs/img/seed_demo.png" alt="PMA-S canisters with different RNG seeds" width="500"></div>
+
+
+Beyond the parameters that can be edited in the Godot material view, PMA-S also allows using vertex colors to control the degree of weathering across a mesh surface. When the use of vertex weights is activated, a vertex color channel can be chosen to reflect weathering intensity.
+
+<div align="center"><img src="docs/img/vertex_color_editing.png" alt="Shader (left) vs vertex colors (right)" width="500"></div>
+
+#### Figure license
+- The spheres in these figures use the following basis textures for blending: https://polyhaven.com/a/green_metal_rust (Rob Tuytel) and https://polyhaven.com/a/rusty_metal_sheet (Amal Kumar)
+    (Both under https://creativecommons.org/publicdomain/zero/1.0/)
+- The canister figure uses models from https://skfb.ly/oFV7p (vmatthew) under https://creativecommons.org/licenses/by/4.0/
 
 ## Shaders
-TODO: Explain shader config and different files
+The *shaders* directory is divided into the following structure:
+- Shader-ready configurations of PMA-S at the root
+- *pma_include*: Actual implementation code of PMA-S
+- *debug*: Shaders used for profiling and visualization
+- *baking*: Non-PMA shader code that is used to display baked textures.
+
+#### Shader configurations
+By choosing to use ```#define BAKE_MODE``` and ```#define INSTANCE_UNIFORMS```, different configurations of PMA-S can be compiled. By default, the following are provided:
+- *baked_pma*: PMA-S configured to be used in baking. Includes UV-reprojection for texture rendering, making in unusable for normal spatial shading. Does non use any instance uniforms.
+- *instanced_pma*: PMA-S configured to be used in real-time spatial rendering with instance uniforms for context parameters and the RNG seed.
+- *non_instanced_pma*: PMA-S configured to be used in real-time spatial rendering without any instance uniforms. All shader parameters are per-material, not per-instance.
+
+#### pma_include
+The implementation code for PMA-S includes the following files:
+- *masks.gdshaderinc*: Samples and composites 3D noise masks that are used for blending between substrate and coating.
+- *pma.gdshaderinc*: Core implementation, does the actual blending of surface properties.
+- *pma_header.gdshaderinc*: Contains all PMA-S uniforms. Separated so that debug shaders can easily use the same uniforms.
+- *snoise3d.gdshaderinc*: 3D simplex noise implementation. Licensing information is within the file and in LICENSE.md
+- *voronoi_fbm.gdshadering*: Implementations of various voronoi noise and FBM functions.
+
+<div align="center"><img src="docs/img/pipeline_diagram.png" alt="Diagram of the PMA-S pipeline" width="1000"></div>
 
 ## Context Parameters
 Beyond shader- and material-specific parameters, there are properties of objects and their environments themselves that also affect weathering.
