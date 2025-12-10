@@ -38,8 +38,8 @@ uniform bool use_vertex_weight = false; // Higher vertex color values make their
 uniform float vertex_weight_scale = 1.0; // How strongly the surrounding area is affected by the vertex weight
 uniform uint vertex_weight_channel = 0; // Color channel used as the weight factor
 
-/// Wear scaling parameters that are local to the object (details on the effects are in the docs)
-group_uniforms object_parameters;
+/// Wear scaling parameters that are local to the object
+group_uniforms local_parameters;
 #ifdef INSTANCE_UNIFORMS
 	instance
 #endif
@@ -50,7 +50,7 @@ uniform float age = 0.0;
 #endif
 uniform float paint_stability: hint_range(0.0, 1.0) = 0.5; // Affects residue, grime, roughness and yellowing
 
-/// Wear scaling parameters of the environment context (details on the effects are in the docs)
+/// Wear scaling parameters of the environment context
 group_uniforms environment_parameters;
 #ifdef INSTANCE_UNIFORMS
 	instance
@@ -65,7 +65,7 @@ uniform float pollution: hint_range(0.0, 1.0) = 0.5; // Acidity, toxicity, salin
 #ifdef INSTANCE_UNIFORMS
 	instance
 #endif
-uniform float moisture: hint_range(0.0, 1.0) = 0.5; // Moisture, precipitation
+uniform float moisture: hint_range(0.0, 1.0) = 0.5; // Moisture, precipitation, etc.
 
 /// The metallic base layer below the paint coating.
 group_uniforms base_layer;
@@ -98,7 +98,7 @@ uniform vec3 rust_color_1: source_color = vec3(0.5, 0.35, 0.0);
 uniform vec3 rust_color_2: source_color = vec3(0.33, 0.22, 0.0);
 uniform vec3 rust_color_3: source_color = vec3(0.2, 0.01, 0.02);
 uniform vec3 rust_color_4: source_color = vec3(0.125, 0.035, 0.075);
-uniform float rust_red_shift = 0.25; // Scales the mask texture based shift of the rust's red channel
-uniform float rust_green_shift = 0.06; // Scales the mask texture based shift of the rust's green channel
+uniform float rust_red_shift = 0.25; // Scales the mask-based shift of the rust's red channel
+uniform float rust_green_shift = 0.06; // Scales the mask-based shift of the rust's green channel
 
 #endif
