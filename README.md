@@ -1,9 +1,8 @@
 # Procedural-Aging
-This project introduces a context-based system for the procedural aging/weathering of shader-based materials in Godot.
+This project introduces a [context-based](#context-parameters) system for the procedural aging/weathering of shader-based materials in Godot.
 It aims to achieve real-time weathering with interactive control and minimal memory requirements.
-For context-based shading, it makes use of various environment and local context parameters, configurable with the help of a provided Godot [addon](#context-probe-addon). 
 
-While this system is material-independent, its usefulness is illustrated with a shader that weathers painted metals (Painted Metal Aging Shader (PMA-S)). The shader takes surface property textures for a substrate and a coating, then dynamically blends between them (real-time and completely stateless) while maintaining spatial and temporal consistency.
+While this system is material-independent, its usefulness is illustrated with a shader that weathers painted metals (Painted Metal Aging Shader (**PMA-S**)). The shader takes surface property textures for a substrate and a coating, then dynamically blends between them (real-time and completely stateless) while maintaining spatial and temporal consistency. Additional surface information, such as grime and rust, that was not present on either texture set is also introduced.
 
 <div align="center"><img src="docs/img/sphere_age_demo.png" alt="A PMA-S sphere at weathering intensities that increase in reading order" width="500"></div>
 
