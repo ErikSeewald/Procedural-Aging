@@ -33,7 +33,7 @@ A variety of scenes are provided alongside the prototype code.
 - **visualizations**: Scenes that can be used for visualizing output and computation components of the shader, such as specific noise functions.
 
 The script directories that correspond to these scenes contain utility code that may also be useful for understanding how the prototype interfaces with Godot.
-In particular, *aging_object.gd* is a good example.
+In particular, [aging_object](scripts/demos/aging_object.gd) is a good example.
 
 Beyond scene-specific scripts, there is also code related to **baking**, which is explained in its [own section](#baking).
 
