@@ -104,14 +104,14 @@ Note that the given material needs to be in ```BAKE_MODE``` for this to work.
 The [baked_aged_object](scripts/baking/baked_aged_object.gd) script also allows exporting the textures to permanent storage.
 
 ## Demos
-This project provides a few demo scenes for the appearance and infrastructure of PMA-S and the context-based shading system.
+This project provides a few demo [scenes](scenes/demos) for the appearance and infrastructure of PMA-S and the context-based shading system.
 Some can be accessed through the main scene menu:
 - **Shipyard**: An old shipyard. The user can walk through the scene and approach podiums with red buttons. If pressed with the mouse (after pressing *TAB* to activate the UI and mouse control), a menu opens up that allows dynamic modification of the weathered appearance of the object that the podium corresponds to. The intent of this demo is to show how the shader can integrate with "complex" scenes in real-time. Movement is controlled with *WASD* and *Shift* for faster walking. 
 - **Single objects**: This demo allows modifying the weathered appearance of various objects. It is controlled entirely with the UI that is toggled with *TAB*. The parameters that can be edited here represent just a small selection. The Godot editor should be used to modify other parameters of the shader.
-- **Context**: This demo showcases the **ContextProbe** system. With the use of *WASD*, *Shift*, *Space*, and the *Arrow keys* for movement, as well as the UI toggled with *TAB*, the user can see the effect of probes on varying amounts of object instances. To modify the probes themselves (both their parameters and their shapes/transforms), the scene needs to be run within the Godot editor. A system for visualizing probe areas in the run-time view is provided so that they can be matched up to what is being edited in the scene view, but it only supports spheres, cylinders and boxes. Other shapes can be used but do not have a run-time visualization.
+- **Context**: This demo showcases the **ContextProbe** system. With the use of *WASD*, *Shift*, *Space*, and the *Arrow keys* for movement, as well as the UI toggled with *TAB*, the user can see the effect of probes on varying amounts of object instances. To modify the probes themselves (both their parameters and their shapes/transforms), the [scene](scenes/demos/editor_required/context_demo.tscn) needs to be run within the Godot editor. A system for visualizing probe areas in the run-time view is provided so that they can be matched up to what is being edited in the scene view, but it only supports spheres, cylinders and boxes. Other shapes can be used but do not have a run-time visualization.
 
 The last demo can only be accessed within the Godot editor:
-- **Vertex painting**: A sphere that uses vertex colors as weathering weights. Using the shader parameter editor, the effect of various vertex weight configurations can be seen. Modifying the vertex colors in the corresponding *assets/vert_color_test.blend* file allows live changes to the vertex weight distribution.
+- [**Vertex painting**](scenes/demos/editor_required/vertex_color_demo.tscn): A sphere that uses vertex colors as weathering weights. Using the shader parameter editor, the effect of various vertex weight configurations can be seen. Modifying the vertex colors in the corresponding *assets/vert_color_test.blend* file allows live changes to the vertex weight distribution.
 
 ## Profiling
 The main menu has a button for **profiling**. From the main profiling scene, various subscenes can be opened and
