@@ -51,6 +51,8 @@ Once that is done, Godot should recognize and import all assets correctly.
 The **CREDITS.md** file provides author and licensing information for all assets that were not made by me.
 My own assets use the same license as this repository.
 
+Besides Godot itself, running the project also requires Blender to be installed so that the *.blend* assets can be imported.
+
 ## Context Parameters
 Beyond shader- and material-specific parameters, there are properties of object instances and their environments that also affect weathering.
 Here, these are separated into:
