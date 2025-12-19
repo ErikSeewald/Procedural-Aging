@@ -151,7 +151,7 @@ environment = SubResource("Environment_c3e8e")
 
 [node name="UI" type="Panel" parent="."]
 offset_right = 375.0
-offset_bottom = 385.0
+offset_bottom = 412.0
 theme = ExtResource("9_saikx")
 
 [node name="MarginContainer" type="MarginContainer" parent="UI"]
@@ -220,6 +220,12 @@ text = "Age"
 layout_mode = 2
 max_value = 300.0
 allow_greater = true
+
+[node name="Timescaler" type="SpinBox" parent="UI/MarginContainer/VBoxContainer"]
+layout_mode = 2
+step = 0.001
+allow_greater = true
+prefix = "Timescale:"
 
 [node name="HSeparator3" type="HSeparator" parent="UI/MarginContainer/VBoxContainer"]
 layout_mode = 2

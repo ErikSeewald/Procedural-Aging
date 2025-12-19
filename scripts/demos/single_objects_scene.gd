@@ -68,6 +68,7 @@ func set_object(index: int) -> void:
 # --- UI INPUTS ----
 
 @onready var age_slider: HSlider = $UI/MarginContainer/VBoxContainer/AgeSlider
+@onready var timescaler: SpinBox = $UI/MarginContainer/VBoxContainer/Timescaler
 @onready var seed_input: SpinBox = $UI/MarginContainer/VBoxContainer/SeedInput
 @onready var uv_input: HSlider = $UI/MarginContainer/VBoxContainer/UVSlider
 @onready var pollution_input: HSlider = $UI/MarginContainer/VBoxContainer/PollutionSlider
@@ -77,6 +78,7 @@ func set_object(index: int) -> void:
 func _set_input_values() -> void:
 	for mat in _mats:
 		age_slider.value = mat.get_shader_parameter("age")
+		timescaler.value = mat.get_shader_parameter("time_scale")
 		seed_input.value = mat.get_shader_parameter("seed")
 		uv_input.value = mat.get_shader_parameter("uv_and_heat")
 		pollution_input.value = mat.get_shader_parameter("pollution")
@@ -85,6 +87,7 @@ func _set_input_values() -> void:
 
 func _connect_inputs() -> void:
 	age_slider.value_changed.connect(func(v): _connect_single("age", v))
+	timescaler.value_changed.connect(func(v): _connect_single("time_scale", v))
 	seed_input.value_changed.connect(func(v): _connect_single("seed", v))
 	uv_input.value_changed.connect(func(v): _connect_single("uv_and_heat", v))
 	pollution_input.value_changed.connect(func(v): _connect_single("pollution", v))
